@@ -6,14 +6,15 @@
 		"dev": "vite dev",
 		"build": "vite build",
 		"preview": "vite preview",
-		"test": "npm run test:integration && npm run test:unit",
+		"test": "bun test:integration && bun test:unit",
+		"test:integration": "playwright test",
+		"test:unit": "vitest",
+		"test:run": "bun test:integration && bun test:unit --run",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"lint": "prettier --plugin-search-dir . --check . && eslint .",
 		"format": "prettier --plugin-search-dir . --write .",
-		"test:integration": "playwright test",
-		"test:unit": "vitest",
-		"prepare": "cd .. && husky install app/.husky && cd app"
+		"prepare": "cd .. && husky install app/.husky"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.23.0",
