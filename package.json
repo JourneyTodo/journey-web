@@ -14,7 +14,7 @@
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"lint": "prettier --plugin-search-dir . --check . && eslint .",
 		"format": "prettier --plugin-search-dir . --write .",
-		"prepare": "cd .. && husky install app/.husky"
+		"prepare": "husky install"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.23.0",
