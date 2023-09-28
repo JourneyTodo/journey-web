@@ -1,3 +1,4 @@
+import { home } from '$lib/constants/routes.js';
 import { redirect } from '@sveltejs/kit';
 
 export const GET = async ({ url, locals: { supabase } }) => {
@@ -8,5 +9,5 @@ export const GET = async ({ url, locals: { supabase } }) => {
 		await supabase.auth.exchangeCodeForSession(code);
 	}
 
-	throw redirect(303, '/');
+	throw redirect(303, home);
 };

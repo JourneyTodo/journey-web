@@ -1,6 +1,7 @@
 import { AuthApiError } from '@supabase/supabase-js';
 import { fail, redirect } from '@sveltejs/kit';
 import type { Actions } from './$types';
+import { registerSuccess } from '$lib/constants/routes';
 
 export const actions: Actions = {
 	register: async ({ request, locals }) => {
@@ -27,6 +28,6 @@ export const actions: Actions = {
 			});
 		}
 
-		throw redirect(303, '/register/success');
+		throw redirect(303, registerSuccess);
 	}
 };

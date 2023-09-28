@@ -2,6 +2,7 @@ import { AuthApiError } from '@supabase/gotrue-js';
 import type { Provider, SupabaseClient } from '@supabase/supabase-js';
 import { fail, redirect } from '@sveltejs/kit';
 import { PROVIDERS } from '$lib/constants/providers.js';
+import { authCallback, home } from '$lib/constants/routes.js';
 
 export const actions = {
 	signin: async ({ request, url, locals: { supabase } }) => {
@@ -12,7 +13,7 @@ export const actions = {
 			: await signInDefault(request, supabase);
 
 		if (response.success) {
-			throw redirect(303, '/');
+			throw redirect(303, response.redirectUrl);
 		}
 
 		// Return form error
@@ -38,7 +39,7 @@ async function signInDefault(request: Request, supabase: SupabaseClient) {
 			email
 		});
 	}
-	return { success: true };
+	return { success: true, redirectUrl: home };
 }
 
 async function signInWithProvider(url: URL, provider: Provider, supabase: SupabaseClient) {
@@ -50,11 +51,11 @@ async function signInWithProvider(url: URL, provider: Provider, supabase: Supaba
 	}
 
 	// Sign in with the provider
-	const { error: err } = await supabase.auth.signInWithOAuth({
+	const { data, error: err } = await supabase.auth.signInWithOAuth({
 		provider: provider,
 		options: {
 			// Send the, to the callback to exchange the code for a session cookie
-			redirectTo: `${url.origin}/auth/callback`
+			redirectTo: `${url.origin}${authCallback}`
 		}
 	});
 
@@ -65,5 +66,5 @@ async function signInWithProvider(url: URL, provider: Provider, supabase: Supaba
 		});
 	}
 
-	return { success: true };
+	return { success: true, redirectUrl: data.url };
 }

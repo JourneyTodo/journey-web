@@ -1,5 +1,6 @@
 import { redirect } from '@sveltejs/kit';
 import type { LayoutServerLoad } from './$types';
+import { signIn, register } from '$lib/constants/routes';
 
 /**
  *  To make the session available across the UI, including pages and layouts,
@@ -8,8 +9,8 @@ import type { LayoutServerLoad } from './$types';
 export const load: LayoutServerLoad = async ({ locals: { getSession }, url }) => {
 	const session = await getSession();
 
-	if (!session && url.pathname !== '/signin' && url.pathname !== '/register') {
-		throw redirect(302, '/signin');
+	if (!session && url.pathname !== signIn && url.pathname !== register) {
+		throw redirect(302, signIn);
 	}
 
 	return {
