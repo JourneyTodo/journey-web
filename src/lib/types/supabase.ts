@@ -5,7 +5,7 @@ export interface Database {
 		Tables: {
 			goals: {
 				Row: {
-					completed: boolean;
+					completed: boolean | null;
 					completed_at: string | null;
 					created_at: string;
 					description: string | null;
@@ -18,9 +18,9 @@ export interface Database {
 					user_id: string | null;
 				};
 				Insert: {
-					completed?: boolean;
+					completed?: boolean | null;
 					completed_at?: string | null;
-					created_at: string;
+					created_at?: string;
 					description?: string | null;
 					id?: string;
 					index?: number | null;
@@ -31,7 +31,7 @@ export interface Database {
 					user_id?: string | null;
 				};
 				Update: {
-					completed?: boolean;
+					completed?: boolean | null;
 					completed_at?: string | null;
 					created_at?: string;
 					description?: string | null;
@@ -71,7 +71,7 @@ export interface Database {
 					avatar_url?: string | null;
 					created_at?: string;
 					full_name?: string | null;
-					id?: string;
+					id: string;
 					preferred_name?: string | null;
 					updated_at?: string | null;
 				};
@@ -83,7 +83,14 @@ export interface Database {
 					preferred_name?: string | null;
 					updated_at?: string | null;
 				};
-				Relationships: [];
+				Relationships: [
+					{
+						foreignKeyName: 'profiles_id_fkey';
+						columns: ['id'];
+						referencedRelation: 'users';
+						referencedColumns: ['id'];
+					}
+				];
 			};
 			tasks: {
 				Row: {
@@ -93,7 +100,8 @@ export interface Database {
 					description: string | null;
 					goal_id: string;
 					id: string;
-					name: string | null;
+					index: number | null;
+					name: string;
 					target_date: string | null;
 					updated_at: string | null;
 					user_id: string;
@@ -105,7 +113,8 @@ export interface Database {
 					description?: string | null;
 					goal_id: string;
 					id?: string;
-					name?: string | null;
+					index?: number | null;
+					name: string;
 					target_date?: string | null;
 					updated_at?: string | null;
 					user_id: string;
@@ -117,7 +126,8 @@ export interface Database {
 					description?: string | null;
 					goal_id?: string;
 					id?: string;
-					name?: string | null;
+					index?: number | null;
+					name?: string;
 					target_date?: string | null;
 					updated_at?: string | null;
 					user_id?: string;
