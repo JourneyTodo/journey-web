@@ -1,9 +1,10 @@
 <script lang="ts">
 	export let label: string;
+	export let id: string;
 </script>
 
 <div class="container">
-	<input required {...$$restProps} />
+	<input {id} placeholder="" required {...$$restProps} />
 	<label for="input">{label}</label>
 </div>
 
@@ -25,7 +26,8 @@
 			box-shadow: 0px 0px 0px 4px rgba(129, 102, 255, 0.25);
 		}
 		input:focus ~ label,
-		input:valid ~ label {
+		input:valid ~ label,
+		input:not(:placeholder-shown):invalid ~ label {
 			font-size: 12px;
 			opacity: 0.75;
 			top: 0.5rem;
