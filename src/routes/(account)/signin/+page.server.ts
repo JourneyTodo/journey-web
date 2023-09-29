@@ -30,7 +30,7 @@ async function signInDefault(request: Request, supabase: SupabaseClient) {
 	if (error && error instanceof AuthApiError) {
 		if (error.status === 400) {
 			return fail(400, {
-				error: 'Invalid credentials',
+				error: 'Incorrect email or password',
 				email
 			});
 		}

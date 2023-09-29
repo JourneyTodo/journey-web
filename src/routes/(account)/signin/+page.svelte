@@ -25,9 +25,16 @@
 		/>
 
 		{#if form?.error}
-			<p class="error">{form.error}</p>
+			<span class="form-error">{form.error}</span>
 		{/if}
 
 		<Button type="submit" classes="form-btn">Sign in</Button>
 	</form>
 </SignInLayout>
+
+<style lang="scss">
+	.form-error {
+		color: var(--razzleberry);
+		font-size: 0.875rem;
+	}
+</style>
