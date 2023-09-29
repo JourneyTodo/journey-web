@@ -1,10 +1,11 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import Button from '$lib/components/Button.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import SignInLayout from '../SignInLayout.svelte';
 
 	const MIN_PASSWORD_LENGTH = 6;
-	const header = 'Create an account to begin your Journey today.';
+	const header = 'Create an account to get started.';
 
 	export let form;
 
@@ -29,6 +30,6 @@
 		{#if form?.error}
 			<p class="error">{form.error}</p>
 		{/if}
-		<button>Create account</button>
+		<Button>Create account</Button>
 	</form>
 </SignInLayout>

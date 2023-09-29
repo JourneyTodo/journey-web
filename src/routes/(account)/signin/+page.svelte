@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import Button from '$lib/components/Button.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import SignInLayout from '../SignInLayout.svelte';
 
@@ -27,6 +28,6 @@
 			<p class="error">{form.error}</p>
 		{/if}
 
-		<button type="submit"> Sign in </button>
+		<Button type="submit">Sign in</Button>
 	</form>
 </SignInLayout>

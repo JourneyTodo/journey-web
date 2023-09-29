@@ -10,7 +10,7 @@
 	}
 
 	.account {
-		max-width: 756px;
+		max-width: 800px;
 		background-color: #fcfcfc;
 		display: flex;
 		height: 100vh;
