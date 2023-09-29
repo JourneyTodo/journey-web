@@ -27,15 +27,10 @@ async function signInDefault(request: Request, supabase: SupabaseClient) {
 	const password = formData.get('password') as string;
 	const { error } = await supabase.auth.signInWithPassword({ email, password });
 
-	if (error) {
-		if (error instanceof AuthApiError) {
-			return fail(error.status, {
-				error: error.message,
-				email
-			});
-		} else {
-			return fail(500, {
-				error: 'Server error. Try again later.',
+	if (error && error instanceof AuthApiError) {
+		if (error.status === 400) {
+			return fail(400, {
+				error: 'Incorrect email or password',
 				email
 			});
 		}
