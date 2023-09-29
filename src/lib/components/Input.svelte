@@ -4,8 +4,8 @@
 </script>
 
 <div class="container">
-	<input {id} placeholder="" required {...$$restProps} />
-	<label for="input">{label}</label>
+	<input {id} placeholder=" " required {...$$restProps} />
+	<label for={id}>{label}</label>
 </div>
 
 <style lang="scss">
@@ -19,15 +19,17 @@
 			font-size: 1rem;
 			width: 100%;
 			padding: 1rem 0.875rem 0rem;
+			background: transparent;
 		}
 		input:focus {
 			outline: none;
 			border: 1px solid var(--power-purple);
-			box-shadow: 0px 0px 0px 4px rgba(129, 102, 255, 0.25);
+			box-shadow: 0px 0px 0px 5px rgba(129, 102, 255, 0.25);
 		}
 		input:focus ~ label,
 		input:valid ~ label,
-		input:not(:placeholder-shown):invalid ~ label {
+		input:not(:placeholder-shown):invalid ~ label,
+		input:-webkit-autofill ~ label {
 			font-size: 12px;
 			opacity: 0.75;
 			top: 0.5rem;

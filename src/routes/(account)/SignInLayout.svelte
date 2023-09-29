@@ -58,7 +58,8 @@
 		width: 100%;
 		gap: 0.5rem;
 		opacity: 0.6;
-		margin: 1rem 0;
+		margin: 0;
+		margin-bottom: 1rem;
 
 		&::before,
 		&::after {
@@ -72,5 +73,10 @@
 		margin: 0;
 		margin-top: 10px;
 		font-size: 20px;
+		font-weight: 500;
+	}
+
+	:global(.form-btn) {
+		margin-top: 10px !important;
 	}
 </style>

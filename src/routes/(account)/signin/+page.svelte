@@ -28,6 +28,6 @@
 			<p class="error">{form.error}</p>
 		{/if}
 
-		<Button type="submit">Sign in</Button>
+		<Button type="submit" classes="form-btn">Sign in</Button>
 	</form>
 </SignInLayout>
