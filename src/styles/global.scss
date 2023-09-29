@@ -1,0 +1,8 @@
+@import url('./colors.scss');
+@import url('./fonts.scss');
+
+body {
+	font-family: 'Plus Jakarta Sans', sans-serif; // TODO: add font to public folder
+	color: var(--text-dark);
+	margin: 0;
+}

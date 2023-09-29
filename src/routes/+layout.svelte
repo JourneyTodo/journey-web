@@ -2,6 +2,8 @@
 	import { invalidate } from '$app/navigation';
 	import { onMount } from 'svelte';
 
+	import '../styles/global.scss';
+
 	/** In order to catch supabase events being triggered, we need to create
 	 * an event listener in the root layout.
 	 */
