@@ -10,7 +10,6 @@ on:
 jobs:
   build-test-lint:
     runs-on: ubuntu-latest
-    environment: staging
 
     steps:
       - name: Checkout code
@@ -31,6 +30,10 @@ jobs:
 
       - name: Install dependencies
         run: bun install
+
+      - name: Create .env file
+        run: |
+          echo "${{ secrets.ENV_SECRETS }}" > .env
 
       - name: Build SvelteKit application
         run: bun run build
