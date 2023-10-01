@@ -18,7 +18,8 @@
 			border: 1px solid var(--primitive-outline);
 			font-size: 1rem;
 			width: 100%;
-			padding: 1rem 0.875rem 0rem;
+			padding: 1rem 0.875rem 0 0;
+			text-indent: 0.875rem;
 			background: transparent;
 		}
 		input:focus {
