@@ -24,6 +24,7 @@
 		background-color: none;
 		background: none;
 		transition: all 200ms ease;
+		font-weight: 500;
 		&:focus {
 			outline: none;
 			box-shadow: 0px 0px 0px 5px rgba(129, 102, 255, 0.25);
@@ -47,6 +48,7 @@
 			border-radius: 100%;
 			height: 40px;
 			width: 40px;
+			padding: 0 !important; // this is overrides browser css like safari
 			&:hover {
 				cursor: pointer;
 				background: color-mix(in srgb, var(--power-purple) 20%, transparent);

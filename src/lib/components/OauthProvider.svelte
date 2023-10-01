@@ -16,3 +16,9 @@
 		<span>Continue with {titleCase(provider)}</span>
 	</Button>
 </form>
+
+<style lang="scss">
+	img {
+		pointer-events: none;
+	}
+</style>
