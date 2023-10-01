@@ -8,3 +8,16 @@ node_modules
 !.env.example
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+# ignore the demo storybook stories for now
+SbButton.stories.ts
+SbButton.svelte
+Sbbutton.css
+
+header.css
+Header.stories.ts
+Header.svelte
+
+Page.stories.ts
+Page.svelte
+page.css

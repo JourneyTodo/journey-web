@@ -1,5 +1,10 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import Button from '$lib/components/Button.svelte';
+	import Input from '$lib/components/Input.svelte';
+	import SignInLayout from '../SignInLayout.svelte';
+
+	const header = 'Great to see you again.';
 
 	export let form;
 
@@ -7,18 +12,29 @@
 	let password: string;
 </script>
 
-<h1>Sign in</h1>
-<form action="?/signin" method="POST" use:enhance>
-	<label for="email">Email</label>
-	<input type="email" id="email" name="email" required bind:value={email} />
+<SignInLayout formType="signin" {header}>
+	<form slot="form" action="?/signin" method="POST" class="sign-in-form" use:enhance>
+		<Input label="Email" type="email" id="email" name="email" required bind:value={email} />
+		<Input
+			label="Password"
+			type="password"
+			id="password"
+			name="password"
+			required
+			bind:value={password}
+		/>
 
-	<label for="password">Password</label>
-	<input type="password" id="password" name="password" required bind:value={password} />
+		{#if form?.error}
+			<span class="form-error">{form.error}</span>
+		{/if}
 
-	{#if form?.error}
-		<p class="error">{form.error}</p>
-	{/if}
+		<Button type="submit" classes="form-btn">Sign in</Button>
+	</form>
+</SignInLayout>
 
-	<button type="submit"> Sign in </button>
-	<div>Don't have an account? <a href="/register">Create one</a></div>
-</form>
+<style lang="scss">
+	.form-error {
+		color: var(--razzleberry);
+		font-size: 0.875rem;
+	}
+</style>
