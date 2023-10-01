@@ -1,10 +1,10 @@
 <script lang="ts">
-	export let style: 'primary' | 'secondary' = 'primary';
+	export let style: 'primary' | 'secondary' | 'ghost' = 'primary';
 	export let outline: boolean = false;
 	export let classes: string = '';
 </script>
 
-<button {...$$restProps} class="btn {outline ? 'outline' : ''} {style} {classes}">
+<button {...$$restProps} class="btn {outline ? 'outline' : ''} {style} {classes}" on:click>
 	<slot name="icon" />
 	<slot />
 </button>
@@ -40,6 +40,16 @@
 				cursor: pointer;
 				// background: linear-gradient(0deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.6) 100%), var(--power-purple);
 				background: #5435f9; //TODO: unhardcode, figure out how to get programmatically
+			}
+		}
+		&.ghost {
+			background: none;
+			border-radius: 100%;
+			height: 40px;
+			width: 40px;
+			&:hover {
+				cursor: pointer;
+				background: color-mix(in srgb, var(--power-purple) 20%, transparent);
 			}
 		}
 	}

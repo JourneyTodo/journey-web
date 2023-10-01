@@ -7,7 +7,9 @@ const meta = {
 	component: Input,
 	tags: ['autodocs'],
 	argTypes: {
-		label: { control: 'text' }
+		label: { control: 'text' },
+		id: { control: 'text', defaultValue: 'input' },
+		type: { control: 'text', defaultValue: 'text' }
 	}
 } satisfies Meta<Input>;
 
@@ -16,6 +18,16 @@ type Story = StoryObj<typeof meta>;
 
 export const Primary: Story = {
 	args: {
-		label: 'Input'
+		label: 'Input',
+		id: 'input',
+		type: 'text'
+	}
+};
+
+export const Password: Story = {
+	args: {
+		label: 'Input',
+		id: 'input',
+		type: 'password'
 	}
 };
