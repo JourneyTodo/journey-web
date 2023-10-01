@@ -9,7 +9,7 @@ import { signIn, register } from '$lib/constants/routes';
 export const load: LayoutServerLoad = async ({ locals: { getSession }, url }) => {
 	const session = await getSession();
 
-	if (!session && url.pathname !== signIn && url.pathname !== register) {
+	if (!session && !url.pathname.includes(register) && url.pathname !== signIn) {
 		throw redirect(302, signIn);
 	}
 
