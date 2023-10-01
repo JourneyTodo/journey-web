@@ -12,7 +12,7 @@ export const actions: Actions = {
 			password: body.password as string,
 			options: {
 				data: {
-					full_name: body.full_name as string
+					full_name: body.name as string
 				}
 			}
 		});
