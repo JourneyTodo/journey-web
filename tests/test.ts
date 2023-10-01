@@ -1,6 +1,9 @@
 import { expect, test } from '@playwright/test';
 
-test('index page has expected h1', async ({ page }) => {
+const baseUrl = 'http://localhost:4173';
+
+test('index redirect to signin when no session', async ({ page }) => {
 	await page.goto('/');
-	await expect(page.getByRole('heading', { name: 'Welcome to SvelteKit' })).toBeVisible();
+	await page.waitForURL('**/signin');
+	expect(page.url()).toBe(baseUrl + '/signin');
 });
