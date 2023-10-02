@@ -1,7 +1,6 @@
 import { AuthApiError } from '@supabase/supabase-js';
-import { fail, redirect } from '@sveltejs/kit';
+import { fail } from '@sveltejs/kit';
 import type { Actions } from './$types';
-import { registerSuccess } from '$lib/constants/routes';
 
 export const actions: Actions = {
 	register: async ({ request, locals }) => {
@@ -20,14 +19,18 @@ export const actions: Actions = {
 		if (err) {
 			if (err instanceof AuthApiError && err.status === 400) {
 				return fail(400, {
-					error: 'Invalid email or password'
+					error: 'Invalid email or password',
+					email: body.email,
+					name: body.name
 				});
 			}
 			return fail(500, {
-				error: 'Server error. Please try again later.'
+				error: 'Server error. Please try again later.',
+				email: body.email,
+				name: body.name
 			});
 		}
 
-		throw redirect(303, registerSuccess);
+		return { success: true };
 	}
 };

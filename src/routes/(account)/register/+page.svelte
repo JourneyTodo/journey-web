@@ -12,6 +12,12 @@
 	let name: string;
 	let email: string;
 	let password: string;
+
+	if (form?.error) {
+		email = form?.email.toString() ?? '';
+		name = form?.name.toString() ?? '';
+	}
+	console.log(form);
 </script>
 
 <SignInLayout formType="register" {header}>
@@ -27,9 +33,11 @@
 			minlength={MIN_PASSWORD_LENGTH}
 			bind:value={password}
 		/>
-		{#if form?.error}
-			<p class="error">{form.error}</p>
-		{/if}
 		<Button>Create account</Button>
+		{#if form?.error}
+			<span class="form-error">{form.error}</span>
+		{:else if form?.success}
+			<span class="form-success">Check your email to verify your account.</span>
+		{/if}
 	</form>
 </SignInLayout>

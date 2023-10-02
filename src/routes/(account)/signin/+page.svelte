@@ -10,6 +10,10 @@
 
 	let email: string;
 	let password: string;
+
+	if (form?.error) {
+		email = form?.email ?? '';
+	}
 </script>
 
 <SignInLayout formType="signin" {header}>
@@ -31,10 +35,3 @@
 		<Button type="submit" classes="form-btn">Sign in</Button>
 	</form>
 </SignInLayout>
-
-<style lang="scss">
-	.form-error {
-		color: var(--razzleberry);
-		font-size: 0.875rem;
-	}
-</style>

@@ -9,4 +9,7 @@ body {
 
 a {
 	color: var(--bluuberry);
+	&:focus-visible {
+		outline-color: var(--power-purple);
+	}
 }

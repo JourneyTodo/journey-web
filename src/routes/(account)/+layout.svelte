@@ -34,4 +34,13 @@
 		flex-direction: column;
 		gap: 10px;
 	}
+
+	:global(.form-error) {
+		color: var(--razzleberry);
+		font-size: 0.875rem;
+	}
+	:global(.form-success) {
+		color: var(--ever-so-green);
+		font-size: 0.875rem;
+	}
 </style>
