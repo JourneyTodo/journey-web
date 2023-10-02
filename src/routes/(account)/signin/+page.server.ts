@@ -47,7 +47,8 @@ async function signInWithProvider(url: URL, provider: Provider, supabase: Supaba
 	// If the provider is not supported, return a 400
 	if (!PROVIDERS.includes(provider)) {
 		return fail(400, {
-			error: `Provider ${provider} either does not exist or is not supported."`
+			error: `Provider ${provider} either does not exist or is not supported."`,
+			email: ''
 		});
 	}
 
@@ -63,7 +64,8 @@ async function signInWithProvider(url: URL, provider: Provider, supabase: Supaba
 	// If there's an error returned from signing in, return a 500 with the error
 	if (err) {
 		return fail(500, {
-			error: err.message
+			error: err.message,
+			email: ''
 		});
 	}
 

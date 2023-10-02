@@ -17,7 +17,6 @@
 		email = form?.email.toString() ?? '';
 		name = form?.name.toString() ?? '';
 	}
-	console.log(form);
 </script>
 
 <SignInLayout formType="register" {header}>
