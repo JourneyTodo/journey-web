@@ -48,6 +48,7 @@ jobs:
             ${{ steps.vercel_action.outputs.preview-url }}/signin
             ${{ steps.vercel_action.outputs.preview-url }}/register
           budgetPath: '.github/lighthouse/budget.json'
+          configPath: ./lighthouserc.json
           uploadArtifacts: true
           temporaryPublicStorage: true
           runs: 3
@@ -57,7 +58,7 @@ jobs:
         if: ${{ always() }}
         uses: actions/github-script@v4
         with:
-          github-token: ${{secrets.GITHUB_TOKEN}}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const links = ${{ steps.lighthouse_audit.outputs.links }}
             const results = (${{ steps.lighthouse_audit.outputs.manifest }}).filter(result => result.isRepresentativeRun);
@@ -89,7 +90,7 @@ jobs:
         if: ${{ always() }}
         uses: actions/github-script@v4
         with:
-          github-token: ${{secrets.GITHUB_TOKEN}}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const assertions = ${{ steps.lighthouse_audit.outputs.assertionResults }};
             if (!assertions.length) {
