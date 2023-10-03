@@ -2,6 +2,7 @@
 	import { enhance } from '$app/forms';
 	import Button from '$lib/components/Button.svelte';
 	import Input from '$lib/components/Input.svelte';
+	import { setTitle } from '$lib/functions/utils';
 	import SignInLayout from '../SignInLayout.svelte';
 
 	const header = 'Great to see you again.';
@@ -10,7 +11,15 @@
 
 	let email: string;
 	let password: string;
+
+	if (form?.error) {
+		email = form?.email ?? '';
+	}
 </script>
+
+<svelte:head>
+	<title>{setTitle('Sign in')}</title>
+</svelte:head>
 
 <SignInLayout formType="signin" {header}>
 	<form slot="form" action="?/signin" method="POST" class="sign-in-form" use:enhance>
@@ -28,13 +37,6 @@
 			<span class="form-error">{form.error}</span>
 		{/if}
 
-		<Button type="submit" classes="form-btn">Sign in</Button>
+		<Button type="submit" classes="form-btn" data-testid="signin-btn">Sign in</Button>
 	</form>
 </SignInLayout>
-
-<style lang="scss">
-	.form-error {
-		color: var(--razzleberry);
-		font-size: 0.875rem;
-	}
-</style>

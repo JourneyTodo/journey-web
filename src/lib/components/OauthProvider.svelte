@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { titleCase } from '$lib/functions/titleCase';
+	import { titleCase } from '$lib/functions/utils';
 	import { signIn } from '$lib/constants/routes';
 	import Button from './Button.svelte';
 
@@ -11,7 +11,7 @@
 </script>
 
 <form method="POST">
-	<Button style="secondary" outline formaction="{signIn}?/signin&provider={provider.toLowerCase()}">
+	<Button outline style="secondary" formaction="{signIn}?/signin&provider={provider.toLowerCase()}">
 		<img src={google} alt="Google Icon" />
 		<span>Continue with {titleCase(provider)}</span>
 	</Button>

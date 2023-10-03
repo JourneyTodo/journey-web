@@ -62,6 +62,7 @@ export interface Database {
 				Row: {
 					avatar_url: string | null;
 					created_at: string;
+					email: string | null;
 					full_name: string | null;
 					id: string;
 					preferred_name: string | null;
@@ -70,6 +71,7 @@ export interface Database {
 				Insert: {
 					avatar_url?: string | null;
 					created_at?: string;
+					email?: string | null;
 					full_name?: string | null;
 					id: string;
 					preferred_name?: string | null;
@@ -78,6 +80,7 @@ export interface Database {
 				Update: {
 					avatar_url?: string | null;
 					created_at?: string;
+					email?: string | null;
 					full_name?: string | null;
 					id?: string;
 					preferred_name?: string | null;

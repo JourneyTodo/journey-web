@@ -57,7 +57,7 @@
 		text-align: center;
 		width: 100%;
 		gap: 0.5rem;
-		opacity: 0.6;
+		opacity: 0.75;
 		margin: 0;
 		margin-bottom: 1rem;
 
@@ -66,6 +66,7 @@
 			content: '';
 			flex: 1;
 			border-bottom: 1px solid var(--text-dark);
+			opacity: 0.75;
 		}
 	}
 

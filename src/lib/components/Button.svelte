@@ -49,9 +49,13 @@
 			height: 40px;
 			width: 40px;
 			padding: 0 !important; // this is overrides browser css like safari
+			&:focus {
+				box-shadow: 0px 0px 0px 1px #fff, 0px 0px 0px 5px rgba(129, 102, 255, 0.25) !important;
+			}
 			&:hover {
 				cursor: pointer;
-				background: color-mix(in srgb, var(--power-purple) 20%, transparent);
+				background-color: color-mix(in srgb, var(--btn-secondary-outline) 20%, transparent);
+				// background: color-mix(in srgb, var(--power-purple) 20%, transparent);
 			}
 		}
 	}
