@@ -13,10 +13,9 @@ jobs:
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          vercel-org-id: ${{ secrets.ORG_ID}}
-          vercel-project-id: ${{ secrets.PROJECT_ID}}
-          # comment this out if not using vercel teams
-          scope: ${{ secrets.VERCEL_SCOPE }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID}}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID}}
+          scope: JourneyTodo
 
       - name: Add comment to PR
         id: loading_lighthouse_comment_to_pr
