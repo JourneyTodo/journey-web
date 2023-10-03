@@ -40,7 +40,7 @@ jobs:
 
       - name: Audit URLs using Lighthouse
         id: lighthouse_audit
-        uses: treosh/lighthouse-ci-action@v7
+        uses: treosh/lighthouse-ci-action@v10
         with:
           # add as many urls here as you wish to audit
           # prefixed by the preview-url
@@ -49,7 +49,6 @@ jobs:
             ${{ steps.vercel_action.outputs.preview-url }}/signin
             ${{ steps.vercel_action.outputs.preview-url }}/register
           budgetPath: '.github/lighthouse/budget.json'
-          configPath: ./lighthouserc.js
           uploadArtifacts: true
           temporaryPublicStorage: true
           runs: 3
