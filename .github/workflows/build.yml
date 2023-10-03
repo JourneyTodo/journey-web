@@ -31,9 +31,10 @@ jobs:
       - name: Install dependencies
         run: bun install
 
-      - name: Create .env file
+      - name: Create .env files
         run: |
-          echo "${{ secrets.ENV_SECRETS }}" > .env
+          echo "${{ secrets.ENV_SECRETS }}" > .env &&
+          echo "${{ secrets.PLAYWRIGHT_ENV_SECRETS }}" > e2e/.env.local
 
       - name: Build SvelteKit application
         run: bun run build
