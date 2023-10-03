@@ -47,7 +47,6 @@ jobs:
             ${{ steps.vercel_action.outputs.preview-url }}
             ${{ steps.vercel_action.outputs.preview-url }}/signin
             ${{ steps.vercel_action.outputs.preview-url }}/register
-            ${{ steps.vercel_action.outputs.preview-url }}/forgot-password
           budgetPath: '.github/lighthouse/budget.json'
           uploadArtifacts: true
           temporaryPublicStorage: true
