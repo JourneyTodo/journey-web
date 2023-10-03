@@ -2,6 +2,7 @@
 	import { enhance } from '$app/forms';
 	import Button from '$lib/components/Button.svelte';
 	import Input from '$lib/components/Input.svelte';
+	import { setTitle } from '$lib/functions/utils';
 	import SignInLayout from '../SignInLayout.svelte';
 
 	const MIN_PASSWORD_LENGTH = 6;
@@ -19,6 +20,10 @@
 	}
 </script>
 
+<svelte:head>
+	<title>{setTitle('Create account')}</title>
+</svelte:head>
+
 <SignInLayout formType="register" {header}>
 	<form slot="form" action="?/register" method="POST" class="sign-in-form" use:enhance>
 		<Input label="Full name" type="text" id="name" name="name" required bind:value={name} />
@@ -32,7 +37,7 @@
 			minlength={MIN_PASSWORD_LENGTH}
 			bind:value={password}
 		/>
-		<Button>Create account</Button>
+		<Button data-testid="register-btn">Create account</Button>
 		{#if form?.error}
 			<span class="form-error">{form.error}</span>
 		{:else if form?.success}

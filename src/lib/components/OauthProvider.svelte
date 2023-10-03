@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { titleCase } from '$lib/functions/titleCase';
+	import { titleCase } from '$lib/functions/utils';
 	import { signIn } from '$lib/constants/routes';
 	import Button from './Button.svelte';
 

@@ -21,3 +21,5 @@ Header.svelte
 Page.stories.ts
 Page.svelte
 page.css
+
+e2e/.auth
