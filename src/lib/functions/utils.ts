@@ -7,3 +7,12 @@ export const titleCase = (str: string) => {
 		return word.charAt(0).toUpperCase() + word.substr(1).toLowerCase();
 	});
 };
+
+// Assumes name is in the format "First Last" and first name has no spaces
+export const getFirstName = (name: string) => {
+	return name.split(' ')[0];
+};
+
+export const addChildrenPropToObject = <T>(object: T): T & { children: T[] } => {
+	return { ...object, children: [] };
+};

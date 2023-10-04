@@ -13,9 +13,10 @@ For storing basic user profile information such as name and avatar
 | Column           | Type         | Description                                                      |
 | ---------------- | ------------ | ---------------------------------------------------------------- |
 | `id`             | `uuid`       | Unique identifier for the user `from auth.users.id`. Primary Key |
+| `email`          | `text`       | The user's email address. Nullable                               |
 | `created_at`     | `timestampz` | Timestamp of when the user was created. Nullable                 |
 | `updated_at`     | `timestampz` | Timestamp of when the user was last updated. Nullable            |
-| `full_name`      | `text`       | The user's fulll name. Nullable                                  |
+| `full_name`      | `text`       | The user's full name. Nullable                                   |
 | `preferred_name` | `text`       | The user's preferred name to display. Nullable                   |
 | `avatar_url`     | `text`       | The user's avatar URL. Nullable                                  |
 
