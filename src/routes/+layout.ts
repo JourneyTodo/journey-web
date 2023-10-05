@@ -1,6 +1,6 @@
 import { PUBLIC_SUPABASE_ANON_KEY, PUBLIC_SUPABASE_URL } from '$env/static/public';
 import { createSupabaseLoadClient } from '@supabase/auth-helpers-sveltekit';
-import type { Database } from '$lib/types/supabase';
+import type { Database } from '$lib/types/database';
 
 /**
  * To utilize Supabase in shared load functions and within pages,

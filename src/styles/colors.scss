@@ -3,13 +3,25 @@
     * Brand colors
    */
 	--power-purple: #755afa;
+	--gurple: #787487;
 	--bluuberry: #1c0dbe;
+	--goldenrod: #f2b818;
 	--razzleberry: #e91e63;
 	--ever-so-green: #008573;
+	/**
+    * Color aliases
+   */
+	--primary: var(--power-purple);
+	--secondary: var(--gurple);
+	--warning: var(--goldenrod);
+	--danger: var(--razzleberry);
+	--success: var(--ever-so-green);
+
 	/**
     * Typography colors
    */
 	--text-dark: #110d26;
+	--text-link: var(--bluuberry);
 
 	/**
     * Decorative colors
@@ -21,5 +33,5 @@
 	/**
     * Background colors
    */
-	--background: #fcfcfc;
+	--background-primary: #fcfcfc;
 }

@@ -31,7 +31,7 @@
 		}
 
 		&.primary {
-			background: var(--power-purple);
+			background: var(--primary);
 			color: white;
 			background-blend-mode: soft-light, normal;
 			&:focus {
@@ -39,7 +39,7 @@
 			}
 			&:hover {
 				cursor: pointer;
-				// background: linear-gradient(0deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.6) 100%), var(--power-purple);
+				// background: linear-gradient(0deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.6) 100%), var(--primary);
 				background: #5435f9; //TODO: unhardcode, figure out how to get programmatically
 			}
 		}
@@ -55,18 +55,18 @@
 			&:hover {
 				cursor: pointer;
 				background-color: color-mix(in srgb, var(--btn-secondary-outline) 20%, transparent);
-				// background: color-mix(in srgb, var(--power-purple) 20%, transparent);
+				// background: color-mix(in srgb, var(--primary) 20%, transparent);
 			}
 		}
 	}
 	.outline {
 		background-color: transparent;
 		&:focus {
-			border: 1px solid var(--power-purple) !important;
+			border: 1px solid var(--primary) !important;
 		}
 		&.primary {
-			border: 1px solid var(--power-purple);
-			color: var(--power-purple);
+			border: 1px solid var(--primary);
+			color: var(--primary);
 		}
 		&.secondary {
 			border: 1px solid var(--btn-secondary-outline);

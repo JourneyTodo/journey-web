@@ -36,11 +36,11 @@
 	}
 
 	:global(.form-error) {
-		color: var(--razzleberry);
+		color: var(--danger);
 		font-size: 0.875rem;
 	}
 	:global(.form-success) {
-		color: var(--ever-so-green);
+		color: var(--success);
 		font-size: 0.875rem;
 	}
 </style>

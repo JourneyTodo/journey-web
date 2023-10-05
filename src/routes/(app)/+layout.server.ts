@@ -1,10 +1,9 @@
 import { redirect } from '@sveltejs/kit';
 import type { LayoutServerLoad } from '../$types';
 import { listToTree } from '$lib/functions/mapping';
+import type { Goal, User } from '$lib/types/sb';
 
-export const load: LayoutServerLoad = async ({
-	locals: { supabase, getSession, getUser, getGoals }
-}) => {
+export const load: LayoutServerLoad = async ({ locals: { supabase, getSession } }) => {
 	const session = await getSession();
 
 	if (!session) {
@@ -26,7 +25,8 @@ export const load: LayoutServerLoad = async ({
 		.select(
 			`completed, completed_at, created_at, description, id, index, name, parent_id, target_date, updated_at, user_id`
 		)
-		.eq('user_id', session.user.id);
+		.eq('user_id', session.user.id)
+		.limit(10000);
 
 	let treeGoals = null;
 	if (goals) {
@@ -34,7 +34,7 @@ export const load: LayoutServerLoad = async ({
 	}
 
 	return {
-		user: profile,
-		goals: treeGoals
+		user: profile as User,
+		goals: treeGoals as Goal[]
 	};
 };

@@ -9,8 +9,12 @@ body {
 }
 
 a {
-	color: var(--bluuberry);
+	color: var(--text-link);
 	&:focus-visible {
-		outline-color: var(--power-purple);
+		outline-color: var(--primary);
 	}
+}
+
+.bold {
+	font-weight: 600;
 }

@@ -41,7 +41,7 @@
 		}
 		input:focus {
 			outline: none;
-			border: 1px solid var(--power-purple);
+			border: 1px solid var(--primary);
 			box-shadow: 0px 0px 0px 5px rgba(129, 102, 255, 0.25);
 		}
 		input:focus ~ label,
