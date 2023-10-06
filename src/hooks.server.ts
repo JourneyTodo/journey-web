@@ -40,8 +40,19 @@ export const handle: Handle = async ({ event, resolve }) => {
 		return goals;
 	};
 
-	event.locals.createGoal = async (goal: Goal) => {
-		const { data: newGoal } = await event.locals.supabase.from('goals').insert(goal).single();
+	event.locals.addGoal = async (uid: string, name: string, description: string, idx: number) => {
+		const { data: newGoal, error } = await event.locals.supabase.from('goals').insert({
+			id: 10,
+			user_id: uid,
+			name,
+			description,
+			index: idx
+		});
+
+		if (error) {
+			throw error;
+		}
+
 		return newGoal;
 	};
 

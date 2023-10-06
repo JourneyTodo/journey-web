@@ -12,7 +12,12 @@ declare global {
 			getSession(): Promise<Session | null>;
 			getUser(id: string): Promise<User | null>;
 			getGoals(id: string): Promise<Goal[] | null>;
-			createGoal(goal: Goal): Promise<Goal | null>;
+			addGoal(
+				uid: string,
+				name: string,
+				description: string,
+				idx: number
+			): Promise<Goal | PostgrestError | null>;
 			deleteGoal(goal: Goal): Promise<Goal | null>;
 			upsertGoal(goal: Goal): Promise<Goal | null>;
 		}

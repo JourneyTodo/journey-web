@@ -3,7 +3,14 @@ import type { LayoutServerLoad } from '../$types';
 import { listToTree } from '$lib/functions/mapping';
 import type { Goal, User } from '$lib/types/sb';
 
-export const load: LayoutServerLoad = async ({ locals: { getSession, getGoals, getUser } }) => {
+export const load: LayoutServerLoad = async ({
+	url,
+	locals: { getSession, getGoals, getUser }
+}) => {
+	// For now, just check for addGoal param
+	// This should probably be extended to check for any params
+	const addGoal = url.searchParams.get('addGoal') === '' ? true : false;
+
 	const session = await getSession();
 
 	if (!session) {
@@ -26,6 +33,7 @@ export const load: LayoutServerLoad = async ({ locals: { getSession, getGoals, g
 	return {
 		user: profile as User,
 		goals: treeGoals as Goal[],
-		flatGoals: goals as Goal[]
+		flatGoals: goals as Goal[],
+		addGoal: addGoal
 	};
 };
