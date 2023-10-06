@@ -3,30 +3,20 @@ import type { LayoutServerLoad } from '../$types';
 import { listToTree } from '$lib/functions/mapping';
 import type { Goal, User } from '$lib/types/sb';
 
-export const load: LayoutServerLoad = async ({ locals: { supabase, getSession } }) => {
+export const load: LayoutServerLoad = async ({ locals: { getSession, getGoals, getUser } }) => {
 	const session = await getSession();
 
 	if (!session) {
 		throw redirect(303, '/');
 	}
 
-	const { data: profile } = await supabase
-		.from('profiles')
-		.select(`full_name, preferred_name, email, avatar_url, created_at`)
-		.eq('id', session.user.id)
-		.single();
+	const profile = await getUser(session.user.id);
 
 	if (!profile) {
 		throw new Error('User not found');
 	}
 
-	const { data: goals } = await supabase
-		.from('goals')
-		.select(
-			`completed, completed_at, created_at, description, id, index, name, parent_id, target_date, updated_at, user_id`
-		)
-		.eq('user_id', session.user.id)
-		.limit(10000);
+	const goals = await getGoals(session.user.id);
 
 	let treeGoals = null;
 	if (goals) {
@@ -35,6 +25,7 @@ export const load: LayoutServerLoad = async ({ locals: { supabase, getSession } 
 
 	return {
 		user: profile as User,
-		goals: treeGoals as Goal[]
+		goals: treeGoals as Goal[],
+		flatGoals: goals as Goal[]
 	};
 };
