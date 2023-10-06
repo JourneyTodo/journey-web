@@ -13,6 +13,7 @@
 <form method="POST">
 	<Button
 		outline
+		fill
 		variant="secondary"
 		formaction="{signIn}?/signin&provider={provider.toLowerCase()}"
 	>

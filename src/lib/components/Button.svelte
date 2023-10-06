@@ -3,21 +3,29 @@
 	export let size: 'large' | 'medium' | 'small' | 'xsmall' = 'medium';
 	export let outline: boolean = false;
 	export let classes: string = '';
+	export let fill: boolean = false;
 </script>
 
-<button {...$$restProps} class="btn {size} {outline ? 'outline' : ''} {variant} {classes}" on:click>
+<button
+	{...$$restProps}
+	class="btn {size} {outline ? 'outline' : ''} {fill ? 'fill' : ''} {variant} {classes}"
+	on:click
+>
 	<slot name="icon" />
 	<slot />
 </button>
 
 <style lang="scss">
+	.fill {
+		width: 100%;
+		height: 50px !important;
+	}
 	.btn {
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		gap: 10px;
-		height: 50px;
-		width: 100%;
+		height: 40px;
 		border-radius: 7px;
 		border: none;
 		font-size: 16px;
@@ -26,6 +34,7 @@
 		background: none;
 		transition: all 200ms ease;
 		font-weight: 500;
+		padding: 0 1.25rem;
 		&:focus {
 			outline: none;
 			box-shadow: 0px 0px 0px 5px rgba(129, 102, 255, 0.25);

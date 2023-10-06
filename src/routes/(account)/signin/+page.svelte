@@ -37,6 +37,6 @@
 			<span class="form-error">{form.error}</span>
 		{/if}
 
-		<Button type="submit" classes="form-btn" data-testid="signin-btn">Sign in</Button>
+		<Button type="submit" classes="form-btn" data-testid="signin-btn" fill>Sign in</Button>
 	</form>
 </SignInLayout>

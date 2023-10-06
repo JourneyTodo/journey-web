@@ -37,7 +37,7 @@
 			minlength={MIN_PASSWORD_LENGTH}
 			bind:value={password}
 		/>
-		<Button data-testid="register-btn">Create account</Button>
+		<Button data-testid="register-btn" fill>Create account</Button>
 		{#if form?.error}
 			<span class="form-error">{form.error}</span>
 		{:else if form?.success}

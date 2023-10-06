@@ -12,7 +12,7 @@
 
 <nav class="side-nav">
 	<NavItem href="/profile">
-		<ProfileIcon slot="icon-left" {user} size="large" />
+		<ProfileIcon slot="icon-left" {user} size="small" />
 		<span slot="text">{user.preferred_name ?? user.full_name}'s Journey</span>
 		<i slot="icon-right" class="icon-right">
 			<ChevronDown />
@@ -27,18 +27,20 @@
 		<div class="goals-container">
 			<NavItem href="/goals">
 				<span slot="text" class="goals-header bold">Goals</span>
-				<Button slot="icon-right" variant="ghost" size="xsmall" href="/goals/new">
-					<i class="icon-right">
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							width="10"
-							height="11"
-							viewBox="0 0 10 11"
-							fill="none"
-						>
-							<path d="M5 0.5V10.5M10 5.5H0" stroke="#3A3455" stroke-width="1.4" />
-						</svg>
-					</i>
+				<Button slot="icon-right" variant="ghost" size="xsmall">
+					<a href="?addGoal">
+						<i class="icon-right">
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								width="10"
+								height="11"
+								viewBox="0 0 10 11"
+								fill="none"
+							>
+								<path d="M5 0.5V10.5M10 5.5H0" stroke="#3A3455" stroke-width="1.4" />
+							</svg>
+						</i>
+					</a>
 				</Button>
 			</NavItem>
 			<GoalTree {goals} let:goal>
