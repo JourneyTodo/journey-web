@@ -1,10 +1,11 @@
 <script lang="ts">
-	export let style: 'primary' | 'secondary' | 'ghost' = 'primary';
+	export let variant: 'primary' | 'secondary' | 'ghost' = 'primary';
+	export let size: 'large' | 'medium' | 'small' | 'xsmall' = 'medium';
 	export let outline: boolean = false;
 	export let classes: string = '';
 </script>
 
-<button {...$$restProps} class="btn {outline ? 'outline' : ''} {style} {classes}" on:click>
+<button {...$$restProps} class="btn {size} {outline ? 'outline' : ''} {variant} {classes}" on:click>
 	<slot name="icon" />
 	<slot />
 </button>
@@ -76,5 +77,11 @@
 			cursor: pointer;
 			background-color: color-mix(in srgb, var(--btn-secondary-outline) 20%, transparent);
 		}
+	}
+
+	.xsmall {
+		height: 24px !important;
+		width: 24px !important;
+		border-radius: 2px !important;
 	}
 </style>

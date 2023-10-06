@@ -2,6 +2,7 @@
 	import ChevronDown from '$lib/components/ChevronDown.svelte';
 	import ProfileIcon from '$lib/components/ProfileIcon.svelte';
 	import type { Goal, User } from '$lib/types/sb';
+	import Button from '../Button.svelte';
 	import GoalTree from './GoalTree.svelte';
 	import NavItem from './NavItem.svelte';
 
@@ -10,7 +11,7 @@
 </script>
 
 <nav class="side-nav">
-	<NavItem href="/">
+	<NavItem href="/profile">
 		<ProfileIcon slot="icon-left" {user} size="large" />
 		<span slot="text">{user.preferred_name ?? user.full_name}'s Journey</span>
 		<i slot="icon-right" class="icon-right">
@@ -26,6 +27,19 @@
 		<div class="goals-container">
 			<NavItem href="/goals">
 				<span slot="text" class="goals-header bold">Goals</span>
+				<Button slot="icon-right" variant="ghost" size="xsmall" href="/goals/new">
+					<i class="icon-right">
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							width="10"
+							height="11"
+							viewBox="0 0 10 11"
+							fill="none"
+						>
+							<path d="M5 0.5V10.5M10 5.5H0" stroke="#3A3455" stroke-width="1.4" />
+						</svg>
+					</i>
+				</Button>
 			</NavItem>
 			<GoalTree {goals} let:goal>
 				<NavItem href="/goals/{goal.id}">

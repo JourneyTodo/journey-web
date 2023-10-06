@@ -18,7 +18,7 @@
 	<label for={id}>{label}</label>
 	{#if $$restProps.type === 'password' || showPassword}
 		<i class="icon">
-			<Button style="ghost" type="button" aria-label="show password" on:click={togglePassword}>
+			<Button variant="ghost" type="button" aria-label="show password" on:click={togglePassword}>
 				<Eye open={showPassword} />
 			</Button>
 		</i>

@@ -15,7 +15,7 @@
 
 <style lang="scss">
 	.profile-img {
-		width: 24px;
+		min-width: 24px;
 		height: 24px;
 		border-radius: 6px;
 		background-color: #2f236717;

@@ -1,27 +1,24 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { page } from '$app/stores';
 
 	export let text: string | null = null;
 	export let href: string;
-	let active: boolean = false;
 
-	onMount(() => {
-		active = window.location.pathname === href;
-	});
+	$: active = $page.url.pathname === href;
 </script>
 
 <li class="nav-item {active ? 'active' : ''}">
+	<slot name="icon-left" />
+
 	<a {href}>
-		<slot name="icon-left" />
-
 		<slot name="text">{text}</slot>
-
-		{#if $$slots['icon-right']}
-			<div class="icon-right">
-				<slot name="icon-right" />
-			</div>
-		{/if}
 	</a>
+
+	{#if $$slots['icon-right']}
+		<div class="icon-right">
+			<slot name="icon-right" />
+		</div>
+	{/if}
 </li>
 
 <style lang="scss">
@@ -35,17 +32,20 @@
 		border-radius: 4px;
 		cursor: pointer;
 
+		box-sizing: border-box;
+		padding: 0 0.3125rem;
+
 		a {
 			display: flex;
 			gap: 0.5rem;
 			align-items: center;
 
 			font-size: 14px;
-			line-height: 16px;
+			line-height: 18px;
 			color: var(--text-dark);
 			text-decoration: none;
 
-			padding: 0.5rem 0.625rem; // 8px 10px
+			padding: 0.5rem 0.3125rem; // 8px 10px
 			width: 100%;
 		}
 
