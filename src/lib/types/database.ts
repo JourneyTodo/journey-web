@@ -22,7 +22,7 @@ export interface Database {
 					completed_at?: string | null;
 					created_at?: string;
 					description?: string | null;
-					id: number;
+					id?: number;
 					index?: number | null;
 					name: string;
 					parent_id?: number | null;
@@ -87,7 +87,10 @@ export interface Database {
 			[_ in never]: never;
 		};
 		Functions: {
-			[_ in never]: never;
+			generate_numeric_id: {
+				Args: Record<PropertyKey, never>;
+				Returns: number;
+			};
 		};
 		Enums: {
 			[_ in never]: never;

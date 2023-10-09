@@ -1,19 +1,34 @@
 <script lang="ts">
-	export let variant: 'primary' | 'secondary' | 'ghost' = 'primary';
+	export let variant: 'primary' | 'secondary' | 'danger' | 'ghost' = 'primary';
 	export let size: 'large' | 'medium' | 'small' | 'xsmall' = 'medium';
 	export let outline: boolean = false;
 	export let classes: string = '';
 	export let fill: boolean = false;
+	export let form: string = '';
+	export let label: string = '';
 </script>
 
-<button
-	{...$$restProps}
-	class="btn {size} {outline ? 'outline' : ''} {fill ? 'fill' : ''} {variant} {classes}"
-	on:click
->
-	<slot name="icon" />
-	<slot />
-</button>
+{#if form}
+	<input
+		type="submit"
+		{form}
+		class="btn {size} {outline ? 'outline' : ''} {fill ? 'fill' : ''} {variant} {classes}"
+		value={label}
+	/>
+{:else}
+	<button
+		{...$$restProps}
+		class="btn {size} {outline ? 'outline' : ''} {fill ? 'fill' : ''} {variant} {classes}"
+		on:click
+	>
+		<slot name="icon" />
+		{#if label}
+			<span>{label}</span>
+		{:else}
+			<slot />
+		{/if}
+	</button>
+{/if}
 
 <style lang="scss">
 	.fill {
@@ -51,6 +66,19 @@
 				cursor: pointer;
 				// background: linear-gradient(0deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.6) 100%), var(--primary);
 				background: #5435f9; //TODO: unhardcode, figure out how to get programmatically
+			}
+		}
+
+		&.danger {
+			background: var(--danger);
+			color: white;
+			background-blend-mode: soft-light, normal;
+			&:focus {
+				box-shadow: 0px 0px 0px 1px #fff, 0px 0px 0px 5px rgba(255, 0, 0, 0.25) !important;
+			}
+			&:hover {
+				cursor: pointer;
+				background: #d60036; //TODO: unhardcode, figure out how to get programmatically
 			}
 		}
 		&.ghost {

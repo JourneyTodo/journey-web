@@ -41,26 +41,30 @@ export const handle: Handle = async ({ event, resolve }) => {
 	};
 
 	event.locals.addGoal = async (uid: string, name: string, description: string, idx: number) => {
-		const { data: newGoal, error } = await event.locals.supabase.from('goals').insert({
-			id: 10,
-			user_id: uid,
-			name,
-			description,
-			index: idx
-		});
+		const { data: newGoal, error } = await event.locals.supabase
+			.from('goals')
+			.insert({
+				user_id: uid,
+				name,
+				description,
+				index: idx
+			})
+			.single();
 
 		if (error) {
 			throw error;
 		}
 
+		console.log('newGoal', newGoal);
+
 		return newGoal;
 	};
 
-	event.locals.deleteGoal = async (goal: Goal) => {
+	event.locals.deleteGoal = async (id: number) => {
 		const { data: deletedGoal } = await event.locals.supabase
 			.from('goals')
 			.delete()
-			.eq('id', goal.id)
+			.eq('id', id)
 			.single();
 		return deletedGoal;
 	};

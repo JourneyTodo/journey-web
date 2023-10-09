@@ -20,8 +20,8 @@
 		justify-content: center;
 		align-items: center;
 		.initial {
-			font-size: 12px;
 			font-weight: bold;
+			opacity: 0.75;
 		}
 	}
 
@@ -30,18 +30,24 @@
 		min-width: 24px;
 		height: 24px;
 		border-radius: 5px;
+		.initial {
+			font-size: 12px;
+		}
 	}
 	.medium {
-		width: 32px;
-		height: 32px;
-		border-radius: 8px;
+		width: 40px;
+		height: 40px;
+		border-radius: 7px;
+		.initial {
+			font-size: 16px;
+		}
 	}
 	.large {
 		width: 80px;
 		height: 80px;
-		border-radius: 7px;
-		span {
-			font-size: 24px !important;
+		border-radius: 10px;
+		.initial {
+			font-size: 30px;
 		}
 	}
 </style>

@@ -1,4 +1,4 @@
-import { redirect, type Actions } from '@sveltejs/kit';
+import { type Actions } from '@sveltejs/kit';
 
 export const actions: Actions = {
 	addGoal: async ({ request, locals: { addGoal } }) => {
@@ -16,6 +16,6 @@ export const actions: Actions = {
 
 		console.log('added goal', result);
 
-		redirect(303, `/goals/${uid}`);
+		return { success: true };
 	}
 };

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import ChevronDown from '$lib/components/ChevronDown.svelte';
 	import ProfileIcon from '$lib/components/ProfileIcon.svelte';
+	import { listToTree } from '$lib/functions/mapping';
 	import type { Goal, User } from '$lib/types/sb';
 	import Button from '../Button.svelte';
 	import GoalTree from './GoalTree.svelte';
@@ -8,6 +9,8 @@
 
 	export let user: User;
 	export let goals: Goal[] = [];
+
+	$: goals = listToTree(goals);
 </script>
 
 <nav class="side-nav">

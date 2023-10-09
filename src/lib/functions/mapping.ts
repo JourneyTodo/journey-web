@@ -6,7 +6,7 @@ export type GenericTree<T> = T & {
 	children: GenericTree<T>[];
 };
 
-export function listToTree(list: { id: string; parent_id: string | null }[]): GenericTree<T>[] {
+export function listToTree(list: { id: number; parent_id: number | null }[]): GenericTree<T>[] {
 	const map = new Map<keyof GenericTree<T>, GenericTree<T>>();
 	const tree: GenericTree<T>[] = [];
 

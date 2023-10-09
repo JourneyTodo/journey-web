@@ -19,7 +19,7 @@
 
 {#if addGoal}
 	<Modal isOpen={true} title="Add goal">
-		<form slot="content" action="?/addGoal" method="POST">
+		<form slot="content" id="addGoal" action="?/addGoal" method="POST">
 			<!-- hidden values -->
 			<input id="uid" type="hidden" name="uid" value={user.id} />
 			<input id="idx" type="hidden" name="idx" value={5} />
@@ -27,10 +27,10 @@
 			<Input id="name" label="Goal name" name="name" required />
 			<label for="description">Description</label>
 			<textarea id="description" name="description" />
-			<Button slot="footer" type="submit">Add</Button>
 		</form>
 		<div slot="footer" class="btn-group">
-			<Button slot="footer" variant="secondary" outline>Cancel</Button>
+			<Button variant="secondary" outline>Cancel</Button>
+			<Button form="addGoal" slot="footer" type="submit" label="Add" />
 		</div>
 	</Modal>
 {/if}
