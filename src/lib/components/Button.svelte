@@ -67,7 +67,6 @@
 				cursor: pointer;
 				// background: linear-gradient(0deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.6) 100%), var(--primary);
 				background: #5435f9; //TODO: unhardcode, figure out how to get programmatically
-				background: darken-preserve-saturation(var(--primary), 20%);
 			}
 		}
 

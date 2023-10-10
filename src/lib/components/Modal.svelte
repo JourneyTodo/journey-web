@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { fade, scale } from 'svelte/transition';
 	import Button from './Button.svelte';
 
 	export let isOpen = false;
@@ -6,8 +7,8 @@
 	export let content = '';
 </script>
 
-<div class="modal-overlay flex-center" class:open={isOpen}>
-	<dialog class="modal">
+<div class="modal-overlay flex-center" class:open={isOpen} transition:fade={{ duration: 100 }}>
+	<dialog class="modal" transition:scale={{ duration: 200 }}>
 		<header class="modal-header">
 			<slot name="title">
 				<h2>{title}</h2>
