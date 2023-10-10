@@ -1,5 +1,6 @@
 @import url('./colors.scss');
 @import url('./fonts.scss');
+@import url('./utils.scss');
 
 body {
 	font-family: 'Plus Jakarta Sans', sans-serif; // TODO: add font to public folder
@@ -13,8 +14,4 @@ a {
 	&:focus-visible {
 		outline-color: var(--primary);
 	}
-}
-
-.bold {
-	font-weight: 600;
 }

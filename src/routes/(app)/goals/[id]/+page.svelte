@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
 	import { page } from '$app/stores';
 	import Button from '$lib/components/Button.svelte';
 
@@ -17,7 +18,7 @@
 	<p>{goal?.target_date}</p>
 {/if}
 
-<form action="?/delete" method="POST">
+<form action="?/delete" method="POST" use:enhance>
 	<input type="hidden" name="id" value={goal?.id} />
 	<input type="hidden" name="uid" value={data.user.id} />
 	<Button type="submit" variant="danger">Delete</Button>

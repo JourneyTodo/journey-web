@@ -7,7 +7,7 @@
 	$: active = $page.url.pathname === href;
 </script>
 
-<li class="nav-item {active ? 'active' : ''}">
+<li {...$$restProps} class="nav-item {active ? 'active' : ''}">
 	<slot name="icon-left" />
 
 	<a {href}>
@@ -15,7 +15,7 @@
 	</a>
 
 	{#if $$slots['icon-right']}
-		<div class="icon-right">
+		<div class="icon-right flex-center">
 			<slot name="icon-right" />
 		</div>
 	{/if}
@@ -29,23 +29,23 @@
 
 		list-style: none;
 		width: 100%;
-		border-radius: 4px;
+		border-radius: var(--br-sm);
 		cursor: pointer;
 
 		box-sizing: border-box;
-		padding: 0 0.3125rem;
+		padding: 0 calc(var(--spacing-md) / 2);
 
 		a {
 			display: flex;
-			gap: 0.5rem;
+			gap: var(--spacing-sm);
 			align-items: center;
 
-			font-size: 14px;
+			font-size: var(--font-size-sm);
 			line-height: 18px;
 			color: var(--text-dark);
 			text-decoration: none;
 
-			padding: 0.5rem 0.3125rem; // 8px 10px
+			padding: var(--spacing-sm) calc(var(--spacing-md) / 2);
 			width: 100%;
 		}
 

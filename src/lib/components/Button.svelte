@@ -12,13 +12,17 @@
 	<input
 		type="submit"
 		{form}
-		class="btn {size} {outline ? 'outline' : ''} {fill ? 'fill' : ''} {variant} {classes}"
+		class="btn flex-center {size} {outline ? 'outline' : ''} {fill
+			? 'fill'
+			: ''} {variant} {classes}"
 		value={label}
 	/>
 {:else}
 	<button
 		{...$$restProps}
-		class="btn {size} {outline ? 'outline' : ''} {fill ? 'fill' : ''} {variant} {classes}"
+		class="btn flex-center {size} {outline ? 'outline' : ''} {fill
+			? 'fill'
+			: ''} {variant} {classes}"
 		on:click
 	>
 		<slot name="icon" />
@@ -36,12 +40,9 @@
 		height: 50px !important;
 	}
 	.btn {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		gap: 10px;
+		gap: var(--spacing-md);
 		height: 40px;
-		border-radius: 7px;
+		border-radius: var(--br-md);
 		border: none;
 		font-size: 16px;
 		font-family: 'Plus Jakarta Sans', sans-serif;
@@ -66,6 +67,7 @@
 				cursor: pointer;
 				// background: linear-gradient(0deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.6) 100%), var(--primary);
 				background: #5435f9; //TODO: unhardcode, figure out how to get programmatically
+				background: darken-preserve-saturation(var(--primary), 20%);
 			}
 		}
 
@@ -83,7 +85,7 @@
 		}
 		&.ghost {
 			background: none;
-			border-radius: 100%;
+			border-radius: var(--br-circle);
 			height: 40px;
 			width: 40px;
 			padding: 0 !important; // this is overrides browser css like safari

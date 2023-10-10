@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
 	import Button from '$lib/components/Button.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import Modal from '$lib/components/Modal.svelte';
@@ -19,7 +20,7 @@
 
 {#if addGoal}
 	<Modal isOpen={true} title="Add goal">
-		<form slot="content" id="addGoal" action="?/addGoal" method="POST">
+		<form slot="content" id="addGoal" action="?/addGoal" method="POST" use:enhance>
 			<!-- hidden values -->
 			<input id="uid" type="hidden" name="uid" value={user.id} />
 			<input id="idx" type="hidden" name="idx" value={5} />
@@ -47,6 +48,6 @@
 	.btn-group {
 		display: flex;
 		justify-content: flex-end;
-		gap: 10px;
+		gap: var(--spacing-md);
 	}
 </style>

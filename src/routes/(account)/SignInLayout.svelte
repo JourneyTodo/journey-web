@@ -56,7 +56,7 @@
 		align-items: center;
 		text-align: center;
 		width: 100%;
-		gap: 0.5rem;
+		gap: var(--spacing-sm);
 		opacity: 0.75;
 		margin: 0;
 		margin-bottom: 1rem;
@@ -72,12 +72,12 @@
 
 	.header {
 		margin: 0;
-		margin-top: 10px;
+		margin-top: var(--spacing-md);
 		font-size: 20px;
 		font-weight: 500;
 	}
 
 	:global(.form-btn) {
-		margin-top: 10px !important;
+		margin-top: var(--spacing-md) !important;
 	}
 </style>

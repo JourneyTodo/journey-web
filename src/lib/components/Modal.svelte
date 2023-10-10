@@ -6,7 +6,7 @@
 	export let content = '';
 </script>
 
-<div class="modal-overlay" class:open={isOpen}>
+<div class="modal-overlay flex-center" class:open={isOpen}>
 	<dialog class="modal">
 		<header class="modal-header">
 			<slot name="title">
@@ -39,9 +39,6 @@
 		width: 100%;
 		height: 100%;
 		background-color: #110d2633;
-		display: flex;
-		justify-content: center;
-		align-items: center;
 		opacity: 0;
 		pointer-events: none;
 		transition: opacity 0.2s ease-in-out;
@@ -59,7 +56,7 @@
 		display: flex;
 		flex-direction: column;
 		border: 0;
-		border-radius: 0.4375rem;
+		border-radius: var(--br-md);
 		background: #fcfcfc;
 		box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.06), 0px 0px 4px 0px rgba(0, 0, 0, 0.04);
 		padding: 2rem;

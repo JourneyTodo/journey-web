@@ -31,7 +31,7 @@
 		input {
 			box-sizing: border-box;
 			height: 3.5rem;
-			border-radius: 7px;
+			border-radius: var(--br-md);
 			border: 1px solid var(--primitive-outline);
 			font-size: 1rem;
 			width: 100%;
