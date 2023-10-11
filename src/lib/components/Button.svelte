@@ -111,7 +111,7 @@
 		}
 	}
 	.outline {
-		background-color: transparent;
+		background: transparent !important;
 		&:focus {
 			border: 1px solid var(--primary) !important;
 		}
