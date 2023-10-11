@@ -2,8 +2,8 @@
 	import ProfileIcon from '$lib/components/ProfileIcon.svelte';
 	import { listToTree } from '$lib/functions/mapping';
 	import type { Goal, User } from '$lib/types/sb';
-	import Button from '../../../lib/components/Button.svelte';
-	import Icon from '../../../lib/components/Icon/Icon.svelte';
+	import Button from '../../../../lib/components/Button.svelte';
+	import Icon from '../../../../lib/components/Icon/Icon.svelte';
 	import GoalTree from './GoalTree.svelte';
 	import NavItem from './NavItem.svelte';
 

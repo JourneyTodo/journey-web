@@ -1,5 +1,5 @@
 <script lang="ts">
-	import GoalTree from '../side-nav/GoalTree.svelte';
+	import GoalTree from '../components/side-nav/GoalTree.svelte';
 
 	export let data;
 
