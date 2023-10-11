@@ -3,7 +3,7 @@
 	import Button from '$lib/components/Button.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import Modal from '$lib/components/Modal.svelte';
-	import SideNav from '$lib/components/side-nav/SideNav.svelte';
+	import SideNav from './side-nav/SideNav.svelte';
 
 	export let data;
 
