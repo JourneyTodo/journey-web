@@ -1,6 +1,5 @@
 <script lang="ts">
 	import ProfileIcon from '$lib/components/ProfileIcon.svelte';
-	import { listToTree } from '$lib/functions/mapping';
 	import type { Goal, User } from '$lib/types/sb';
 	import Button from '../../../../lib/components/Button.svelte';
 	import Icon from '../../../../lib/components/Icon/Icon.svelte';
@@ -10,8 +9,6 @@
 	export let user: User;
 	export let goals: Goal[] = [];
 	export let goalModalIsOpen = false;
-
-	$: goals = listToTree(goals);
 
 	function openModal() {
 		goalModalIsOpen = true;
@@ -47,11 +44,7 @@
 					<!-- </a> -->
 				</Button>
 			</NavItem>
-			<GoalTree {goals} let:goal>
-				<NavItem href="/goals/{goal.id}">
-					<span slot="text" class="goal-name">{goal.name}</span>
-				</NavItem>
-			</GoalTree>
+			<GoalTree {goals} />
 		</div>
 	{/if}
 </nav>
@@ -69,14 +62,5 @@
 		background: #f5f5f7;
 		box-shadow: -4px 0px 8px -4px rgba(17, 13, 38, 0.025) inset;
 		font-size: 14px;
-	}
-
-	.goal-name {
-		word-wrap: break-word;
-		word-break: break-all;
-		overflow: hidden;
-		display: -webkit-box;
-		-webkit-line-clamp: 1;
-		-webkit-box-orient: vertical;
 	}
 </style>

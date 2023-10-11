@@ -87,5 +87,20 @@ describe('GoalTree', () => {
 		const component = render(GoalTree, { goals: data });
 
 		expect(component).toBeTruthy();
+
+		component.unmount();
 	});
+
+	/// TODO: finish this test
+	// it('should indent list items based on their tree depth', () => {
+	// 	const component = render(GoalTree, { goals: data });
+
+	//   const list = component.getByTestId('goal-tree');
+	//   const listItems = list.querySelectorAll('li');
+
+	//   expect(component.component.idToParent).not.toBeNull();
+
+	//   expect(listItems[0].style.marginLeft).toBe('0px');
+	//   expect(listItems.length).toBe(6);
+	// });
 });

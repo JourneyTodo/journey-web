@@ -16,3 +16,16 @@ export const getFirstName = (name: string) => {
 export const addChildrenPropToObject = <T>(object: T): T & { children: T[] } => {
 	return { ...object, children: [] };
 };
+
+type GenericIdToParent = {
+	id: T;
+	parent_id: T | null | undefined;
+};
+
+export const createIdToParentMap = (objList: GenericIdToParent[]) => {
+	const idToParent = new Map<GenericIdToParent['id'], GenericIdToParent['parent_id']>();
+	objList.forEach((objList) => {
+		idToParent.set(objList.id, objList.parent_id);
+	});
+	return idToParent;
+};
