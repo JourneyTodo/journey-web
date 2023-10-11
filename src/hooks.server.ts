@@ -2,7 +2,6 @@ import { PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY } from '$env/static/publi
 import { createSupabaseServerClient } from '@supabase/auth-helpers-sveltekit';
 import type { Handle } from '@sveltejs/kit';
 import type { Database } from '$lib/types/database';
-import type { Goal } from '$lib/types/sb';
 
 export const handle: Handle = async ({ event, resolve }) => {
 	event.locals.supabase = createSupabaseServerClient<Database>({
@@ -41,7 +40,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 	};
 
 	event.locals.addGoal = async (uid: string, name: string, description: string, idx: number) => {
-		const { data: newGoal, error } = await event.locals.supabase
+		const { data, error } = await event.locals.supabase
 			.from('goals')
 			.insert({
 				user_id: uid,
@@ -49,29 +48,27 @@ export const handle: Handle = async ({ event, resolve }) => {
 				description,
 				index: idx
 			})
-			.single();
+			.select();
 
 		if (error) {
 			throw error;
 		}
 
-		console.log('newGoal', newGoal);
-
-		return newGoal;
+		return data;
 	};
 
 	event.locals.deleteGoal = async (id: number) => {
-		const { data: deletedGoal } = await event.locals.supabase
+		const { data, error } = await event.locals.supabase
 			.from('goals')
 			.delete()
 			.eq('id', id)
-			.single();
-		return deletedGoal;
-	};
+			.select();
 
-	event.locals.upsertGoal = async (goal: Goal) => {
-		const { data: updatedGoal } = await event.locals.supabase.from('goals').upsert(goal).single();
-		return updatedGoal;
+		if (error) {
+			throw error;
+		}
+
+		return data;
 	};
 
 	return resolve(event, {

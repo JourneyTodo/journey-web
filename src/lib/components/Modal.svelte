@@ -10,9 +10,20 @@
 	function close() {
 		isOpen = false;
 	}
+	function escape(e: KeyboardEvent) {
+		if (e.key === 'Escape') {
+			close();
+		}
+	}
 </script>
 
-<div class="modal-overlay flex-center" class:open={isOpen} transition:fade={{ duration: 100 }}>
+<div
+	role="presentation"
+	class="modal-overlay flex-center"
+	transition:fade={{ duration: 100 }}
+	on:click|self={close}
+	on:keyup={escape}
+>
 	<dialog class="modal" transition:scale={{ duration: 200 }}>
 		<header class="modal-header">
 			<slot name="title">
@@ -42,15 +53,9 @@
 		left: 0;
 		z-index: 1000;
 		width: 100%;
-		height: 100%;
-		background-color: #110d2633;
-		opacity: 0;
-		pointer-events: none;
-		transition: opacity 0.2s ease-in-out;
-		&.open {
-			opacity: 1;
-			pointer-events: all;
-		}
+		height: 50%;
+		min-height: 20vh;
+		opacity: 1;
 	}
 
 	.modal {
@@ -62,7 +67,7 @@
 		flex-direction: column;
 		border: 0;
 		border-radius: var(--br-md);
-		background: #fcfcfc;
+		background: white;
 		box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.06), 0px 0px 4px 0px rgba(0, 0, 0, 0.04);
 		padding: var(--spacing-lg);
 	}

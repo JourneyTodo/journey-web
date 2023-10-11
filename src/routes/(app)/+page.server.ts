@@ -8,13 +8,11 @@ export const actions: Actions = {
 		const idx = parseInt(formData.get('idx') as string);
 		const uid = formData.get('uid') as string;
 
-		console.log(name, description, idx, uid);
-
-		console.log('adding goal');
-
 		const result = await addGoal(uid, name, description, idx);
 
-		console.log('added goal', result);
+		if (result instanceof Error) {
+			return { error: result };
+		}
 
 		return { success: true };
 	}

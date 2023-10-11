@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { setTitle } from '$lib/functions/utils.js';
 
-	// get supabase user info
 	export let data;
 
 	let { user, goals } = data;

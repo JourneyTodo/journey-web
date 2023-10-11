@@ -29,6 +29,7 @@
 <style lang="scss">
 	.container {
 		position: relative;
+		width: 100%;
 
 		.floating {
 			border: 1px solid var(--primitive-outline);

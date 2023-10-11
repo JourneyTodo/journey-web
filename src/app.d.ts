@@ -17,9 +17,8 @@ declare global {
 				name: string,
 				description: string,
 				idx: number
-			): Promise<Goal | PostgrestError | null>;
-			deleteGoal(id: number): Promise<Goal | null>;
-			upsertGoal(goal: Goal): Promise<Goal | null>;
+			): Promise<Goal | PostgrestError>;
+			deleteGoal(id: number): Promise<Goal | PostgrestError>;
 		}
 		// interface PageData {}
 		// interface Platform {}

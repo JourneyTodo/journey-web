@@ -67,7 +67,7 @@
 			&:hover {
 				cursor: pointer;
 				// background: linear-gradient(0deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.6) 100%), var(--primary);
-				background: #5435f9; //TODO: unhardcode, figure out how to get programmatically
+				background: #5f41f9; //TODO: unhardcode, figure out how to get programmatically
 			}
 		}
 		&.secondary {
@@ -91,7 +91,7 @@
 			}
 			&:hover {
 				cursor: pointer;
-				background: #d60036; //TODO: unhardcode, figure out how to get programmatically
+				background: #db134b; //TODO: unhardcode, figure out how to get programmatically
 			}
 		}
 		&.ghost {
@@ -130,7 +130,7 @@
 	}
 
 	.disabled {
-		opacity: 0.2;
+		opacity: 0.35;
 		pointer-events: none;
 	}
 

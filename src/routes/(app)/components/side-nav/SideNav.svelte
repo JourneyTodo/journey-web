@@ -9,8 +9,13 @@
 
 	export let user: User;
 	export let goals: Goal[] = [];
+	export let goalModalIsOpen = false;
 
 	$: goals = listToTree(goals);
+
+	function openModal() {
+		goalModalIsOpen = true;
+	}
 </script>
 
 <nav class="side-nav">
@@ -36,7 +41,7 @@
 		<div class="goals-container">
 			<NavItem href="/goals">
 				<span slot="text" class="goals-header bold">Goals</span>
-				<Button slot="icon-right" variant="ghost" size="xsmall">
+				<Button slot="icon-right" variant="ghost" size="xsmall" on:click={openModal}>
 					<!-- <a class="flex-center" href="?addGoal" style="color: var(--text-primary)"> -->
 					<Icon name="plus" />
 					<!-- </a> -->
@@ -64,11 +69,6 @@
 		background: #f5f5f7;
 		box-shadow: -4px 0px 8px -4px rgba(17, 13, 38, 0.025) inset;
 		font-size: 14px;
-	}
-
-	:global(.goals-container > ul) {
-		padding-inline-start: 0 !important;
-		color: red;
 	}
 
 	.goal-name {
