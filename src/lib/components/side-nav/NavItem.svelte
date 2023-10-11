@@ -40,9 +40,9 @@
 			gap: var(--spacing-sm);
 			align-items: center;
 
-			font-size: var(--font-size-sm);
+			font-size: var(--text-sm);
 			line-height: 18px;
-			color: var(--text-dark);
+			color: var(--text-primary);
 			text-decoration: none;
 
 			padding: var(--spacing-sm) calc(var(--spacing-md) / 2);

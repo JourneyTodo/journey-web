@@ -6,6 +6,7 @@
 	export let fill: boolean = false;
 	export let form: string = '';
 	export let label: string = '';
+	export let disabled: boolean = false;
 </script>
 
 {#if form}
@@ -14,7 +15,7 @@
 		{form}
 		class="btn flex-center {size} {outline ? 'outline' : ''} {fill
 			? 'fill'
-			: ''} {variant} {classes}"
+			: ''} {variant} {classes} {disabled ? 'disabled' : ''}"
 		value={label}
 	/>
 {:else}
@@ -22,7 +23,7 @@
 		{...$$restProps}
 		class="btn flex-center {size} {outline ? 'outline' : ''} {fill
 			? 'fill'
-			: ''} {variant} {classes}"
+			: ''} {variant} {classes} {disabled ? 'disabled' : ''}"
 		on:click
 	>
 		<slot name="icon" />
@@ -40,7 +41,7 @@
 		height: 50px !important;
 	}
 	.btn {
-		gap: var(--spacing-md);
+		gap: var(--spacing-xs);
 		height: 40px;
 		border-radius: var(--br-md);
 		border: none;
@@ -48,7 +49,7 @@
 		font-family: 'Plus Jakarta Sans', sans-serif;
 		background-color: none;
 		background: none;
-		transition: all 200ms ease;
+		transition: all 120ms ease;
 		font-weight: 500;
 		padding: 0 1.25rem;
 		&:focus {
@@ -67,6 +68,17 @@
 				cursor: pointer;
 				// background: linear-gradient(0deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.6) 100%), var(--primary);
 				background: #5435f9; //TODO: unhardcode, figure out how to get programmatically
+			}
+		}
+		&.secondary {
+			background: var(--secondary);
+
+			&:focus {
+				box-shadow: 0px 0px 0px 1px #fff, 0px 0px 0px 5px rgba(129, 102, 255, 0.25) !important;
+			}
+			&:hover {
+				cursor: pointer;
+				background: #cdcbd2; //TODO: unhardcode, figure out how to get programmatically
 			}
 		}
 
@@ -109,7 +121,7 @@
 		}
 		&.secondary {
 			border: 1px solid var(--btn-secondary-outline);
-			color: var(--text-dark);
+			color: var(--text-primary);
 		}
 		&:hover {
 			cursor: pointer;
@@ -117,9 +129,20 @@
 		}
 	}
 
+	.disabled {
+		opacity: 0.2;
+		pointer-events: none;
+	}
+
 	.xsmall {
 		height: 24px !important;
 		width: 24px !important;
 		border-radius: 2px !important;
+	}
+
+	.small {
+		height: 32px !important;
+		border-radius: var(--br-sm) !important;
+		font-size: var(--text-sm);
 	}
 </style>

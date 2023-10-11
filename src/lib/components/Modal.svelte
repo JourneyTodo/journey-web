@@ -1,10 +1,15 @@
 <script lang="ts">
 	import { fade, scale } from 'svelte/transition';
 	import Button from './Button.svelte';
+	import Icon from './Icon/Icon.svelte';
 
 	export let isOpen = false;
 	export let title = '';
 	export let content = '';
+
+	function close() {
+		isOpen = false;
+	}
 </script>
 
 <div class="modal-overlay flex-center" class:open={isOpen} transition:fade={{ duration: 100 }}>
@@ -12,20 +17,19 @@
 		<header class="modal-header">
 			<slot name="title">
 				<h2>{title}</h2>
+				<Button variant="ghost" size="medium" on:click={close}>
+					<Icon name="close" />
+				</Button>
 			</slot>
-			<Button variant="ghost" size="medium">
-				<!-- TODO: Add x icon during icon refactor + cleanup -->
-				X
-			</Button>
 		</header>
 		<div class="modal-content">
 			<slot name="content">
-				<p>{content}</p>
+				{content}
 			</slot>
 		</div>
 		<footer class="modal-footer">
 			<slot name="footer">
-				<Button variant="secondary" outline>Close</Button>
+				<Button variant="secondary" outline on:click={close}>Close</Button>
 			</slot>
 		</footer>
 	</dialog>
@@ -53,14 +57,14 @@
 		box-sizing: border-box;
 		margin: auto;
 		width: 100%;
-		max-width: 28.5rem;
+		max-width: 34.5rem;
 		display: flex;
 		flex-direction: column;
 		border: 0;
 		border-radius: var(--br-md);
 		background: #fcfcfc;
 		box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.06), 0px 0px 4px 0px rgba(0, 0, 0, 0.04);
-		padding: 2rem;
+		padding: var(--spacing-lg);
 	}
 
 	.modal-header {
@@ -76,7 +80,7 @@
 
 	.modal-content {
 		flex: 1;
-		margin: 1.5rem 0;
+		margin: var(--spacing-md) 0;
 	}
 
 	.modal-footer {

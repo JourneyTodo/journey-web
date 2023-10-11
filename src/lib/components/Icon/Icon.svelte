@@ -8,21 +8,27 @@
 	$: displayIcon = paths[name];
 </script>
 
-<svg class="icn {$$props.class}" {focusable} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+<svg
+	class="icn {$$props.class}"
+	{focusable}
+	xmlns="http://www.w3.org/2000/svg"
+	viewBox="0 0 24 24"
+	style={displayIcon.rotate ? `transform: rotate(${displayIcon.rotate}deg)` : ''}
+>
 	{#each displayIcon.paths as path}
-		<path class:fill d={path} />
+		<path class:fill d={path} stroke="currentColor" />
 	{/each}
 </svg>
 
 <style lang="scss">
 	.icn {
+		color: inherit !important;
 		width: 24px;
 		height: 24px;
 		path {
-			stroke: var(--text-dark);
 			stroke-width: 1.4;
 			&.fill {
-				fill: var(--text-dark);
+				fill: var(--text-primary);
 			}
 			fill: none;
 		}

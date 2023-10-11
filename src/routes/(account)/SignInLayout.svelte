@@ -65,7 +65,7 @@
 		&::after {
 			content: '';
 			flex: 1;
-			border-bottom: 1px solid var(--text-dark);
+			border-bottom: 1px solid var(--text-primary);
 			opacity: 0.75;
 		}
 	}

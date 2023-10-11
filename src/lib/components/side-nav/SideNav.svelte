@@ -22,6 +22,12 @@
 		<Icon slot="icon-right" name="chevron-down" />
 	</NavItem>
 
+	<!-- Add task button -->
+	<Button size="small" disabled>
+		<Icon name="plus" slot="icon" />
+		Add task
+	</Button>
+
 	<!-- <div class="nav-block"> -->
 	<!-- TODO: add today/upcoming/inbox/completed nav items here -->
 	<!-- </div> -->
@@ -31,9 +37,9 @@
 			<NavItem href="/goals">
 				<span slot="text" class="goals-header bold">Goals</span>
 				<Button slot="icon-right" variant="ghost" size="xsmall">
-					<a class="flex-center" href="?addGoal">
-						<Icon name="plus" />
-					</a>
+					<!-- <a class="flex-center" href="?addGoal" style="color: var(--text-primary)"> -->
+					<Icon name="plus" />
+					<!-- </a> -->
 				</Button>
 			</NavItem>
 			<GoalTree {goals} let:goal>
@@ -56,7 +62,7 @@
 		gap: 2rem;
 		flex-direction: column;
 		background: #f5f5f7;
-		box-shadow: -4px 0px 8px -4px rgba(17, 13, 38, 0.1) inset;
+		box-shadow: -4px 0px 8px -4px rgba(17, 13, 38, 0.025) inset;
 		font-size: 14px;
 	}
 

@@ -9,6 +9,10 @@
 
 	let { user, goals, addGoal } = data;
 	$: ({ user, goals, addGoal } = data);
+
+	function closeModal() {
+		addGoal = false;
+	}
 </script>
 
 <div class="container">
@@ -19,21 +23,35 @@
 </div>
 
 {#if addGoal}
-	<Modal isOpen={true} title="Add goal">
-		<form slot="content" id="addGoal" action="?/addGoal" method="POST" use:enhance>
+	<form id="addGoal" action="?/addGoal" method="POST" use:enhance>
+		<Modal bind:isOpen={addGoal}>
 			<!-- hidden values -->
 			<input id="uid" type="hidden" name="uid" value={user.id} />
 			<input id="idx" type="hidden" name="idx" value={5} />
 
-			<Input id="name" label="Goal name" name="name" required />
-			<label for="description">Description</label>
-			<textarea id="description" name="description" />
-		</form>
-		<div slot="footer" class="btn-group">
-			<Button variant="secondary" outline>Cancel</Button>
-			<Button form="addGoal" slot="footer" type="submit" label="Add" />
-		</div>
-	</Modal>
+			<!-- Title -->
+			<Input
+				slot="title"
+				id="name"
+				label="Goal name"
+				name="name"
+				variant="ghost"
+				required
+				autofocus
+			/>
+
+			<!-- Description -->
+			<div slot="content">
+				<label for="description">Description</label>
+				<textarea id="description" name="description" />
+			</div>
+
+			<div slot="footer" class="btn-group">
+				<Button size="small" variant="secondary" on:click={closeModal}>Cancel</Button>
+				<Button size="small" form="addGoal" slot="footer" type="submit" label="Add" />
+			</div>
+		</Modal>
+	</form>
 {/if}
 
 <style lang="scss">
@@ -48,6 +66,6 @@
 	.btn-group {
 		display: flex;
 		justify-content: flex-end;
-		gap: var(--spacing-md);
+		gap: var(--spacing-sm);
 	}
 </style>

@@ -4,6 +4,7 @@
 
 	export let label: string;
 	export let id: string;
+	export let variant: 'ghost' | 'floating' = 'floating';
 
 	let showPassword = false;
 
@@ -14,7 +15,7 @@
 </script>
 
 <div class="container">
-	<input {id} placeholder=" " required {...$$restProps} />
+	<input {id} placeholder=" " required {...$$restProps} class={variant} />
 	<label for={id}>{label}</label>
 	{#if $$restProps.type === 'password' || showPassword}
 		<i class="icon">
@@ -28,11 +29,21 @@
 <style lang="scss">
 	.container {
 		position: relative;
+
+		.floating {
+			border: 1px solid var(--primitive-outline);
+			&:focus {
+				border: 1px solid var(--primary);
+				box-shadow: 0px 0px 0px 5px rgba(129, 102, 255, 0.25);
+			}
+		}
+		.ghost {
+			border: none;
+		}
 		input {
 			box-sizing: border-box;
 			height: 3.5rem;
 			border-radius: var(--br-md);
-			border: 1px solid var(--primitive-outline);
 			font-size: 1rem;
 			width: 100%;
 			padding: 1rem 0.875rem 0 0;
@@ -41,8 +52,6 @@
 		}
 		input:focus {
 			outline: none;
-			border: 1px solid var(--primary);
-			box-shadow: 0px 0px 0px 5px rgba(129, 102, 255, 0.25);
 		}
 		input:focus ~ label,
 		input:valid ~ label,
