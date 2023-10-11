@@ -78,7 +78,7 @@
 			}
 			&:hover {
 				cursor: pointer;
-				background: #cdcbd2; //TODO: unhardcode, figure out how to get programmatically
+				background: #d8d6db; //TODO: unhardcode, figure out how to get programmatically
 			}
 		}
 
