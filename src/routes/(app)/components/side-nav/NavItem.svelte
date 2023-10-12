@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
+	import { quintOut } from 'svelte/easing';
+	import { slide } from 'svelte/transition';
 
 	export let text: string | null = null;
 	export let href: string;
@@ -7,7 +9,12 @@
 	$: active = $page.url.pathname === href;
 </script>
 
-<li {...$$restProps} class="nav-item {active ? 'active' : ''}">
+<!-- TODO: add this back once you figure out  -->
+<li
+	{...$$restProps}
+	class="nav-item {active ? 'active' : ''}"
+	in:slide={{ duration: 300, easing: quintOut, axis: 'y' }}
+>
 	<slot name="icon-left" />
 
 	<a {href}>

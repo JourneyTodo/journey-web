@@ -8,6 +8,4 @@
 
 <h1>Goals</h1>
 
-<GoalTree {goals} let:goal>
-	<li>{goal.name}</li>
-</GoalTree>
+<GoalTree {goals} />

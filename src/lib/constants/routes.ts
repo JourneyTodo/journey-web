@@ -10,21 +10,12 @@
  * @type {BaseRoutes}
  */
 export const baseRoutes = {
-	home: '/'
+	home: '/',
+	profile: '/profile',
+	goals: '/goals'
 };
-export const { home } = baseRoutes;
 
-/**
- * @typedef {Object} ProfileRoutes
- * @property {string} profile - The profile route
- */
-/**
- * @type {ProfileRoutes}
- */
-export const profileRoutes = {
-	profile: '/profile'
-};
-export const { profile } = profileRoutes;
+export const { home } = baseRoutes;
 
 /**
  * @typedef {Object} AccountRoutes

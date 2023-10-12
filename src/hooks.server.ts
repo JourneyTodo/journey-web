@@ -33,7 +33,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 		const { data: goals } = await event.locals.supabase
 			.from('goals')
 			.select(
-				`completed, completed_at, created_at, description, id, index, name, parent_id, target_date, updated_at, user_id`
+				`completed, completed_at, created_at, description, id, index, name, parent_id, target_date, updated_at, user_id, user_goal_id`
 			)
 			.eq('user_id', id);
 		return goals;
@@ -57,7 +57,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 		return data;
 	};
 
-	event.locals.deleteGoal = async (id: number) => {
+	event.locals.deleteGoal = async (id: string) => {
 		const { data, error } = await event.locals.supabase
 			.from('goals')
 			.delete()

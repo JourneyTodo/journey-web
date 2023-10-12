@@ -9,12 +9,13 @@ export interface Database {
 					completed_at: string | null;
 					created_at: string;
 					description: string | null;
-					id: number;
+					id: string;
 					index: number | null;
 					name: string;
 					parent_id: number | null;
 					target_date: string | null;
 					updated_at: string | null;
+					user_goal_id: number;
 					user_id: string | null;
 				};
 				Insert: {
@@ -22,12 +23,13 @@ export interface Database {
 					completed_at?: string | null;
 					created_at?: string;
 					description?: string | null;
-					id?: number;
+					id?: string;
 					index?: number | null;
 					name: string;
 					parent_id?: number | null;
 					target_date?: string | null;
 					updated_at?: string | null;
+					user_goal_id?: number;
 					user_id?: string | null;
 				};
 				Update: {
@@ -35,12 +37,13 @@ export interface Database {
 					completed_at?: string | null;
 					created_at?: string;
 					description?: string | null;
-					id?: number;
+					id?: string;
 					index?: number | null;
 					name?: string;
 					parent_id?: number | null;
 					target_date?: string | null;
 					updated_at?: string | null;
+					user_goal_id?: number;
 					user_id?: string | null;
 				};
 				Relationships: [];
@@ -87,7 +90,7 @@ export interface Database {
 			[_ in never]: never;
 		};
 		Functions: {
-			generate_numeric_id: {
+			gen_user_goal_id: {
 				Args: Record<PropertyKey, never>;
 				Returns: number;
 			};

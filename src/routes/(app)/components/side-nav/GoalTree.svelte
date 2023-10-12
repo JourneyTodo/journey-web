@@ -3,6 +3,8 @@
 	import { beforeUpdate } from 'svelte';
 	import NavItem from './NavItem.svelte';
 	import { createIdToParentMap } from '$lib/functions/utils';
+	import { slide } from 'svelte/transition';
+	import { quintOut } from 'svelte/easing';
 
 	export let goals: Goal[] = [];
 	let idToParent: Map<number, number>;
@@ -22,11 +24,15 @@
 <ul class="goals-list" data-testid="goal-tree">
 	{#if idToParent}
 		{#each goals as goal}
-			<li style="margin-left: {traceLineage(goal.parent_id) * 1.5}rem">
-				<NavItem href="/goals/{goal.id}">
+			<div
+				class="container"
+				style="margin-left: {traceLineage(goal.parent_id) * 1.5}rem"
+				out:slide={{ duration: 400, easing: quintOut, axis: 'x' }}
+			>
+				<NavItem href="/goals/{goal.user_goal_id}">
 					<span slot="text" class="goal-name">{goal.name}</span>
 				</NavItem>
-			</li>
+			</div>
 		{/each}
 	{/if}
 </ul>

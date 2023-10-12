@@ -6,7 +6,7 @@
 	export let data;
 
 	$: goal = data.goals.find((goal) => {
-		return goal.id.toString() === $page.params['id'];
+		return goal.user_goal_id.toString() === $page.params['user_goal_id'];
 	});
 </script>
 
@@ -21,5 +21,8 @@
 <form action="?/delete" method="POST" use:enhance>
 	<input type="hidden" name="id" value={goal?.id} />
 	<input type="hidden" name="uid" value={data.user.id} />
+	{#if goal?.parent_id === null}
+		<input type="hidden" name="isParent" value="hi mom and dad!" />
+	{/if}
 	<Button type="submit" variant="danger">Delete</Button>
 </form>
