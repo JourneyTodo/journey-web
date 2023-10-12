@@ -7,13 +7,13 @@
 	import { quintOut } from 'svelte/easing';
 
 	export let goals: Goal[] = [];
-	let idToParent: Map<number, number>;
+	let idToParent: Map<string, string>;
 
 	beforeUpdate(() => {
 		idToParent = createIdToParentMap(goals);
 	});
 
-	function traceLineage(parent_id: number | null | undefined, depth = 0) {
+	function traceLineage(parent_id: string | null | undefined, depth = 0) {
 		if (parent_id === null || parent_id === undefined) {
 			return depth;
 		}

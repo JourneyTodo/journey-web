@@ -12,7 +12,7 @@ export interface Database {
 					id: string;
 					index: number | null;
 					name: string;
-					parent_id: number | null;
+					parent_id: string | null;
 					target_date: string | null;
 					updated_at: string | null;
 					user_goal_id: number;
@@ -26,7 +26,7 @@ export interface Database {
 					id?: string;
 					index?: number | null;
 					name: string;
-					parent_id?: number | null;
+					parent_id?: string | null;
 					target_date?: string | null;
 					updated_at?: string | null;
 					user_goal_id?: number;
@@ -40,13 +40,20 @@ export interface Database {
 					id?: string;
 					index?: number | null;
 					name?: string;
-					parent_id?: number | null;
+					parent_id?: string | null;
 					target_date?: string | null;
 					updated_at?: string | null;
 					user_goal_id?: number;
 					user_id?: string | null;
 				};
-				Relationships: [];
+				Relationships: [
+					{
+						foreignKeyName: 'goals_parent_id_fkey';
+						columns: ['parent_id'];
+						referencedRelation: 'goals';
+						referencedColumns: ['id'];
+					}
+				];
 			};
 			profiles: {
 				Row: {
@@ -85,11 +92,73 @@ export interface Database {
 					}
 				];
 			};
+			todos: {
+				Row: {
+					completed: boolean | null;
+					completed_at: string | null;
+					created_at: string;
+					description: string | null;
+					goal_id: string | null;
+					id: string;
+					index: number | null;
+					name: string | null;
+					target_date: string | null;
+					updated_at: string | null;
+					user_id: string | null;
+					user_todo_id: number;
+				};
+				Insert: {
+					completed?: boolean | null;
+					completed_at?: string | null;
+					created_at?: string;
+					description?: string | null;
+					goal_id?: string | null;
+					id?: string;
+					index?: number | null;
+					name?: string | null;
+					target_date?: string | null;
+					updated_at?: string | null;
+					user_id?: string | null;
+					user_todo_id?: number;
+				};
+				Update: {
+					completed?: boolean | null;
+					completed_at?: string | null;
+					created_at?: string;
+					description?: string | null;
+					goal_id?: string | null;
+					id?: string;
+					index?: number | null;
+					name?: string | null;
+					target_date?: string | null;
+					updated_at?: string | null;
+					user_id?: string | null;
+					user_todo_id?: number;
+				};
+				Relationships: [
+					{
+						foreignKeyName: 'todos_goal_id_fkey';
+						columns: ['goal_id'];
+						referencedRelation: 'goals';
+						referencedColumns: ['id'];
+					},
+					{
+						foreignKeyName: 'todos_user_id_fkey';
+						columns: ['user_id'];
+						referencedRelation: 'users';
+						referencedColumns: ['id'];
+					}
+				];
+			};
 		};
 		Views: {
 			[_ in never]: never;
 		};
 		Functions: {
+			gen_uesr_todo_id: {
+				Args: Record<PropertyKey, never>;
+				Returns: number;
+			};
 			gen_user_goal_id: {
 				Args: Record<PropertyKey, never>;
 				Returns: number;

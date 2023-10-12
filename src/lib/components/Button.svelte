@@ -41,7 +41,7 @@
 		height: 50px !important;
 	}
 	.btn {
-		gap: var(--spacing-xs);
+		gap: var(--spacing-sm);
 		height: 40px;
 		border-radius: var(--br-md);
 		border: none;
