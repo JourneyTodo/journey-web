@@ -37,7 +37,13 @@
 	<div class="goals-container">
 		<NavItem href="/goals">
 			<span slot="text" class="goals-header bold">Goals</span>
-			<Button slot="icon-right" variant="ghost" size="xsmall" on:click={openModal}>
+			<Button
+				slot="icon-right"
+				variant="ghost"
+				size="xsmall"
+				on:click={openModal}
+				aria-label="Add goal"
+			>
 				<!-- <a class="flex-center" href="?addGoal" style="color: var(--text-primary)"> -->
 				<Icon name="plus" />
 				<!-- </a> -->

@@ -10,7 +10,7 @@
 </script>
 
 <!-- TODO: add this back once you figure out  -->
-<li
+<div
 	{...$$restProps}
 	class="nav-item {active ? 'active' : ''}"
 	in:slide={{ duration: 300, easing: quintOut, axis: 'y' }}
@@ -26,7 +26,7 @@
 			<slot name="icon-right" />
 		</div>
 	{/if}
-</li>
+</div>
 
 <style lang="scss">
 	.nav-item {
