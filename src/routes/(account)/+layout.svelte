@@ -11,7 +11,6 @@
 
 	.account {
 		max-width: 800px;
-		background-color: var(--background-primary);
 		display: flex;
 		height: 100svh;
 		justify-content: center;
