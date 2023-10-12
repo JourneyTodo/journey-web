@@ -1,5 +1,6 @@
 import { SupabaseClient, Session } from '@supabase/supabase-js';
-import { Database } from '$lib/types/supabase';
+import { Database } from '$lib/types/database';
+import { Goal, User } from '$lib/types/sb';
 
 // See https://kit.svelte.dev/docs/types#app
 // for information about these interfaces
@@ -9,6 +10,15 @@ declare global {
 		interface Locals {
 			supabase: SupabaseClient<Database>;
 			getSession(): Promise<Session | null>;
+			getUser(id: string): Promise<User | null>;
+			getGoals(id: string): Promise<Goal[] | null>;
+			addGoal(
+				uid: string,
+				name: string,
+				description: string,
+				idx: number
+			): Promise<Goal | PostgrestError>;
+			deleteGoal(id: string): Promise<Goal | PostgrestError>;
 		}
 		// interface PageData {}
 		// interface Platform {}

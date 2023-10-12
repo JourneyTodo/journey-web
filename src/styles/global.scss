@@ -1,15 +1,26 @@
 @import url('./colors.scss');
 @import url('./fonts.scss');
+@import url('./utils.scss');
+
+body,
+input,
+button,
+textarea,
+select {
+	font-family: 'Plus Jakarta Sans', sans-serif;
+}
 
 body {
-	font-family: 'Plus Jakarta Sans', sans-serif; // TODO: add font to public folder
-	color: var(--text-dark);
+	color: var(--text-primary);
 	margin: 0;
+	background: var(--background);
+	-webkit-font-smoothing: auto;
+	-moz-osx-font-smoothing: auto;
 }
 
 a {
-	color: var(--bluuberry);
+	color: var(--text-link);
 	&:focus-visible {
-		outline-color: var(--power-purple);
+		outline-color: var(--primary);
 	}
 }

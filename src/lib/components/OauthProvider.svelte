@@ -11,7 +11,7 @@
 </script>
 
 <form method="POST">
-	<Button outline style="secondary" formaction="{signIn}?/signin&provider={provider.toLowerCase()}">
+	<Button fill variant="secondary" formaction="{signIn}?/signin&provider={provider.toLowerCase()}">
 		<img src={google} alt="Google Icon" />
 		<span>Continue with {titleCase(provider)}</span>
 	</Button>

@@ -22,5 +22,8 @@ Page.stories.ts
 Page.svelte
 page.css
 
+Configure.mdx
 e2e/.auth
 .vercel
+
+.drafts
