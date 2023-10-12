@@ -15,6 +15,7 @@
 		height: 100svh;
 		justify-content: center;
 		margin: auto;
+		background: var(--background-primary);
 	}
 
 	.form-container {
