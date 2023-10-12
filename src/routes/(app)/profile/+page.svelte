@@ -10,11 +10,7 @@
 
 <h2>Photo</h2>
 
-{#if user.avatar_url}
-	<img src={user.avatar_url} alt="{user.full_name}'s picture" />
-{:else}
-	<ProfileIcon {user} size="large" />
-{/if}
+<ProfileIcon {user} size="large" />
 
 <h2>Full name</h2>
 <p>{user.full_name}</p>

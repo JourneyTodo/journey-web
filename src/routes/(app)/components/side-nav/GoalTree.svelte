@@ -11,7 +11,7 @@
 		idToParent = createIdToParentMap(goals);
 	});
 
-	export function traceLineage(parent_id: number | null | undefined, depth = 0) {
+	function traceLineage(parent_id: number | null | undefined, depth = 0) {
 		if (parent_id === null || parent_id === undefined) {
 			return depth;
 		}

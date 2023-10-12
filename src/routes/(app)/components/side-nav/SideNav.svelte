@@ -34,19 +34,19 @@
 	<!-- TODO: add today/upcoming/inbox/completed nav items here -->
 	<!-- </div> -->
 
-	{#if goals && goals.length > 0}
-		<div class="goals-container">
-			<NavItem href="/goals">
-				<span slot="text" class="goals-header bold">Goals</span>
-				<Button slot="icon-right" variant="ghost" size="xsmall" on:click={openModal}>
-					<!-- <a class="flex-center" href="?addGoal" style="color: var(--text-primary)"> -->
-					<Icon name="plus" />
-					<!-- </a> -->
-				</Button>
-			</NavItem>
+	<div class="goals-container">
+		<NavItem href="/goals">
+			<span slot="text" class="goals-header bold">Goals</span>
+			<Button slot="icon-right" variant="ghost" size="xsmall" on:click={openModal}>
+				<!-- <a class="flex-center" href="?addGoal" style="color: var(--text-primary)"> -->
+				<Icon name="plus" />
+				<!-- </a> -->
+			</Button>
+		</NavItem>
+		{#if goals && goals.length > 0}
 			<GoalTree {goals} />
-		</div>
-	{/if}
+		{/if}
+	</div>
 </nav>
 
 <style lang="scss">

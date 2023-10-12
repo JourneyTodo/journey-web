@@ -6,7 +6,7 @@
 </script>
 
 {#if user.avatar_url}
-	<img src={user.avatar_url} alt="avatar" class={size} />
+	<img src={user.avatar_url} alt="avatar" class="profile-img flex-center {size}" />
 {:else}
 	<div class="profile-img flex-center {size}">
 		<span class="initial">{user.full_name ? user.full_name[0] : '?'}</span>
@@ -16,6 +16,7 @@
 <style lang="scss">
 	.profile-img {
 		background-color: #2f236717;
+		overflow: hidden;
 		.initial {
 			font-weight: bold;
 			opacity: 0.75;
