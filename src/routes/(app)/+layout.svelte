@@ -9,7 +9,22 @@
 
 	let goalModalIsOpen = false;
 	let taskModalIsOpen = false;
+
+	// Hotkeys to open modals
+	function handleKeydown(event: KeyboardEvent) {
+		if (goalModalIsOpen || taskModalIsOpen) {
+			return;
+		}
+		event.preventDefault();
+		if (event.key === 'g') {
+			goalModalIsOpen = true;
+		} else if (event.key === 't') {
+			taskModalIsOpen = true;
+		}
+	}
 </script>
+
+<svelte:window on:keydown={handleKeydown} />
 
 <div class="container">
 	<SideNav {user} {goals} bind:goalModalIsOpen bind:taskModalIsOpen />
