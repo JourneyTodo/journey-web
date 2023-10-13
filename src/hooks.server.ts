@@ -35,15 +35,22 @@ export const handle: Handle = async ({ event, resolve }) => {
 			.select(
 				`completed, completed_at, created_at, description, id, index, name, parent_id, target_date, updated_at, user_id, user_goal_id`
 			)
-			.eq('user_id', id);
+			.eq('user_id', id)
+			.order('index', { ascending: true });
+
 		return goals;
 	};
 
-	event.locals.addGoal = async (uid: string, name: string, description: string, idx: number) => {
+	event.locals.addGoal = async (
+		user_id: string,
+		name: string,
+		description: string,
+		idx: number
+	) => {
 		const { data, error } = await event.locals.supabase
 			.from('goals')
 			.insert({
-				user_id: uid,
+				user_id: user_id,
 				name,
 				description,
 				index: idx
@@ -57,11 +64,12 @@ export const handle: Handle = async ({ event, resolve }) => {
 		return data;
 	};
 
-	event.locals.deleteGoal = async (id: string) => {
+	event.locals.deleteGoal = async (id: string, user_id: string) => {
 		const { data, error } = await event.locals.supabase
 			.from('goals')
 			.delete()
 			.eq('id', id)
+			.eq('user_id', user_id)
 			.select();
 
 		if (error) {

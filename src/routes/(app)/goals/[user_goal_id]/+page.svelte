@@ -20,7 +20,7 @@
 
 <form action="?/delete" method="POST" use:enhance>
 	<input type="hidden" name="id" value={goal?.id} />
-	<input type="hidden" name="uid" value={data.user.id} />
+	<input type="hidden" name="user_id" value={data.user.id} />
 	{#if goal?.parent_id === null}
 		<input type="hidden" name="isParent" value="hi mom and dad!" />
 	{/if}

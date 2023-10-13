@@ -13,12 +13,12 @@ declare global {
 			getUser(id: string): Promise<User | null>;
 			getGoals(id: string): Promise<Goal[] | null>;
 			addGoal(
-				uid: string,
+				user_id: string,
 				name: string,
 				description: string,
 				idx: number
 			): Promise<Goal | PostgrestError>;
-			deleteGoal(id: string): Promise<Goal | PostgrestError>;
+			deleteGoal(id: string, user_id: string): Promise<Goal | PostgrestError>;
 		}
 		// interface PageData {}
 		// interface Platform {}

@@ -27,6 +27,10 @@
 		main {
 			flex: 1;
 			margin: 2.5rem;
+			background: var(--background-primary);
 		}
+	}
+	:global(body) {
+		background: var(--background-primary);
 	}
 </style>
