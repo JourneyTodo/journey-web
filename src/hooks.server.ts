@@ -84,23 +84,25 @@ export const handle: Handle = async ({ event, resolve }) => {
 	event.locals.getTasks = async (id: string, goal_id: string | null = null) => {
 		let tasks: Task[] | null = null;
 		let err: PostgrestError | null = null;
+		const query = `id, goal_id, user_id, user_task_id, name, description, created_at, updated_at, target_date, completed_at, completed, index, bucket`;
+
 		if (goal_id === null) {
 			const { data, error } = await event.locals.supabase
 				.from('tasks')
-				.select(
-					`completed, completed_at, created_at, description, id, goal_id, index, name, target_date, updated_at, user_id, user_todo_id`
-				)
+				.select(query)
 				.eq('user_id', id);
+
 			tasks = data;
 			err = error;
 		} else {
 			const { data, error } = await event.locals.supabase
 				.from('tasks')
 				.select(
-					`completed, completed_at, created_at, description, id, goal_id, index, name, target_date, updated_at, user_id, user_todo_id`
+					`completed, completed_at, created_at, description, id, goal_id, index, name, target_date, updated_at, user_id, user_task_id, bucket`
 				)
 				.eq('user_id', id)
 				.eq('goal_id', goal_id);
+
 			tasks = data;
 			err = error;
 		}

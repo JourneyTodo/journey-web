@@ -39,20 +39,22 @@ For storing user goals
 | `completed`    | `boolean`    | Whether the goal is completed. Defaults to false                                                       |
 | `description`  | `text`       | The goal's description. Nullable                                                                       |
 
-### `todos`
+### `tasks`
 
-For storing user todos
+For storing user tasks
 
-| Column         | Type         | Description                                                |
-| -------------- | ------------ | ---------------------------------------------------------- |
-| `id`           | `uuid`       | Unique identifier for the task. Primary Key                |
-| `user_id`      | `uuid`       | The user's ID. Foreign Key to `profiles.id`                |
-| `goal_id`      | `uuid`       | The task's goal ID. Foreign Key to `goals.id`. Nullable    |
-| `user_todo_id` | `numeric`    | identifier for a todo that is unique to the user.          |
-| `name`         | `text`       | The task's name.                                           |
-| `created_at`   | `timestampz` | Timestamp of when the task was created. Nullable           |
-| `updated_at`   | `timestampz` | Timestamp of when the task was last updated. Nullable      |
-| `target_date`  | `timestampz` | The goal's target end date. Nullable                       |
-| `completed_at` | `timestampz` | Timestamp of when the task was completed. Nullable         |
-| `completed`    | `boolean`    | Whether the task is completed. Defaults to false. Nullable |
-| `description`  | `text`       | The task's description. Nullable                           |
+| Column         | Type         | Description                                                                    |
+| -------------- | ------------ | ------------------------------------------------------------------------------ |
+| `id`           | `uuid`       | Unique identifier for the task. Primary Key                                    |
+| `goal_id`      | `uuid`       | The task's goal ID. Foreign Key to `goals.id`. Nullable                        |
+| `user_id`      | `uuid`       | The user's ID. Foreign Key to `profiles.id`                                    |
+| `user_task_id` | `numeric`    | identifier for a task that is unique to the user.                              |
+| `name`         | `text`       | The task's name.                                                               |
+| `description`  | `text`       | The task's description. Nullable                                               |
+| `created_at`   | `timestampz` | Timestamp of when the task was created. Nullable                               |
+| `updated_at`   | `timestampz` | Timestamp of when the task was last updated. Nullable                          |
+| `target_date`  | `timestampz` | The goal's target end date. Nullable                                           |
+| `completed_at` | `timestampz` | Timestamp of when the task was completed. Nullable                             |
+| `completed`    | `boolean`    | Whether the task is completed. Defaults to false. Nullable                     |
+| `index`        | `numeric`    | The task's index for ordering. Nullable                                        |
+| `bucket`       | `int2`       | A category aka 'bucket' that the task may belong. 0 represents Inbox. Nullable |

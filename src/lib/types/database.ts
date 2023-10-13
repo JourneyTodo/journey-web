@@ -94,6 +94,7 @@ export interface Database {
 			};
 			tasks: {
 				Row: {
+					bucket: number | null;
 					completed: boolean | null;
 					completed_at: string | null;
 					created_at: string;
@@ -108,6 +109,7 @@ export interface Database {
 					user_task_id: number;
 				};
 				Insert: {
+					bucket?: number | null;
 					completed?: boolean | null;
 					completed_at?: string | null;
 					created_at?: string;
@@ -122,6 +124,7 @@ export interface Database {
 					user_task_id?: number;
 				};
 				Update: {
+					bucket?: number | null;
 					completed?: boolean | null;
 					completed_at?: string | null;
 					created_at?: string;
