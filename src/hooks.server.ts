@@ -2,6 +2,8 @@ import { PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY } from '$env/static/publi
 import { createSupabaseServerClient } from '@supabase/auth-helpers-sveltekit';
 import type { Handle } from '@sveltejs/kit';
 import type { Database } from '$lib/types/database';
+import type { Todo } from '$lib/types/sb';
+import type { PostgrestError } from '@supabase/supabase-js';
 
 export const handle: Handle = async ({ event, resolve }) => {
 	event.locals.supabase = createSupabaseServerClient<Database>({
@@ -67,6 +69,75 @@ export const handle: Handle = async ({ event, resolve }) => {
 	event.locals.deleteGoal = async (id: string, user_id: string) => {
 		const { data, error } = await event.locals.supabase
 			.from('goals')
+			.delete()
+			.eq('id', id)
+			.eq('user_id', user_id)
+			.select();
+
+		if (error) {
+			throw error;
+		}
+
+		return data;
+	};
+
+	event.locals.getTodos = async (id: string, goal_id: string | null = null) => {
+		let todos: Todo[] | null = null;
+		let err: PostgrestError | null = null;
+		if (goal_id === null) {
+			const { data, error } = await event.locals.supabase
+				.from('todos')
+				.select(
+					`completed, completed_at, created_at, description, id, goal_id, index, name, target_date, updated_at, user_id, user_todo_id`
+				)
+				.eq('user_id', id);
+			todos = data;
+			err = error;
+		} else {
+			const { data, error } = await event.locals.supabase
+				.from('todos')
+				.select(
+					`completed, completed_at, created_at, description, id, goal_id, index, name, target_date, updated_at, user_id, user_todo_id`
+				)
+				.eq('user_id', id)
+				.eq('goal_id', goal_id);
+			todos = data;
+			err = error;
+		}
+
+		if (err) {
+			throw err;
+		}
+
+		return todos;
+	};
+
+	event.locals.addTodo = async (
+		user_id: string,
+		name: string,
+		description: string,
+		idx: number
+	) => {
+		const { data, error } = await event.locals.supabase
+			.from('todos')
+			.insert({
+				user_id: user_id,
+				name,
+				description,
+				index: idx
+			})
+			.select();
+
+		if (error) {
+			throw error;
+		}
+
+		return data;
+	};
+
+	event.locals.deleteTodo = async (id: string, user_id: string) => {
+		const { data, error } = await event.locals.supabase
+			.from('todos')
 			.delete()
 			.eq('id', id)
 			.eq('user_id', user_id)

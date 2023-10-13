@@ -19,6 +19,14 @@ declare global {
 				idx: number
 			): Promise<Goal | PostgrestError>;
 			deleteGoal(id: string, user_id: string): Promise<Goal | PostgrestError>;
+			getTodos(id: string, goal_id: string | null): Promise<Todo[] | PostgrestError>;
+			addTodo(
+				user_id: string,
+				name: string,
+				description: string,
+				idx: number
+			): Promise<Todo | PostgrestError>;
+			deleteTodo(id: string, user_id: string): Promise<Todo | PostgrestError>;
 		}
 		// interface PageData {}
 		// interface Platform {}

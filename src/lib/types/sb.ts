@@ -10,3 +10,5 @@ export type Row<T extends keyof Database['public']['Tables']> =
 export type Goal = Row<'goals'>;
 
 export type User = Row<'profiles'>;
+
+export type Todo = Row<'todos'>;
