@@ -144,5 +144,6 @@
 		height: 32px !important;
 		border-radius: var(--br-sm) !important;
 		font-size: var(--text-sm);
+		gap: var(--spacing-xxs) !important;
 	}
 </style>

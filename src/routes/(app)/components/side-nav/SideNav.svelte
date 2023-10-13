@@ -9,9 +9,13 @@
 	export let user: User;
 	export let goals: Goal[] = [];
 	export let goalModalIsOpen = false;
+	export let taskModalIsOpen = false;
 
-	function openModal() {
+	function openGoalModal() {
 		goalModalIsOpen = true;
+	}
+	function openTaskModal() {
+		taskModalIsOpen = true;
 	}
 </script>
 
@@ -25,7 +29,7 @@
 	</NavItem>
 
 	<!-- Add task button -->
-	<Button size="small" disabled>
+	<Button size="small" on:click={openTaskModal}>
 		<Icon name="plus" slot="icon" />
 		Add task
 	</Button>
@@ -41,7 +45,7 @@
 				slot="icon-right"
 				variant="ghost"
 				size="xsmall"
-				on:click={openModal}
+				on:click={openGoalModal}
 				aria-label="Add goal"
 			>
 				<!-- <a class="flex-center" href="?addGoal" style="color: var(--text-primary)"> -->

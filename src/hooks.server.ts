@@ -2,7 +2,7 @@ import { PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY } from '$env/static/publi
 import { createSupabaseServerClient } from '@supabase/auth-helpers-sveltekit';
 import type { Handle } from '@sveltejs/kit';
 import type { Database } from '$lib/types/database';
-import type { Todo } from '$lib/types/sb';
+import type { Task } from '$lib/types/sb';
 import type { PostgrestError } from '@supabase/supabase-js';
 
 export const handle: Handle = async ({ event, resolve }) => {
@@ -81,27 +81,27 @@ export const handle: Handle = async ({ event, resolve }) => {
 		return data;
 	};
 
-	event.locals.getTodos = async (id: string, goal_id: string | null = null) => {
-		let todos: Todo[] | null = null;
+	event.locals.getTasks = async (id: string, goal_id: string | null = null) => {
+		let tasks: Task[] | null = null;
 		let err: PostgrestError | null = null;
 		if (goal_id === null) {
 			const { data, error } = await event.locals.supabase
-				.from('todos')
+				.from('tasks')
 				.select(
 					`completed, completed_at, created_at, description, id, goal_id, index, name, target_date, updated_at, user_id, user_todo_id`
 				)
 				.eq('user_id', id);
-			todos = data;
+			tasks = data;
 			err = error;
 		} else {
 			const { data, error } = await event.locals.supabase
-				.from('todos')
+				.from('tasks')
 				.select(
 					`completed, completed_at, created_at, description, id, goal_id, index, name, target_date, updated_at, user_id, user_todo_id`
 				)
 				.eq('user_id', id)
 				.eq('goal_id', goal_id);
-			todos = data;
+			tasks = data;
 			err = error;
 		}
 
@@ -109,19 +109,19 @@ export const handle: Handle = async ({ event, resolve }) => {
 			throw err;
 		}
 
-		return todos;
+		return tasks;
 	};
 
-	event.locals.addTodo = async (
+	event.locals.addTask = async (
 		user_id: string,
 		name: string,
 		description: string,
 		idx: number
 	) => {
 		const { data, error } = await event.locals.supabase
-			.from('todos')
+			.from('tasks')
 			.insert({
-				user_id: user_id,
+				user_id,
 				name,
 				description,
 				index: idx
@@ -135,9 +135,9 @@ export const handle: Handle = async ({ event, resolve }) => {
 		return data;
 	};
 
-	event.locals.deleteTodo = async (id: string, user_id: string) => {
+	event.locals.deleteTask = async (id: string, user_id: string) => {
 		const { data, error } = await event.locals.supabase
-			.from('todos')
+			.from('tasks')
 			.delete()
 			.eq('id', id)
 			.eq('user_id', user_id)

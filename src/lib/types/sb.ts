@@ -11,4 +11,4 @@ export type Goal = Row<'goals'>;
 
 export type User = Row<'profiles'>;
 
-export type Todo = Row<'todos'>;
+export type Task = Row<'tasks'>;

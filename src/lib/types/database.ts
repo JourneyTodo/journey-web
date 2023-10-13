@@ -92,7 +92,7 @@ export interface Database {
 					}
 				];
 			};
-			todos: {
+			tasks: {
 				Row: {
 					completed: boolean | null;
 					completed_at: string | null;
@@ -105,7 +105,7 @@ export interface Database {
 					target_date: string | null;
 					updated_at: string | null;
 					user_id: string | null;
-					user_todo_id: number;
+					user_task_id: number;
 				};
 				Insert: {
 					completed?: boolean | null;
@@ -119,7 +119,7 @@ export interface Database {
 					target_date?: string | null;
 					updated_at?: string | null;
 					user_id?: string | null;
-					user_todo_id?: number;
+					user_task_id?: number;
 				};
 				Update: {
 					completed?: boolean | null;
@@ -133,17 +133,17 @@ export interface Database {
 					target_date?: string | null;
 					updated_at?: string | null;
 					user_id?: string | null;
-					user_todo_id?: number;
+					user_task_id?: number;
 				};
 				Relationships: [
 					{
-						foreignKeyName: 'todos_goal_id_fkey';
+						foreignKeyName: 'tasks_goal_id_fkey';
 						columns: ['goal_id'];
 						referencedRelation: 'goals';
 						referencedColumns: ['id'];
 					},
 					{
-						foreignKeyName: 'todos_user_id_fkey';
+						foreignKeyName: 'tasks_user_id_fkey';
 						columns: ['user_id'];
 						referencedRelation: 'users';
 						referencedColumns: ['id'];
@@ -155,11 +155,11 @@ export interface Database {
 			[_ in never]: never;
 		};
 		Functions: {
-			gen_uesr_todo_id: {
+			gen_user_goal_id: {
 				Args: Record<PropertyKey, never>;
 				Returns: number;
 			};
-			gen_user_goal_id: {
+			gen_user_task_id: {
 				Args: Record<PropertyKey, never>;
 				Returns: number;
 			};

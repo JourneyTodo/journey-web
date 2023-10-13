@@ -5,10 +5,12 @@
 	import { enhance } from '$app/forms';
 
 	export let isOpen = false;
-	export let uid: string;
+	export let user_id: string;
 	export let idx: number;
+	export let type: 'Goal' | 'Task' = 'Goal';
 
-	let goalName = '';
+	let name = '';
+	let formId = `add${type}`;
 
 	function closeModal() {
 		isOpen = false;
@@ -16,25 +18,24 @@
 </script>
 
 <Modal bind:isOpen>
-	<!-- hidden values -->
-
 	<!-- Title -->
 	<Input
 		slot="title"
 		id="name"
-		label="Goal name"
+		label="{type} name"
 		name="name"
 		variant="ghost"
-		form="addGoal"
+		form="add{type}"
 		required
 		autofocus
-		bind:value={goalName}
+		bind:value={name}
 	/>
 
 	<!-- Description -->
 	<div slot="content">
-		<form id="addGoal" action="/?/addGoal" method="POST" use:enhance={closeModal}>
-			<input id="uid" type="hidden" name="uid" value={uid} />
+		<form id={formId} action="/?/{formId}" method="POST" use:enhance={closeModal}>
+			<!-- hidden values -->
+			<input id="user_id" type="hidden" name="user_id" value={user_id} />
 			<input id="idx" type="hidden" name="idx" value={idx} />
 			<!-- <label for="description">Description</label>
 			<textarea id="description" name="description" /> -->
@@ -45,10 +46,10 @@
 		<Button type="reset" size="small" variant="secondary" on:click={closeModal}>Cancel</Button>
 		<Button
 			size="small"
-			form="addGoal"
+			form="add{type}"
 			slot="footer"
 			type="submit"
-			label="Add"
+			label="Add {type.toLocaleLowerCase()}"
 			on:click={closeModal}
 		/>
 		<!-- TOOD: add disabled={!goalName} once you get reactive binding working from child to parent -->

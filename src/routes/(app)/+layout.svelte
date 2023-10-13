@@ -1,5 +1,5 @@
 <script lang="ts">
-	import AddGoalModal from './components/AddGoalModal.svelte';
+	import AddModal from './components/AddModal.svelte';
 	import SideNav from './components/side-nav/SideNav.svelte';
 
 	export let data;
@@ -8,17 +8,20 @@
 	$: ({ user, goals } = data);
 
 	let goalModalIsOpen = false;
+	let taskModalIsOpen = false;
 </script>
 
 <div class="container">
-	<SideNav {user} {goals} bind:goalModalIsOpen />
+	<SideNav {user} {goals} bind:goalModalIsOpen bind:taskModalIsOpen />
 	<main>
 		<slot />
 	</main>
 </div>
 
 {#if goalModalIsOpen}
-	<AddGoalModal bind:isOpen={goalModalIsOpen} uid={user.id} idx={goals.length} />
+	<AddModal bind:isOpen={goalModalIsOpen} user_id={user.id} idx={goals.length} type="Goal" />
+{:else if taskModalIsOpen}
+	<AddModal bind:isOpen={taskModalIsOpen} user_id={user.id} idx={goals.length} type="Task" />
 {/if}
 
 <style lang="scss">
