@@ -15,10 +15,11 @@
 		if (goalModalIsOpen || taskModalIsOpen) {
 			return;
 		}
-		event.preventDefault();
 		if (event.key === 'g') {
+			event.preventDefault();
 			goalModalIsOpen = true;
 		} else if (event.key === 't') {
+			event.preventDefault();
 			taskModalIsOpen = true;
 		}
 	}
@@ -34,9 +35,21 @@
 </div>
 
 {#if goalModalIsOpen}
-	<AddModal bind:isOpen={goalModalIsOpen} user_id={user.id} idx={goals.length} type="Goal" />
+	<AddModal
+		bind:isOpen={goalModalIsOpen}
+		user_id={user.id}
+		idx={goals.length}
+		{goals}
+		type="Goal"
+	/>
 {:else if taskModalIsOpen}
-	<AddModal bind:isOpen={taskModalIsOpen} user_id={user.id} idx={goals.length} type="Task" />
+	<AddModal
+		bind:isOpen={taskModalIsOpen}
+		user_id={user.id}
+		idx={goals.length}
+		{goals}
+		type="Task"
+	/>
 {/if}
 
 <style lang="scss">

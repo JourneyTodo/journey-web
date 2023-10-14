@@ -14,6 +14,7 @@ declare global {
 			getGoals(id: string): Promise<Goal[] | null>;
 			addGoal(
 				user_id: string,
+				goal_id: string | null,
 				name: string,
 				description: string,
 				idx: number
@@ -22,6 +23,7 @@ declare global {
 			getTasks(id: string, goal_id: string | null): Promise<Task[] | PostgrestError>;
 			addTask(
 				user_id: string,
+				goal_id: string | null,
 				name: string,
 				description: string,
 				idx: number

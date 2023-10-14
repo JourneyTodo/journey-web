@@ -7,8 +7,10 @@ export const actions: Actions = {
 		const description = formData.get('description') as string;
 		const idx = parseInt(formData.get('idx') as string);
 		const user_id = formData.get('user_id') as string;
+		const goal_id =
+			(formData.get('goal_id') as string) !== '' ? (formData.get('goal_id') as string) : null;
 
-		const result = await addGoal(user_id, name, description, idx);
+		const result = await addGoal(user_id, goal_id, name, description, idx);
 
 		if (result instanceof Error) {
 			return { error: result };
@@ -23,8 +25,9 @@ export const actions: Actions = {
 		const description = formData.get('description') as string;
 		const idx = parseInt(formData.get('idx') as string);
 		const user_id = formData.get('user_id') as string;
+		const goal_id = formData.get('goal_id') as string;
 
-		const result = await addTask(user_id, name, description, idx);
+		const result = await addTask(user_id, goal_id, name, description, idx);
 
 		if (result instanceof Error) {
 			return { error: result };

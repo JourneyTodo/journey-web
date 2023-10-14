@@ -30,7 +30,7 @@
 
 	<!-- Add task button -->
 	<Button size="small" on:click={openTaskModal}>
-		<Icon name="plus" slot="icon" />
+		<Icon name="plus" slot="icon-start" />
 		Add task
 	</Button>
 
@@ -47,6 +47,7 @@
 				size="xsmall"
 				on:click={openGoalModal}
 				aria-label="Add goal"
+				style="padding: 0;"
 			>
 				<!-- <a class="flex-center" href="?addGoal" style="color: var(--text-primary)"> -->
 				<Icon name="plus" />

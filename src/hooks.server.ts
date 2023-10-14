@@ -45,6 +45,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 
 	event.locals.addGoal = async (
 		user_id: string,
+		goal_id: string | null,
 		name: string,
 		description: string,
 		idx: number
@@ -52,7 +53,8 @@ export const handle: Handle = async ({ event, resolve }) => {
 		const { data, error } = await event.locals.supabase
 			.from('goals')
 			.insert({
-				user_id: user_id,
+				user_id,
+				parent_id: goal_id,
 				name,
 				description,
 				index: idx
@@ -116,6 +118,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 
 	event.locals.addTask = async (
 		user_id: string,
+		goal_id: string | null,
 		name: string,
 		description: string,
 		idx: number
@@ -124,6 +127,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 			.from('tasks')
 			.insert({
 				user_id,
+				goal_id,
 				name,
 				description,
 				index: idx

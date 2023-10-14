@@ -51,14 +51,14 @@
 		position: fixed;
 		top: 0;
 		left: 0;
-		z-index: 1000;
+		z-index: 2;
 		width: 100%;
-		height: 50%;
-		min-height: 20vh;
+		height: 100%;
 		opacity: 1;
 	}
 
 	.modal {
+		top: 20svh;
 		box-sizing: border-box;
 		margin: auto;
 		width: 100%;
@@ -86,11 +86,5 @@
 	.modal-content {
 		flex: 1;
 		margin: var(--spacing-md) 0;
-	}
-
-	.modal-footer {
-		display: flex;
-		justify-content: flex-end;
-		align-items: center;
 	}
 </style>
