@@ -7,10 +7,14 @@ const meta = {
 	component: Button,
 	tags: ['autodocs'],
 	argTypes: {
-		backgroundColor: { control: 'color' },
 		size: {
 			control: { type: 'select' },
-			options: ['small', 'medium', 'large']
+			options: ['small', 'medium', 'large'],
+			defaultValue: 'medium'
+		},
+		circle: {
+			control: { type: 'boolean' },
+			defaultValue: false
 		}
 	}
 } satisfies Meta<Button>;

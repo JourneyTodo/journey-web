@@ -7,6 +7,7 @@
 	export let form: string = '';
 	export let label: string = '';
 	export let disabled: boolean = false;
+	export let circle: boolean = false;
 </script>
 
 {#if form}
@@ -15,7 +16,8 @@
 		{form}
 		class="btn flex-center {size} {outline ? 'outline' : ''} {fill
 			? 'fill'
-			: ''} {variant} {classes} {disabled ? 'disabled' : ''}"
+			: ''} {variant} {classes} {disabled ? 'disabled' : ''}
+      {circle ? 'circle' : ''}"
 		value={label}
 	/>
 {:else}
@@ -23,15 +25,17 @@
 		{...$$restProps}
 		class="btn flex-center {size} {outline ? 'outline' : ''} {fill
 			? 'fill'
-			: ''} {variant} {classes} {disabled ? 'disabled' : ''}"
+			: ''} {variant} {classes} {disabled ? 'disabled' : ''}
+      {circle ? 'circle' : ''}"
 		on:click
 	>
-		<slot name="icon" />
+		<slot name="icon-start" />
 		{#if label}
 			<span>{label}</span>
 		{:else}
 			<slot />
 		{/if}
+		<slot name="icon-end" />
 	</button>
 {/if}
 
@@ -51,7 +55,7 @@
 		background: none;
 		transition: all 120ms ease;
 		font-weight: 500;
-		padding: 0 1.25rem;
+		padding: 0 var(--spacing-lg);
 		&:focus {
 			outline: none;
 			box-shadow: 0px 0px 0px 5px rgba(129, 102, 255, 0.25);
@@ -96,17 +100,13 @@
 		}
 		&.ghost {
 			background: none;
-			border-radius: var(--br-circle);
-			height: 40px;
-			width: 40px;
-			padding: 0 !important; // this is overrides browser css like safari
 			&:focus {
+				background: var(--gurple-lite);
 				box-shadow: 0px 0px 0px 1px #fff, 0px 0px 0px 5px rgba(129, 102, 255, 0.25) !important;
 			}
 			&:hover {
 				cursor: pointer;
-				background-color: color-mix(in srgb, var(--btn-secondary-outline) 20%, transparent);
-				// background: color-mix(in srgb, var(--primary) 20%, transparent);
+				background: var(--ghost-hover);
 			}
 		}
 	}
@@ -145,5 +145,22 @@
 		border-radius: var(--br-sm) !important;
 		font-size: var(--text-sm);
 		gap: var(--spacing-xxs) !important;
+	}
+
+	.medium {
+		padding: 0 1.25rem;
+	}
+
+	.circle {
+		border-radius: var(--br-circle) !important;
+		&.small {
+			min-width: 32px;
+		}
+		&.medium {
+			min-width: 40px;
+		}
+		&.large {
+			min-width: 50px;
+		}
 	}
 </style>
