@@ -39,15 +39,17 @@
 		on:click={toggleListbox}
 		style="padding:0 var(--spacing-sm) !important;"
 	>
-		{#if selected}
-			{#if propLabel}
-				{selected[propLabel]}
+		<span class="label">
+			{#if selected}
+				{#if propLabel}
+					{selected[propLabel]}
+				{:else}
+					{selected}
+				{/if}
 			{:else}
-				{selected}
+				{label}
 			{/if}
-		{:else}
-			{label}
-		{/if}
+		</span>
 		<Icon slot="icon-end" name="chevron-down" />
 	</Button>
 	{#if showListbox}
@@ -64,5 +66,14 @@
 	.listbox-wrapper {
 		position: absolute;
 		z-index: 4;
+	}
+
+	.label {
+		word-wrap: break-word;
+		word-break: break-all;
+		overflow: hidden;
+		display: -webkit-box;
+		-webkit-line-clamp: 1;
+		-webkit-box-orient: vertical;
 	}
 </style>

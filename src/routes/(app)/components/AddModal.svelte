@@ -71,6 +71,7 @@
 	.btn-group {
 		display: flex;
 		justify-content: space-between;
+		gap: var(--spacing-xs);
 
 		.group-end {
 			display: flex;

@@ -17,6 +17,7 @@
 
 	function handleKeyPress(e: KeyboardEvent, i: number) {
 		if (e.key === 'Enter') {
+			selected = items[i];
 			isOpen = false;
 			return;
 		}
