@@ -158,6 +158,7 @@
 		}
 		&.medium {
 			min-width: 40px;
+			height: 40px;
 		}
 		&.large {
 			min-width: 50px;

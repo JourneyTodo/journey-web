@@ -23,7 +23,9 @@
 				variant="ghost"
 				type="button"
 				aria-label="show password"
-				size="small"
+				size="medium"
+				circle
+				style="padding: 0 !important;"
 				on:click={togglePassword}
 			>
 				<Eye open={showPassword} />
