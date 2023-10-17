@@ -23,3 +23,11 @@ a {
 		outline-color: var(--primary);
 	}
 }
+
+ul {
+	margin: 0;
+	padding-inline-start: 0;
+}
+li {
+	list-style: none;
+}

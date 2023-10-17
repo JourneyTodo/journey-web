@@ -3,6 +3,18 @@ export type Json = string | number | boolean | null | { [key: string]: Json | un
 export interface Database {
 	public: {
 		Tables: {
+			column_defs: {
+				Row: {
+					string_agg: string | null;
+				};
+				Insert: {
+					string_agg?: string | null;
+				};
+				Update: {
+					string_agg?: string | null;
+				};
+				Relationships: [];
+			};
 			goals: {
 				Row: {
 					completed: boolean | null;
@@ -13,6 +25,7 @@ export interface Database {
 					index: number | null;
 					name: string;
 					parent_id: string | null;
+					path: string[] | null;
 					target_date: string | null;
 					updated_at: string | null;
 					user_goal_id: number;
@@ -27,6 +40,7 @@ export interface Database {
 					index?: number | null;
 					name: string;
 					parent_id?: string | null;
+					path?: string[] | null;
 					target_date?: string | null;
 					updated_at?: string | null;
 					user_goal_id?: number;
@@ -41,6 +55,7 @@ export interface Database {
 					index?: number | null;
 					name?: string;
 					parent_id?: string | null;
+					path?: string[] | null;
 					target_date?: string | null;
 					updated_at?: string | null;
 					user_goal_id?: number;
@@ -92,8 +107,9 @@ export interface Database {
 					}
 				];
 			};
-			todos: {
+			tasks: {
 				Row: {
+					bucket: number | null;
 					completed: boolean | null;
 					completed_at: string | null;
 					created_at: string;
@@ -105,9 +121,10 @@ export interface Database {
 					target_date: string | null;
 					updated_at: string | null;
 					user_id: string | null;
-					user_todo_id: number;
+					user_task_id: number;
 				};
 				Insert: {
+					bucket?: number | null;
 					completed?: boolean | null;
 					completed_at?: string | null;
 					created_at?: string;
@@ -119,9 +136,10 @@ export interface Database {
 					target_date?: string | null;
 					updated_at?: string | null;
 					user_id?: string | null;
-					user_todo_id?: number;
+					user_task_id?: number;
 				};
 				Update: {
+					bucket?: number | null;
 					completed?: boolean | null;
 					completed_at?: string | null;
 					created_at?: string;
@@ -133,17 +151,17 @@ export interface Database {
 					target_date?: string | null;
 					updated_at?: string | null;
 					user_id?: string | null;
-					user_todo_id?: number;
+					user_task_id?: number;
 				};
 				Relationships: [
 					{
-						foreignKeyName: 'todos_goal_id_fkey';
+						foreignKeyName: 'tasks_goal_id_fkey';
 						columns: ['goal_id'];
 						referencedRelation: 'goals';
 						referencedColumns: ['id'];
 					},
 					{
-						foreignKeyName: 'todos_user_id_fkey';
+						foreignKeyName: 'tasks_user_id_fkey';
 						columns: ['user_id'];
 						referencedRelation: 'users';
 						referencedColumns: ['id'];
@@ -155,20 +173,53 @@ export interface Database {
 			[_ in never]: never;
 		};
 		Functions: {
-			gen_uesr_todo_id: {
-				Args: Record<PropertyKey, never>;
-				Returns: number;
-			};
 			gen_user_goal_id: {
 				Args: Record<PropertyKey, never>;
 				Returns: number;
+			};
+			gen_user_task_id: {
+				Args: Record<PropertyKey, never>;
+				Returns: number;
+			};
+			get_goals_tree: {
+				Args: Record<PropertyKey, never>;
+				Returns: {
+					completed: boolean | null;
+					completed_at: string | null;
+					created_at: string;
+					description: string | null;
+					id: string;
+					index: number | null;
+					name: string;
+					parent_id: string | null;
+					path: string[] | null;
+					target_date: string | null;
+					updated_at: string | null;
+					user_goal_id: number;
+					user_id: string | null;
+				}[];
 			};
 		};
 		Enums: {
 			[_ in never]: never;
 		};
 		CompositeTypes: {
-			[_ in never]: never;
+			goals_with_level: {
+				parent_id: string;
+				id: string;
+				user_id: string;
+				index: number;
+				created_at: string;
+				updated_at: string;
+				target_date: string;
+				completed_at: string;
+				completed: boolean;
+				user_goal_id: number;
+				name: string;
+				description: string;
+				level: number;
+				path: unknown;
+			};
 		};
 	};
 }

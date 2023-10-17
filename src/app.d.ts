@@ -11,14 +11,24 @@ declare global {
 			supabase: SupabaseClient<Database>;
 			getSession(): Promise<Session | null>;
 			getUser(id: string): Promise<User | null>;
-			getGoals(id: string): Promise<Goal[] | null>;
+			getGoals(id: string): Promise<Goal[] | PostgrestError | null>;
 			addGoal(
 				user_id: string,
+				goal_id: string | null,
 				name: string,
 				description: string,
 				idx: number
 			): Promise<Goal | PostgrestError>;
 			deleteGoal(id: string, user_id: string): Promise<Goal | PostgrestError>;
+			getTasks(id: string, goal_id: string | null): Promise<Task[] | PostgrestError | null>;
+			addTask(
+				user_id: string,
+				goal_id: string | null,
+				name: string,
+				description: string,
+				idx: number
+			): Promise<Task | PostgrestError>;
+			deleteTask(id: string, user_id: string): Promise<Task | PostgrestError>;
 		}
 		// interface PageData {}
 		// interface Platform {}
