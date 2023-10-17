@@ -41,7 +41,6 @@
 	}
 </script>
 
-/*global T*/
 <div
 	{...$$restProps}
 	class="box {position}"

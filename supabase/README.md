@@ -38,6 +38,7 @@ For storing user goals
 | `completed_at` | `timestampz` | Timestamp of when the goal was completed. Nullable                                                     |
 | `completed`    | `boolean`    | Whether the goal is completed. Defaults to false                                                       |
 | `description`  | `text`       | The goal's description. Nullable                                                                       |
+| `path`         | `uuid[]`     | Materialized path for the goal.                                                                        |
 
 ### `tasks`
 

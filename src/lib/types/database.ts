@@ -3,6 +3,18 @@ export type Json = string | number | boolean | null | { [key: string]: Json | un
 export interface Database {
 	public: {
 		Tables: {
+			column_defs: {
+				Row: {
+					string_agg: string | null;
+				};
+				Insert: {
+					string_agg?: string | null;
+				};
+				Update: {
+					string_agg?: string | null;
+				};
+				Relationships: [];
+			};
 			goals: {
 				Row: {
 					completed: boolean | null;
@@ -13,6 +25,7 @@ export interface Database {
 					index: number | null;
 					name: string;
 					parent_id: string | null;
+					path: string[] | null;
 					target_date: string | null;
 					updated_at: string | null;
 					user_goal_id: number;
@@ -27,6 +40,7 @@ export interface Database {
 					index?: number | null;
 					name: string;
 					parent_id?: string | null;
+					path?: string[] | null;
 					target_date?: string | null;
 					updated_at?: string | null;
 					user_goal_id?: number;
@@ -41,6 +55,7 @@ export interface Database {
 					index?: number | null;
 					name?: string;
 					parent_id?: string | null;
+					path?: string[] | null;
 					target_date?: string | null;
 					updated_at?: string | null;
 					user_goal_id?: number;
@@ -166,12 +181,45 @@ export interface Database {
 				Args: Record<PropertyKey, never>;
 				Returns: number;
 			};
+			get_goals_tree: {
+				Args: Record<PropertyKey, never>;
+				Returns: {
+					completed: boolean | null;
+					completed_at: string | null;
+					created_at: string;
+					description: string | null;
+					id: string;
+					index: number | null;
+					name: string;
+					parent_id: string | null;
+					path: string[] | null;
+					target_date: string | null;
+					updated_at: string | null;
+					user_goal_id: number;
+					user_id: string | null;
+				}[];
+			};
 		};
 		Enums: {
 			[_ in never]: never;
 		};
 		CompositeTypes: {
-			[_ in never]: never;
+			goals_with_level: {
+				parent_id: string;
+				id: string;
+				user_id: string;
+				index: number;
+				created_at: string;
+				updated_at: string;
+				target_date: string;
+				completed_at: string;
+				completed: boolean;
+				user_goal_id: number;
+				name: string;
+				description: string;
+				level: number;
+				path: unknown;
+			};
 		};
 	};
 }
