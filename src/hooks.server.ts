@@ -54,7 +54,6 @@ export const handle: Handle = async ({ event, resolve }) => {
 		description: string,
 		idx: number
 	) => {
-		console.log(goal_id);
 		const { data, error } = await event.locals.supabase
 			.from('goals')
 			.insert({

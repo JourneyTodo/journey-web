@@ -10,15 +10,8 @@
 	let idToParent: Map<string, string>;
 
 	beforeUpdate(() => {
-		console.log('before');
-		printNames();
 		idToParent = createIdToParentMap(goals);
 		goals.sort((a, b) => {
-			// if a is a child of b, a should come after b
-			if (a.name === 'Buh bam' || b.name === 'Buh bam') {
-				console.log('a', a.name);
-				console.log('b', b.name);
-			}
 			if (a.parent_id === b.id) {
 				return 1;
 			}
@@ -30,12 +23,6 @@
 			return 0;
 		});
 	});
-
-	function printNames() {
-		goals.forEach((goal) => {
-			console.log(goal.name);
-		});
-	}
 
 	function traceLineage(parent_id: string | null | undefined, depth = 0) {
 		if (parent_id === null || parent_id === undefined) {
