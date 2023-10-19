@@ -9,19 +9,11 @@
 	export let goals: Goal[] = [];
 	let idToParent: Map<string, string>;
 
+	let dragIndex: number;
+	let dropIndex: number;
+
 	beforeUpdate(() => {
 		idToParent = createIdToParentMap(goals);
-		goals.sort((a, b) => {
-			if (a.parent_id === b.id) {
-				return 1;
-			}
-			// if b is a child of a, b should come after a
-			if (b.parent_id === a.id) {
-				return -1;
-			}
-			// otherwise, skip
-			return 0;
-		});
 	});
 
 	function traceLineage(parent_id: string | null | undefined, depth = 0) {
@@ -30,20 +22,66 @@
 		}
 		return traceLineage(idToParent.get(parent_id), depth + 1);
 	}
+
+	function handleDragStart(e: DragEvent, i: number) {
+		console.log('dragstart');
+
+		dragIndex = i;
+
+		e.dataTransfer!.dropEffect = 'move';
+		e.dataTransfer?.setData('text/html', e.currentTarget!.getAttribute('id'));
+		e.dataTransfer?.setData('text/uri-list', e.currentTarget!.getAttribute('id'));
+	}
+
+	function handleDragEnd(e: DragEvent) {
+		console.log('dragend');
+		const temp = goals[dropIndex];
+		goals[dropIndex] = goals[dragIndex];
+		goals[dragIndex] = temp;
+		dragIndex = -1;
+		dropIndex = -1;
+		idToParent = createIdToParentMap(goals);
+	}
+
+	function handleDragDrop(e: DragEvent) {
+		console.log('drop');
+		e.preventDefault();
+	}
+
+	function handleDragOver(e: DragEvent, i: number) {
+		console.log('dragging over ', goals[i].name);
+		dropIndex = i;
+		e.preventDefault();
+		e.dataTransfer.dropEffect = 'move';
+	}
 </script>
 
 <ul class="goals-list" data-testid="goal-tree">
 	{#if idToParent}
-		{#each goals as goal}
+		{#each goals as goal, i}
 			<li
+				id="goal-{i}"
 				class="container"
 				style="margin-left: {traceLineage(goal.parent_id) * 1.5}rem"
+				draggable="true"
 				out:slide={{ duration: 400, easing: quintOut, axis: 'x' }}
+				on:dragstart={() => handleDragStart(event, i)}
+				on:dragend={handleDragEnd}
+				on:dragover={() => handleDragOver(event, i)}
+				on:drop={handleDragDrop}
 			>
 				<NavItem href="/goals/{goal.user_goal_id}">
 					<span slot="text" class="goal-name">{goal.name}</span>
 				</NavItem>
 			</li>
+			{#if i === dropIndex}
+				<li
+					class="container drop-zone"
+					style="margin-left: {traceLineage(goal.parent_id) * 1.5}rem"
+				>
+					<div class="empty-nav-block" in:slide={{ duration: 200, easing: quintOut, axis: 'y' }} />
+				</li>
+			{/if}
 		{/each}
 	{/if}
 </ul>
@@ -62,5 +100,15 @@
 		display: -webkit-box;
 		-webkit-line-clamp: 1;
 		-webkit-box-orient: vertical;
+	}
+
+	.drop-zone {
+		border-top: 2px solid black;
+	}
+	.empty-nav-block {
+		background: #ebebef;
+		border-radius: var(--br-sm);
+		box-sizing: border-box;
+		height: 38px;
 	}
 </style>

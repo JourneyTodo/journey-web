@@ -17,7 +17,7 @@
 >
 	<slot name="icon-left" />
 
-	<a {href}>
+	<a {href} draggable="false">
 		<slot name="text">{text}</slot>
 	</a>
 
