@@ -3,18 +3,6 @@ export type Json = string | number | boolean | null | { [key: string]: Json | un
 export interface Database {
 	public: {
 		Tables: {
-			column_defs: {
-				Row: {
-					string_agg: string | null;
-				};
-				Insert: {
-					string_agg?: string | null;
-				};
-				Update: {
-					string_agg?: string | null;
-				};
-				Relationships: [];
-			};
 			goals: {
 				Row: {
 					completed: boolean | null;
@@ -25,7 +13,7 @@ export interface Database {
 					index: number | null;
 					name: string;
 					parent_id: string | null;
-					path: string[] | null;
+					path: unknown | null;
 					target_date: string | null;
 					updated_at: string | null;
 					user_goal_id: number;
@@ -40,7 +28,7 @@ export interface Database {
 					index?: number | null;
 					name: string;
 					parent_id?: string | null;
-					path?: string[] | null;
+					path?: unknown | null;
 					target_date?: string | null;
 					updated_at?: string | null;
 					user_goal_id?: number;
@@ -55,7 +43,7 @@ export interface Database {
 					index?: number | null;
 					name?: string;
 					parent_id?: string | null;
-					path?: string[] | null;
+					path?: unknown | null;
 					target_date?: string | null;
 					updated_at?: string | null;
 					user_goal_id?: number;
@@ -173,11 +161,21 @@ export interface Database {
 			[_ in never]: never;
 		};
 		Functions: {
+			gen_index: {
+				Args: {
+					p_id: string;
+				};
+				Returns: number;
+			};
 			gen_user_goal_id: {
 				Args: Record<PropertyKey, never>;
 				Returns: number;
 			};
 			gen_user_task_id: {
+				Args: Record<PropertyKey, never>;
+				Returns: number;
+			};
+			generate_numeric_id: {
 				Args: Record<PropertyKey, never>;
 				Returns: number;
 			};
@@ -192,13 +190,27 @@ export interface Database {
 					index: number | null;
 					name: string;
 					parent_id: string | null;
-					path: string[] | null;
+					path: unknown | null;
 					target_date: string | null;
 					updated_at: string | null;
 					user_goal_id: number;
 					user_id: string | null;
 				}[];
 			};
+			materialize_path:
+				| {
+						Args: {
+							id: number;
+						};
+						Returns: unknown;
+				  }
+				| {
+						Args: {
+							user_goal_id: number;
+							parent_id: string;
+						};
+						Returns: unknown;
+				  };
 		};
 		Enums: {
 			[_ in never]: never;
