@@ -4,8 +4,8 @@
 
 	export let data;
 
-	let { user, goals } = data;
-	$: ({ user, goals } = data);
+	let { user, goals, supabase } = data;
+	$: ({ user, goals, supabase } = data);
 
 	let goalModalIsOpen = false;
 	let taskModalIsOpen = false;
@@ -28,7 +28,7 @@
 <svelte:window on:keydown={handleKeydown} />
 
 <div class="container">
-	<SideNav {user} {goals} bind:goalModalIsOpen bind:taskModalIsOpen />
+	<SideNav sb={supabase} {user} {goals} bind:goalModalIsOpen bind:taskModalIsOpen />
 	<main>
 		<slot />
 	</main>

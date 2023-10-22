@@ -3,6 +3,7 @@
     * Brand colors
    */
 	--power-purple: #755afa;
+	--moody-purple: #110d26;
 	--gurple: #787487;
 	--gurple-lite: #f1f0f5;
 	--bluuberry: #1c0dbe;
@@ -21,7 +22,7 @@
 	/**
     * Typography colors
    */
-	--text-primary: #110d26;
+	--text-primary: #var(--moody-purple);
 	--text-link: var(--bluuberry);
 
 	/**
