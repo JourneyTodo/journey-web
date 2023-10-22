@@ -31,65 +31,74 @@
 	function handleDragStart(e: DragEvent, i: number) {
 		dragIndex = i;
 		isDragging = true;
+		e.dataTransfer!.effectAllowed = 'move';
 
-		e.dataTransfer!.dropEffect = 'move';
-		e.dataTransfer?.setData('text/html', e.currentTarget!.getAttribute('id'));
-		e.dataTransfer?.setData('text/uri-list', e.currentTarget!.getAttribute('id'));
+		e.dataTransfer!.setData('id', i.toString());
 	}
 
 	async function handleDragEnd(e: DragEvent) {
-		if (isDragEnd) {
-			// Do the things
-			const { id: drag_id } = goals[dragIndex];
-			const rootCount = goals.filter((goal) => goal.parent_id === null).length - 1;
-			console.log(rootCount);
+		console.log(e.dataTransfer?.dropEffect);
+		if (e.dataTransfer?.dropEffect !== 'none') {
+			if (isDragEnd) {
+				// Do the things
+				const { id: drag_id } = goals[dragIndex];
+				const rootCount = goals.filter((goal) => goal.parent_id === null).length - 1;
+				console.log(rootCount);
 
-			const { data: goal, error } = await sb
-				.from('goals')
-				.update({
-					parent_id: null,
-					index: rootCount
-				})
-				.eq('id', drag_id)
-				.select();
-			const { data: res, error: err } = await sb.rpc('decrement_goal_indices', {
-				new_id: drag_id,
-				new_pid: null,
-				new_index: rootCount
-			});
-			const { data, error: er } = await sb
-				.from('goals')
-				.select()
-				.eq('user_id', 'f7af2121-ef15-4ae4-8eb4-0c0c94e71b57')
-				.order('path');
-			if (data !== null) goals = data;
-		} else if (dragIndex !== dropIndex) {
-			// update indexes
-			const { id: drag_id } = goals[dragIndex];
-			const { index: new_index, parent_id } = goals[dropIndex];
+				const { data: goal, error } = await sb
+					.from('goals')
+					.update({
+						parent_id: null,
+						index: rootCount
+					})
+					.eq('id', drag_id)
+					.select();
+				// TODO: move this to an AFTER UPDATE trigger so we don't have to make a 2nd req
+				// TODO: return the updated goals and do a diff
+				const { data: res, error: err } = await sb.rpc('decrement_goal_indices', {
+					new_id: drag_id,
+					new_pid: null,
+					new_index: rootCount
+				});
+				// TODO: remove
+				const { data, error: er } = await sb
+					.from('goals')
+					.select()
+					.eq('user_id', 'f7af2121-ef15-4ae4-8eb4-0c0c94e71b57')
+					.order('path');
+				if (data !== null) goals = data;
+			} else if (dragIndex !== dropIndex) {
+				// update indexes
+				const { id: drag_id } = goals[dragIndex];
+				const { index: new_index, parent_id } = goals[dropIndex];
 
-			if (new_index === null) return;
+				if (new_index === null) return;
 
-			// reflect changes on db side
-			const { data: goal, error } = await sb
-				.from('goals')
-				.update({
-					parent_id,
-					index: new_index
-				})
-				.eq('id', drag_id)
-				.select();
-			const { data: res, error: err } = await sb.rpc('update_goal_indices', {
-				new_id: drag_id,
-				new_pid: parent_id,
-				new_index
-			});
-			const { data, error: er } = await sb
-				.from('goals')
-				.select()
-				.eq('user_id', 'f7af2121-ef15-4ae4-8eb4-0c0c94e71b57')
-				.order('path');
-			if (data !== null) goals = data;
+				// reflect changes on db side
+				const { data: goal, error } = await sb
+					.from('goals')
+					.update({
+						parent_id,
+						index: new_index
+					})
+					.eq('id', drag_id)
+					.select();
+
+				// TODO: move this to an AFTER UPDATE trigger so we don't have to make a 2nd req
+				// TODO: return the updated goals and do a diff
+				const { data: res, error: err } = await sb.rpc('update_goal_indices', {
+					new_id: drag_id,
+					new_pid: parent_id,
+					new_index
+				});
+				// TODO: remove
+				const { data, error: er } = await sb
+					.from('goals')
+					.select()
+					.eq('user_id', 'f7af2121-ef15-4ae4-8eb4-0c0c94e71b57')
+					.order('path');
+				if (data !== null) goals = data;
+			}
 		}
 
 		// reset
@@ -100,31 +109,44 @@
 		idToParent = createIdToParentMap(goals);
 	}
 
-	function handleDragDrop(e: DragEvent) {
-		e.preventDefault();
+	function handleDrop(e: DragEvent) {
+		e.dataTransfer!.dropEffect = 'move';
+		console.log(e.target, e.currentTarget);
+		console.log(e.dataTransfer?.dropEffect);
+		e.dataTransfer?.getData('id');
 	}
 
 	function handleDragOver(e: DragEvent, i: number) {
 		dropIndex = i;
 		isDragEnd = false;
+		e.dataTransfer!.dropEffect = 'move';
 		e.preventDefault();
-		e.dataTransfer.dropEffect = 'move';
 	}
 
 	function handleDragOverEnd(e: DragEvent) {
 		isDragEnd = true;
+		e.dataTransfer!.dropEffect = 'move';
 		e.preventDefault();
-		e.dataTransfer.dropEffect = 'move';
+	}
+
+	function handleDragEnter(e: DragEvent) {
+		e.dataTransfer!.dropEffect = 'move';
+		console.log('valid', e.dataTransfer!.dropEffect);
 	}
 </script>
 
+<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 <ul class="goals-list" data-testid="goal-tree" data-isDragging={isDragging}>
 	{#if idToParent}
 		{#each goals as goal, i}
 			{#if !isDragEnd && i !== dragIndex && i === dropIndex}
 				<li
+					class="mock-nav-item"
 					style="margin-left: {traceLineage(goal.parent_id) * 1.5}rem"
 					data-border={i === 0 ? 'bottom' : 'top'}
+					on:dragover={(event) => handleDragOver(event, i)}
+					on:drop={handleDrop}
+					on:dragenter={handleDragEnter}
 				>
 					<div class="empty-nav-block" in:slide={{ duration: 200, easing: quintOut, axis: 'y' }} />
 				</li>
@@ -135,10 +157,11 @@
 				style="margin-left: {traceLineage(goal.parent_id) * 1.5}rem"
 				draggable="true"
 				out:slide={{ duration: 400, easing: quintOut, axis: 'x' }}
-				on:dragstart={() => handleDragStart(event, i)}
+				on:dragstart={(event) => handleDragStart(event, i)}
 				on:dragend={handleDragEnd}
-				on:dragover={() => handleDragOver(event, i)}
-				on:drop={handleDragDrop}
+				on:dragover={(event) => handleDragOver(event, i)}
+				on:drop={handleDrop}
+				on:dragenter={handleDragEnter}
 			>
 				<NavItem
 					href="/goals/{goal.user_goal_id}"
@@ -153,8 +176,7 @@
 			id="dragEndElement"
 			bind:this={dragEndElement}
 			on:dragover={handleDragOverEnd}
-			on:dragend={handleDragEnd}
-			on:drop={handleDragDrop}
+			on:drop={handleDrop}
 		>
 			{#if isDragEnd}
 				<li data-border="top">
@@ -193,14 +215,6 @@
 		box-sizing: border-box;
 		height: 38px;
 	}
-
-	[data-isDragging='true'] {
-		.nav-item:hover,
-		.nav-item.active {
-			background: inherit !important;
-		}
-	}
-
 	#dragEndElement {
 		height: 34px;
 	}
