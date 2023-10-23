@@ -35,7 +35,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 		const { data: goals, error } = await event.locals.supabase
 			.from('goals')
 			.select(
-				`completed, completed_at, created_at, description, id, index, name, parent_id, target_date, updated_at, user_id, user_goal_id`
+				`completed, completed_at, created_at, description, id, index, name, parent_id, target_date, updated_at, user_id, user_goal_id, path`
 			)
 			.eq('user_id', id)
 			.order('path');
