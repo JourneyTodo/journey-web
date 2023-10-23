@@ -43,8 +43,6 @@
 				const { id: drag_id, index: old_index } = goals[dragIndex];
 				const { index: new_index, parent_id } = goals[dropIndex];
 
-				if (new_index === null || old_index === null) return;
-
 				// reflect changes on db side
 				const { data: goal, error } = await sb
 					.from('goals')
@@ -58,7 +56,7 @@
 				// TODO: move this to an AFTER UPDATE trigger so we don't have to make a 2nd req
 				// TODO: return the updated goals and do a diff
 				// TODO: Don't allow parent to be a child to prevent circular relationship
-				if (new_index > old_index) {
+				if (new_index! > old_index!) {
 					const rootCount = goals.filter((goal) => goal.parent_id === null).length - 1;
 					const { data: res, error: err } = await sb.rpc('decrement_goal_indices', {
 						new_id: drag_id,
@@ -66,7 +64,7 @@
 						new_index: rootCount,
 						old_index
 					});
-				} else if (new_index < old_index) {
+				} else if (new_index! < old_index!) {
 					const { data: res, error: err } = await sb.rpc('update_goal_indices', {
 						new_id: drag_id,
 						new_pid: parent_id,
