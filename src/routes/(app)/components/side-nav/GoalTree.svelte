@@ -6,16 +6,15 @@
 	import { slide } from 'svelte/transition';
 	import { quintOut } from 'svelte/easing';
 	import type { SupabaseClient } from '@supabase/supabase-js';
+	import { updateGoalOrder } from './sbHelper';
 
 	export let sb: SupabaseClient;
 	export let goals: Goal[] = [];
 
 	let idToParent: Map<string, string>;
 	let isDragging: boolean = false;
-	let isDragEnd: boolean = false;
 	let dragIndex: number = -1;
 	let dropIndex: number = -1;
-	let dragEndElement: HTMLDivElement;
 
 	beforeUpdate(() => {
 		idToParent = createIdToParentMap(goals);
@@ -32,70 +31,20 @@
 		dragIndex = i;
 		isDragging = true;
 		e.dataTransfer!.effectAllowed = 'move';
-
 		e.dataTransfer!.setData('id', i.toString());
 	}
 
 	async function handleDragEnd(e: DragEvent) {
 		if (e.dataTransfer?.dropEffect !== 'none') {
-			if (dragIndex !== dropIndex && dragIndex !== -1 && dropIndex !== -1) {
-				// update indexes
-				const { id: drag_id, index: old_index } = goals[dragIndex];
-				const { index: new_index, parent_id } = goals[dropIndex];
-
-				// reflect changes on db side
-				const { data: goal, error } = await sb
-					.from('goals')
-					.update({
-						parent_id,
-						index: new_index
-					})
-					.eq('id', drag_id)
-					.select();
-
-				// TODO: move this to an AFTER UPDATE trigger so we don't have to make a 2nd req
-				// TODO: return the updated goals and do a diff
-				// TODO: Don't allow parent to be a child to prevent circular relationship
-				if (new_index! > old_index!) {
-					const rootCount = goals.filter((goal) => goal.parent_id === null).length - 1;
-					const { data: res, error: err } = await sb.rpc('decrement_goal_indices', {
-						new_id: drag_id,
-						new_pid: null,
-						new_index: rootCount,
-						old_index
-					});
-				} else if (new_index! < old_index!) {
-					const { data: res, error: err } = await sb.rpc('update_goal_indices', {
-						new_id: drag_id,
-						new_pid: parent_id,
-						new_index,
-						old_index
-					});
-				} else {
-					console.log(dropIndex, new_index);
-					// reset
-					dragIndex = -1;
-					dropIndex = -1;
-					isDragging = false;
-					isDragEnd = false;
-					return;
-				}
-				// TODO: remove
-				const { data, error: er } = await sb
-					.from('goals')
-					.select()
-					.eq('user_id', 'f7af2121-ef15-4ae4-8eb4-0c0c94e71b57')
-					.order('path');
-				if (data !== null) goals = data;
+			// Make sure indices are valid
+			if (dragIndex !== -1 && dropIndex !== -1 && dragIndex !== dropIndex) {
+				goals = (await updateGoalOrder(sb, goals, dragIndex, dropIndex)).sort();
+				goals.sort((a, b) =>
+					(a.path as number).toString().localeCompare((b.path as number).toString())
+				);
 			}
 		}
-
-		// reset
-		dragIndex = -1;
-		dropIndex = -1;
-		isDragging = false;
-		isDragEnd = false;
-		idToParent = createIdToParentMap(goals);
+		resetDragDrop();
 	}
 
 	function handleDrop(e: DragEvent) {
@@ -104,7 +53,6 @@
 	}
 
 	function handleDragOver(e: DragEvent, i: number) {
-		console.log(goals[i].name);
 		if (dragIndex === -1 || i < 0) {
 			return;
 		}
@@ -112,41 +60,48 @@
 			return;
 		}
 
-		// With these, we can make sure drag over element is not a child
-		const currPath = (goals[i].path as number).toString();
-		const dragPath = (goals[dragIndex].path as number).toString();
-		const trimmedPath = currPath.slice(0, dragPath.length);
-
-		if (trimmedPath !== dragPath) {
+		if (!isChild(goals[i], goals[dragIndex])) {
 			dropIndex = i;
-			isDragEnd = false;
 			e.dataTransfer!.dropEffect = 'move';
 			e.preventDefault();
 		}
 	}
 
-	function handleDragOverEnd(e: DragEvent) {
-		if (dropIndex !== -1) {
-			isDragEnd = true;
-			e.dataTransfer!.dropEffect = 'move';
-		}
-		e.preventDefault();
-	}
-
 	function handleDragEnter(e: DragEvent) {
 		e.dataTransfer!.dropEffect = 'move';
 	}
+
+	// HELPERS
+	/**
+	 * Given two goals g1 and g2, determines if g2 is a child based on their paths
+	 * @param g1
+	 * @param g2
+	 * @returns true if g2 is a child, else returns false
+	 */
+	function isChild(g1: Goal, g2: Goal) {
+		const currPath = (g1.path as number).toString();
+		const dragPath = (g2.path as number).toString();
+		const trimmedPath = currPath.slice(0, dragPath.length);
+
+		return trimmedPath === dragPath;
+	}
+
+	function resetDragDrop() {
+		dragIndex = -1;
+		dropIndex = -1;
+		isDragging = false;
+		idToParent = createIdToParentMap(goals);
+	}
 </script>
 
-<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 <ul class="goals-list" data-testid="goal-tree" data-isDragging={isDragging}>
 	{#if idToParent}
 		{#each goals as goal, i}
-			{#if !isDragEnd && i !== dragIndex && i === dropIndex}
+			{#if dropIndex < dragIndex && i !== dragIndex && i === dropIndex}
 				<li
 					class="mock-nav-item"
 					style="margin-left: {traceLineage(goal.parent_id) * 1.5}rem"
-					data-border={i === 0 ? 'bottom' : 'top'}
+					data-border="top"
 					on:dragover={(event) => handleDragOver(event, i)}
 					on:drop={handleDrop}
 					on:dragenter={handleDragEnter}
@@ -173,20 +128,17 @@
 					<span slot="text" class="goal-name">{goal.name}</span>
 				</NavItem>
 			</li>
-		{/each}
-		<div
-			role="presentation"
-			id="dragEndElement"
-			bind:this={dragEndElement}
-			on:dragover={handleDragOverEnd}
-			on:drop={handleDrop}
-		>
-			{#if isDragEnd && dragIndex !== dropIndex}
-				<li data-border="top">
+			{#if dropIndex > dragIndex && dragIndex !== dropIndex && i === dropIndex}
+				<li
+					data-border="top"
+					on:dragover={(event) => handleDragOver(event, i)}
+					on:drop={handleDrop}
+					on:dragenter={handleDragEnter}
+				>
 					<div class="empty-nav-block" in:slide={{ duration: 200, easing: quintOut, axis: 'y' }} />
 				</li>
 			{/if}
-		</div>
+		{/each}
 	{/if}
 </ul>
 
@@ -208,9 +160,6 @@
 
 	[data-border='top'] {
 		border-top: 2px solid #4829f8;
-	}
-	[data-border='bottom'] {
-		border-bottom: 2px solid #4829f8;
 	}
 	.empty-nav-block {
 		background: #ebebef;
