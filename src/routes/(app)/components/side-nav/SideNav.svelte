@@ -5,7 +5,9 @@
 	import Icon from '../../../../lib/components/Icon/Icon.svelte';
 	import GoalTree from './GoalTree.svelte';
 	import NavItem from './NavItem.svelte';
+	import type { SupabaseClient } from '@supabase/supabase-js';
 
+	export let sb: SupabaseClient;
 	export let user: User;
 	export let goals: Goal[] = [];
 	export let goalModalIsOpen = false;
@@ -55,7 +57,7 @@
 			</Button>
 		</NavItem>
 		{#if goals && goals.length > 0}
-			<GoalTree {goals} />
+			<GoalTree {sb} {goals} />
 		{/if}
 	</div>
 </nav>

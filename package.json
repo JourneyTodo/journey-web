@@ -41,7 +41,7 @@
 		"babel-loader": "^8.3.0",
 		"bun-types": "^1.0.5-canary.20231009T140142",
 		"eslint": "^8.28.0",
-		"eslint-config-prettier": "^8.5.0",
+		"eslint-config-prettier": "^9.0.0",
 		"eslint-plugin-storybook": "^0.6.14",
 		"eslint-plugin-svelte": "^2.30.0",
 		"husky": "^8.0.3",
