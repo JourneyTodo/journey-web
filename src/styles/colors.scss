@@ -22,13 +22,14 @@
 	/**
     * Typography colors
    */
-	--text-primary: #var(--moody-purple);
+	--text-primary: var(--moody-purple);
 	--text-link: var(--bluuberry);
 
 	/**
     * Decorative colors
    */
 	--primitive-outline: #110d2680;
+	--border-common: #110d2625;
 	--btn-secondary-outline: #716b8a;
 	--focus-outline-primary: rgba(129, 102, 255, 0.25);
 	--ghost-hover: color-mix(in srgb, var(--gurple-lite) 20%, var(--gurple) 20%);

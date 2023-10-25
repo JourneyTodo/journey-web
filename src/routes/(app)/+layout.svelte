@@ -57,8 +57,10 @@
 		display: flex;
 		main {
 			flex: 1;
-			margin: 2.5rem;
+			padding: 2.5rem;
+			margin: 0 auto;
 			background: var(--background-primary);
+			max-width: 800px;
 		}
 	}
 	:global(body) {

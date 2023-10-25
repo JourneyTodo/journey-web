@@ -34,5 +34,24 @@ export const actions: Actions = {
 		}
 
 		return { success: true };
+	},
+
+	completeTask: async ({ request, locals: { supabase } }) => {
+		const formData = await request.formData();
+		const id = formData.get('id') as string;
+		const completed = formData.get('completed') === 'true';
+
+		const result = await supabase
+			.from('tasks')
+			.update({
+				completed
+			})
+			.eq('id', id);
+
+		if (result instanceof Error) {
+			return { error: result };
+		}
+
+		return { success: true };
 	}
 };

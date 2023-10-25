@@ -12,6 +12,9 @@ export const paths: Record<string, Icon> = {
 	},
 	close: {
 		paths: ['M6.65685 6.34315L17.9706 17.6569M17.9706 6.34315L6.65685 17.6569']
+	},
+	checkmark: {
+		paths: ['M1 5L5 9L13 1']
 	}
 };
 

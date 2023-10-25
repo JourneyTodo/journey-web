@@ -81,7 +81,7 @@ In this case the paths would look something like this:
 1. D: `C/D`
 
 This gives us the power to sort the `path` column and receive all the goals in the correct hierarchical order. Super neat! We can improve this though. The next step is to represent the paths as a numerical value.
-More specifically, we need to concatenate together some numerical identifiers. Let's go back to our alphabetical goals and give them intger based ids:
+More specifically, we need to concatenate together some numerical identifiers. Let's go back to our alphabetical goals and give them integer based ids:
 | Name | Id | Path |
 | ---- | -- | ---- |
 | `A` |`0`| `0` |
