@@ -161,6 +161,52 @@ export interface Database {
 			[_ in never]: never;
 		};
 		Functions: {
+			decrement_goal_indices:
+				| {
+						Args: {
+							exclude_id: string;
+							new_pid: string;
+							new_index: number;
+							old_index: number;
+						};
+						Returns: {
+							completed: boolean | null;
+							completed_at: string | null;
+							created_at: string;
+							description: string | null;
+							id: string;
+							index: number | null;
+							name: string;
+							parent_id: string | null;
+							path: unknown | null;
+							target_date: string | null;
+							updated_at: string | null;
+							user_goal_id: number;
+							user_id: string | null;
+						}[];
+				  }
+				| {
+						Args: {
+							new_id: string;
+							new_pid: string;
+							new_index: number;
+						};
+						Returns: {
+							completed: boolean | null;
+							completed_at: string | null;
+							created_at: string;
+							description: string | null;
+							id: string;
+							index: number | null;
+							name: string;
+							parent_id: string | null;
+							path: unknown | null;
+							target_date: string | null;
+							updated_at: string | null;
+							user_goal_id: number;
+							user_id: string | null;
+						}[];
+				  };
 			gen_index: {
 				Args: {
 					p_id: string;
@@ -197,6 +243,29 @@ export interface Database {
 					user_id: string | null;
 				}[];
 			};
+			increment_goal_indices: {
+				Args: {
+					exclude_id: string;
+					new_pid: string;
+					new_index: number;
+					old_index: number;
+				};
+				Returns: {
+					completed: boolean | null;
+					completed_at: string | null;
+					created_at: string;
+					description: string | null;
+					id: string;
+					index: number | null;
+					name: string;
+					parent_id: string | null;
+					path: unknown | null;
+					target_date: string | null;
+					updated_at: string | null;
+					user_goal_id: number;
+					user_id: string | null;
+				}[];
+			};
 			materialize_path:
 				| {
 						Args: {
@@ -211,6 +280,50 @@ export interface Database {
 						};
 						Returns: unknown;
 				  };
+			update_goal_indices: {
+				Args: {
+					new_id: string;
+					new_pid: string;
+					new_index: number;
+					old_index: number;
+				};
+				Returns: {
+					completed: boolean | null;
+					completed_at: string | null;
+					created_at: string;
+					description: string | null;
+					id: string;
+					index: number | null;
+					name: string;
+					parent_id: string | null;
+					path: unknown | null;
+					target_date: string | null;
+					updated_at: string | null;
+					user_goal_id: number;
+					user_id: string | null;
+				}[];
+			};
+			update_goal_indices_null_parent: {
+				Args: {
+					new_id: string;
+					new_index: number;
+				};
+				Returns: {
+					completed: boolean | null;
+					completed_at: string | null;
+					created_at: string;
+					description: string | null;
+					id: string;
+					index: number | null;
+					name: string;
+					parent_id: string | null;
+					path: unknown | null;
+					target_date: string | null;
+					updated_at: string | null;
+					user_goal_id: number;
+					user_id: string | null;
+				}[];
+			};
 		};
 		Enums: {
 			[_ in never]: never;
