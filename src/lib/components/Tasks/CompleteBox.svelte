@@ -7,7 +7,6 @@
 
 	const checkTheBox = () => {
 		task.completed = !task.completed;
-		console.log(task.completed);
 	};
 </script>
 
@@ -32,6 +31,7 @@
 	.checkbox-container {
 		display: flex;
 		gap: 0.5rem;
+		cursor: pointer;
 
 		.not-completed {
 			background-color: transparent;
@@ -45,6 +45,7 @@
 			width: 20px;
 			height: 20px;
 			border: 1px solid var(--primitive-outline);
+			cursor: pointer;
 		}
 	}
 </style>

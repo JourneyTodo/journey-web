@@ -29,7 +29,7 @@
 		display: flex;
 		gap: var(--spacing-md);
 		padding: var(--spacing-md) 0;
-		border-top: 1px solid var(--border-common);
+		border-bottom: 1px solid var(--border-common);
 	}
 	.text-container {
 		display: flex;

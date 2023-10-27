@@ -7,8 +7,8 @@
 	let { user, goals, supabase } = data;
 	$: ({ user, goals, supabase } = data);
 
+	export let taskModalIsOpen = false;
 	let goalModalIsOpen = false;
-	let taskModalIsOpen = false;
 
 	// Hotkeys to open modals
 	function handleKeydown(event: KeyboardEvent) {
@@ -30,6 +30,7 @@
 <div class="container">
 	<SideNav sb={supabase} {user} {goals} bind:goalModalIsOpen bind:taskModalIsOpen />
 	<main>
+		<slot name="header" />
 		<slot />
 	</main>
 </div>
@@ -57,10 +58,12 @@
 		display: flex;
 		main {
 			flex: 1;
-			padding: 2.5rem;
+			padding: 0 var(--spacing-main);
 			margin: 0 auto;
 			background: var(--background-primary);
-			max-width: 800px;
+			max-width: 50rem; // 800px;
+			max-height: 100svh;
+			overflow-y: auto;
 		}
 	}
 	:global(body) {

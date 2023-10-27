@@ -1,8 +1,7 @@
 import { redirect, type Actions } from '@sveltejs/kit';
 import { baseRoutes } from '$lib/constants/routes';
 import type { PageServerLoad } from './$types';
-import type { Task } from 'vitest';
-import type { Goal } from '$lib/types/sb';
+import type { Goal, Task } from '$lib/types/sb';
 
 export const load: PageServerLoad = async ({ parent, params, locals: { getTasks } }) => {
 	const { goals, user } = await parent();

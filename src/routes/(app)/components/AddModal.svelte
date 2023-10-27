@@ -1,10 +1,10 @@
 <script lang="ts">
 	import Modal from '$lib/components/Modal.svelte';
-	import Input from '$lib/components/Input.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import { enhance } from '$app/forms';
 	import Dropdown from '$lib/components/Dropdown.svelte';
 	import type { Goal } from '$lib/types/sb';
+	import DescriptionBox from '$lib/components/DescriptionBox.svelte';
 
 	export let isOpen = false;
 	export let user_id: string;
@@ -23,7 +23,7 @@
 
 <Modal bind:isOpen>
 	<!-- Title -->
-	<Input
+	<!-- <Input
 		slot="title"
 		id="name"
 		label="{type} name"
@@ -31,6 +31,15 @@
 		variant="ghost"
 		form="add{type}"
 		required
+		
+	/> -->
+	<DescriptionBox
+		slot="title"
+		id="name"
+		label="{type} name"
+		placeholder="{type} name"
+		name="name"
+		form="add{type}"
 		autofocus
 		bind:value={name}
 	/>
@@ -42,8 +51,7 @@
 			<input id="user_id" type="hidden" name="user_id" value={user_id} />
 			<input id="idx" type="hidden" name="idx" value={idx} />
 			<input id="goal_id" type="hidden" name="goal_id" value={selectedGoal?.id ?? null} />
-			<!-- <label for="description">Description</label>
-			<textarea id="description" name="description" /> -->
+			<DescriptionBox id="description" name="description" />
 		</form>
 	</div>
 
