@@ -38,7 +38,7 @@
 	}
 
 	.description {
-		font-size: var(--text-sm);
+		font-size: var(--text-xs);
 		margin: 0;
 		opacity: var(--opacity-subtext);
 		word-wrap: break-word;

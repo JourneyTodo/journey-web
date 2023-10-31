@@ -42,6 +42,7 @@
 			<!-- hidden values -->
 			<input id="user_id" type="hidden" name="user_id" value={user_id} />
 			<input id="name" type="hidden" name="name" value={name} />
+			<input id="description" type="hidden" name="description" value={description} />
 			<input id="idx" type="hidden" name="idx" value={idx} />
 			<input id="goal_id" type="hidden" name="goal_id" value={$selectedGoal?.id ?? null} />
 		</form>
