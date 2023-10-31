@@ -49,7 +49,7 @@
 		height: 40px;
 		border-radius: var(--br-md);
 		border: none;
-		font-size: 16px;
+		font-size: var(--text-md);
 		font-family: 'Plus Jakarta Sans', sans-serif;
 		background-color: none;
 		background: none;
@@ -130,7 +130,7 @@
 	}
 
 	.disabled {
-		opacity: 0.35;
+		opacity: var(--opacity-disabled);
 		pointer-events: none;
 	}
 
@@ -154,14 +154,16 @@
 	.circle {
 		border-radius: var(--br-circle) !important;
 		&.small {
+			width: 32px;
 			min-width: 32px;
 		}
 		&.medium {
-			min-width: 40px;
+			width: 40px;
 			height: 40px;
 		}
 		&.large {
-			min-width: 50px;
+			width: 50px;
+			height: 50px;
 		}
 	}
 </style>

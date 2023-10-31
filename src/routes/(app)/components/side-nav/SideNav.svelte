@@ -1,5 +1,6 @@
 <script lang="ts">
 	import ProfileIcon from '$lib/components/ProfileIcon.svelte';
+	import { goalModalIsOpen, taskModalIsOpen } from '$lib/stores/modals.store';
 	import type { Goal, User } from '$lib/types/sb';
 	import Button from '../../../../lib/components/Button.svelte';
 	import Icon from '../../../../lib/components/Icon/Icon.svelte';
@@ -10,14 +11,12 @@
 	export let sb: SupabaseClient;
 	export let user: User;
 	export let goals: Goal[] = [];
-	export let goalModalIsOpen = false;
-	export let taskModalIsOpen = false;
 
 	function openGoalModal() {
-		goalModalIsOpen = true;
+		goalModalIsOpen.set(true);
 	}
 	function openTaskModal() {
-		taskModalIsOpen = true;
+		taskModalIsOpen.set(true);
 	}
 </script>
 

@@ -28,8 +28,8 @@
 		<header class="modal-header">
 			<slot name="title">
 				<h2>{title}</h2>
-				<Button variant="ghost" size="medium" on:click={close}>
-					<Icon name="close" />
+				<Button variant="ghost" size="small" circle on:click={close}>
+					<Icon slot="icon-start" name="close" />
 				</Button>
 			</slot>
 		</header>
@@ -68,8 +68,9 @@
 		border: 0;
 		border-radius: var(--br-md);
 		background: white;
-		box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.06), 0px 0px 4px 0px rgba(0, 0, 0, 0.04);
+		box-shadow: 0 7.5px 25px 0 rgba(0, 0, 0, 0.15);
 		padding: var(--spacing-lg);
+		gap: var(--spacing-sm);
 	}
 
 	.modal-header {
@@ -77,7 +78,7 @@
 		justify-content: space-between;
 		align-items: center;
 		h2 {
-			font-size: 1.25rem;
+			font-size: var(--text-lg);
 			font-weight: 600;
 			margin: 0;
 		}
