@@ -4,6 +4,7 @@
 	import { enhance } from '$app/forms';
 	import Dropdown from '$lib/components/Dropdown.svelte';
 	import type { Goal } from '$lib/types/sb';
+	import { selectedGoal } from '$lib/stores/modals.store';
 	import DescriptionBox from '$lib/components/DescriptionBox.svelte';
 
 	export let isOpen = false;
@@ -12,27 +13,17 @@
 	export let type: 'Goal' | 'Task' = 'Goal';
 	export let goals: Goal[] = [];
 
-	let name = '';
+	let name: string;
+	let description: string;
 	let formId = `add${type}`;
-	let selectedGoal: Goal | null = null;
 
 	function closeModal() {
 		isOpen = false;
+		selectedGoal.set(null);
 	}
 </script>
 
 <Modal bind:isOpen>
-	<!-- Title -->
-	<!-- <Input
-		slot="title"
-		id="name"
-		label="{type} name"
-		name="name"
-		variant="ghost"
-		form="add{type}"
-		required
-		
-	/> -->
 	<DescriptionBox
 		slot="title"
 		id="name"
@@ -40,8 +31,9 @@
 		placeholder="{type} name"
 		name="name"
 		form="add{type}"
-		autofocus
-		bind:value={name}
+		header
+		focus
+		bind:content={name}
 	/>
 
 	<!-- Description -->
@@ -49,15 +41,16 @@
 		<form id={formId} action="/?/{formId}" method="POST" use:enhance={closeModal}>
 			<!-- hidden values -->
 			<input id="user_id" type="hidden" name="user_id" value={user_id} />
+			<input id="name" type="hidden" name="name" value={name} />
 			<input id="idx" type="hidden" name="idx" value={idx} />
-			<input id="goal_id" type="hidden" name="goal_id" value={selectedGoal?.id ?? null} />
-			<DescriptionBox id="description" name="description" />
+			<input id="goal_id" type="hidden" name="goal_id" value={$selectedGoal?.id ?? null} />
 		</form>
+		<DescriptionBox id="description" name="description" bind:content={description} />
 	</div>
 
 	<div slot="footer" class="btn-group">
 		<div class="group-start">
-			<Dropdown label="Goal" items={goals} propLabel="name" bind:selected={selectedGoal} />
+			<Dropdown label="Goal" items={goals} propLabel="name" bind:selected={$selectedGoal} />
 		</div>
 
 		<div class="group-end">
@@ -71,7 +64,6 @@
 				on:click={closeModal}
 			/>
 		</div>
-		<!-- TOOD: add disabled={!goalName} once you get reactive binding working from child to parent -->
 	</div>
 </Modal>
 

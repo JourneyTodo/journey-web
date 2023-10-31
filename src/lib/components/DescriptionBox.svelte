@@ -1,68 +1,63 @@
 <script lang="ts">
-	export let placeholder: string = 'Description';
-	export let outline: boolean = false;
-	export let value: string = '';
+	import { onMount } from 'svelte';
 
-	let textArea: HTMLTextAreaElement;
+	export let placeholder: string = 'Description';
+	export let content: string;
+	export let header: boolean = false;
+	export let focus: boolean = false; // enable autofocus
+
+	let ref: HTMLDivElement;
+	let isEmpty = !content;
+
+	$: isEmpty = !content;
+
+	// if autofocus is on, focus element
+	onMount(() => {
+		if (focus) ref.focus();
+	});
 </script>
 
-<div class="grow-wrapper" data-replicated-value=" ">
-	<textarea
+<div class="container">
+	<div
+		contenteditable="plaintext-only"
+		role="textbox"
+		aria-readonly="false"
+		aria-multiline="true"
+		aria-label={placeholder}
+		translate="no"
 		class="description"
-		class:outline
-		{placeholder}
-		bind:this={textArea}
-		bind:value
-		onInput="this.parentNode.dataset.replicatedValue = this.value"
+		tabindex="0"
 		{...$$restProps}
-	/>
+		bind:this={ref}
+		bind:textContent={content}
+	>
+		<p data-placeholder {placeholder} class:isEmpty class:header>
+			<br />
+		</p>
+	</div>
 </div>
 
 <style lang="scss">
-	.description {
-		resize: none;
-		height: 100%;
+	.container {
 		width: 100%;
-		font-size: var(--spacing-sm);
-		border: none;
-		padding: 0;
-		&.outline {
-			border: 1px solid var(--border-common);
-		}
-		&:focus-visible {
+		div:focus-visible {
 			outline: none;
 		}
-	}
-
-	.grow-wrapper {
-		/* easy way to plop the elements on top of each other and have them both sized based on the tallest one's height */
-		display: grid;
-		max-height: 19rem; //304px
+		p {
+			margin: 0;
+		}
+		.isEmpty[data-placeholder]::before {
+			opacity: var(--opacity-subtext2);
+			pointer-events: none;
+			float: inline-start;
+			position: absolute;
+			content: attr(placeholder);
+		}
+		max-height: 200px;
 		overflow-y: auto;
 	}
-	.grow-wrapper::after {
-		/* Note the weird space! Needed to prevent jumpy behavior */
-		content: attr(data-replicated-value) ' ';
-
-		/* This is how textarea text behaves */
-		white-space: pre-wrap;
-
-		/* Hidden from view, clicks, and screen readers */
-		visibility: hidden;
-	}
-	.grow-wrapper > textarea {
-		/* You could leave this, but after a user resizes, then it ruins the auto sizing */
-		resize: none;
-
-		/* Firefox shows scrollbar on growth, you can hide like this. */
-		overflow: hidden;
-	}
-	.grow-wrapper > textarea,
-	.grow-wrapper::after {
-		/* Identical styling required!! */
-		font: inherit;
-
-		/* Place on top of each other */
-		grid-area: 1 / 1 / 2 / 2;
+	.header {
+		font-size: var(--text-lg);
+		font-weight: bold;
 	}
 </style>

@@ -17,7 +17,7 @@
 	<Header title={goal?.name} bind:numCompleted bind:total />
 	{#if tasks}
 		<div class="tasklist-container">
-			<TaskList {tasks} />
+			<TaskList {tasks} {goal} />
 		</div>
 	{/if}
 </div>

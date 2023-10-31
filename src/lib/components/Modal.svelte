@@ -70,6 +70,7 @@
 		background: white;
 		box-shadow: 0 7.5px 25px 0 rgba(0, 0, 0, 0.15);
 		padding: var(--spacing-lg);
+		gap: var(--spacing-sm);
 	}
 
 	.modal-header {
