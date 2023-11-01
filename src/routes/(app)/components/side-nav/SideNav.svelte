@@ -21,25 +21,39 @@
 </script>
 
 <nav class="side-nav">
-	<NavItem href="/profile">
-		<ProfileIcon slot="icon-left" {user} size="small" />
-		<span slot="text" style="line-height: 30px;"
-			>{user.preferred_name ?? user.full_name}'s Journey</span
-		>
-		<Icon slot="icon-right" name="chevron-down" />
-	</NavItem>
+	<div class="top-cluster">
+		<div class="toptop-container">
+			<NavItem href="/profile">
+				<ProfileIcon slot="icon-left" {user} size="small" />
+				<span slot="text">{user.preferred_name ?? user.full_name}'s Journey</span>
+				<Icon slot="icon-right" name="chevron-down" />
+			</NavItem>
+		</div>
 
-	<!-- Add task button -->
-	<Button size="small" on:click={openTaskModal}>
-		<Icon name="plus" slot="icon-start" />
-		Add task
-	</Button>
+		<!-- Add task button -->
+		<Button size="small" fill on:click={openTaskModal}>
+			<Icon name="plus" slot="icon-start" />
+			Add task
+		</Button>
+	</div>
 
-	<!-- <div class="nav-block"> -->
-	<!-- TODO: add today/upcoming/inbox/completed nav items here -->
-	<!-- </div> -->
+	<div class="main-cluster">
+		<!-- TODO: add today/upcoming/inbox/completed nav items here -->
+		<NavItem href="/inbox">
+			<span slot="text" class="inbox">Inbox</span>
+		</NavItem>
+		<NavItem href="/today" disabled>
+			<span slot="text" class="today">Today</span>
+		</NavItem>
+		<NavItem href="/upcoming" disabled>
+			<span slot="text" class="today">Upcoming</span>
+		</NavItem>
+		<NavItem href="/completed" disabled>
+			<span slot="text" class="today">Completed</span>
+		</NavItem>
+	</div>
 
-	<div class="goals-container">
+	<div class="goals-cluster">
 		<NavItem href="/goals">
 			<span slot="text" class="goals-header bold">Goals</span>
 			<Button
@@ -67,12 +81,26 @@
 		height: 100vh;
 		bottom: 0;
 		width: 270px;
-		padding: 1rem;
-		display: flex;
-		gap: 2rem;
-		flex-direction: column;
+		overflow-x: hidden;
+		padding: var(--spacing-lg);
 		background: #f5f5f7;
 		box-shadow: -4px 0px 8px -4px rgba(17, 13, 38, 0.025) inset;
 		font-size: 14px;
+		overflow-y: auto;
+	}
+	.top-cluster {
+		width: 100%;
+		margin-bottom: var(--spacing-lg);
+		// display: flex;
+		// flex-direction: column;
+		// gap: var(--spacing-lg);
+	}
+
+	.main-cluster {
+		margin-bottom: calc(var(--spacing-lg) * 2);
+	}
+	.toptop-container {
+		display: flex;
+		margin-bottom: var(--spacing-lg);
 	}
 </style>

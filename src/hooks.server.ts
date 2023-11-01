@@ -96,16 +96,15 @@ export const handle: Handle = async ({ event, resolve }) => {
 			const { data, error } = await event.locals.supabase
 				.from('tasks')
 				.select(query)
-				.eq('user_id', id);
+				.eq('user_id', id)
+				.filter('goal_id', 'is', 'null');
 
 			tasks = data;
 			err = error;
 		} else {
 			const { data, error } = await event.locals.supabase
 				.from('tasks')
-				.select(
-					`completed, completed_at, created_at, description, id, goal_id, index, name, target_date, updated_at, user_id, user_task_id, bucket`
-				)
+				.select(query)
 				.eq('user_id', id)
 				.eq('goal_id', goal_id);
 
@@ -127,22 +126,40 @@ export const handle: Handle = async ({ event, resolve }) => {
 		description: string,
 		idx: number
 	) => {
-		const { data, error } = await event.locals.supabase
-			.from('tasks')
-			.insert({
-				user_id,
-				goal_id,
-				name,
-				description,
-				index: idx
-			})
-			.select();
-
-		if (error) {
-			throw error;
+		let tasks: Task[] | null;
+		let err: PostgrestError | null = null;
+		if (!goal_id) {
+			const { data, error } = await event.locals.supabase
+				.from('tasks')
+				.insert({
+					user_id,
+					name,
+					description,
+					index: idx
+				})
+				.select();
+			tasks = data;
+			err = error;
+		} else {
+			const { data, error } = await event.locals.supabase
+				.from('tasks')
+				.insert({
+					user_id,
+					goal_id,
+					name,
+					description,
+					index: idx
+				})
+				.select();
+			tasks = data;
+			err = error;
 		}
 
-		return data;
+		if (err) {
+			throw err;
+		}
+
+		return tasks;
 	};
 
 	event.locals.deleteTask = async (id: string, user_id: string) => {
