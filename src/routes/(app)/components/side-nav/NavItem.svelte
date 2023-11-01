@@ -5,6 +5,7 @@
 
 	export let text: string | null = null;
 	export let href: string;
+	export let disabled: boolean = false;
 
 	$: active = $page.url.pathname === href;
 </script>
@@ -12,7 +13,9 @@
 <!-- TODO: add this back once you figure out  -->
 <div
 	{...$$restProps}
-	class="nav-item {active ? 'active' : ''}"
+	class="nav-item"
+	class:active
+	class:disabled
 	in:slide={{ duration: 300, easing: quintOut, axis: 'y' }}
 >
 	<slot name="icon-left" />
@@ -64,5 +67,10 @@
 		.icon-right {
 			margin-left: auto;
 		}
+	}
+
+	.disabled {
+		opacity: var(--opacity-disabled);
+		pointer-events: none;
 	}
 </style>
