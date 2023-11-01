@@ -2,7 +2,6 @@
 	import ProfileIcon from '$lib/components/ProfileIcon.svelte';
 	import { goalModalIsOpen, taskModalIsOpen } from '$lib/stores/modals.store';
 	import type { Goal, User } from '$lib/types/sb';
-	import { slide } from 'svelte/transition';
 	import Button from '../../../../lib/components/Button.svelte';
 	import Icon from '../../../../lib/components/Icon/Icon.svelte';
 	import GoalTree from './GoalTree.svelte';
@@ -21,7 +20,7 @@
 	}
 </script>
 
-<nav class="side-nav" transition:slide={{ duration: 5000, axis: 'x' }}>
+<nav class="side-nav">
 	<div class="top-cluster">
 		<div class="toptop-container">
 			<NavItem href="/profile">
