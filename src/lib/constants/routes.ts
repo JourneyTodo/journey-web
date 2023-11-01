@@ -11,11 +11,12 @@
  */
 export const baseRoutes = {
 	home: '/',
+	inbox: '/inbox',
 	profile: '/profile',
 	goals: '/goals'
 };
 
-export const { home } = baseRoutes;
+export const { home, inbox } = baseRoutes;
 
 /**
  * @typedef {Object} AccountRoutes
