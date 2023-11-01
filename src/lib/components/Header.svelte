@@ -39,7 +39,7 @@
 		z-index: 1; // For some reason if we don't specify a z-index, the SVGs in task items show up
 		.content {
 			margin-bottom: var(--spacing-sm);
-			padding: 32px 48px 0 4px;
+			padding: 32px 0 0 4px;
 			align-items: baseline;
 		}
 		h1,

@@ -4,6 +4,7 @@
 	export let data;
 
 	let { tasks } = data;
+	$: ({ tasks } = data);
 </script>
 
 <h1>Inbox</h1>
