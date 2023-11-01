@@ -1,12 +1,13 @@
 import { redirect } from '@sveltejs/kit';
 import type { LayoutServerLoad } from '../$types';
 import type { Goal, User } from '$lib/types/sb';
+import { signIn } from '$lib/constants/routes';
 
 export const load: LayoutServerLoad = async ({ locals: { getSession, getGoals, getUser } }) => {
 	const session = await getSession();
 
 	if (!session) {
-		throw redirect(303, '/');
+		throw redirect(303, signIn);
 	}
 
 	const profile = await getUser(session.user.id);
