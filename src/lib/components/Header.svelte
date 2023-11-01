@@ -4,10 +4,10 @@
 	import { cubicOut } from 'svelte/easing';
 
 	export let title = '';
-	export let numCompleted = 0;
-	export let total = 0;
+	export let numCompleted: number | null = null;
+	export let total: number | null = null;
 
-	$: total > 0 ? percent.set((numCompleted / total) * 100, { delay: 0 }) : '';
+	$: total !== null && total > 0 ? percent.set((numCompleted! / total) * 100, { delay: 0 }) : '';
 
 	const percent = tweened(0, {
 		duration: 800,
@@ -24,7 +24,9 @@
 			<p>{Math.floor($percent)}% complete</p>
 		{/if}
 	</div>
-	<ProgressBar bind:numCompleted bind:total />
+	{#if numCompleted !== null && total !== null}
+		<ProgressBar bind:numCompleted bind:total />
+	{/if}
 </header>
 
 <!-- </div> -->
