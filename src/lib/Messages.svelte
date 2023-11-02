@@ -1,21 +1,26 @@
 <script lang="ts">
-	import { getContext } from 'svelte';
 	import type { Message as MType } from './messageHandler';
 	import Message from './Message.svelte';
+	import { messageHandler as mh } from '$lib/messageHandler.js';
+	import { cubicOut } from 'svelte/easing';
+	import { flip } from 'svelte/animate';
 
-	export let key: string;
+	export let messages: MType[] = [];
 
-	let messages = getContext(key) as MType[];
-
-	function deleteMessage(message: MType) {
-		messages = messages.filter((m) => m !== message);
-	}
+	$: messages = $mh;
 </script>
 
 <div class="container">
 	<div class="message-list">
-		{#each messages as message, i}
-			<Message {message} index={i} on:change={() => deleteMessage(message)} />
+		<!--
+      (message.id) is needed to make sure we
+      track items correctly when they change reactively
+    -->
+		{#each messages as message (message.id)}
+			<!-- Use flip here to smoothly transition messages when one is deleted -->
+			<div class="msg" animate:flip={{ duration: 400, delay: 200, easing: cubicOut }}>
+				<Message {message} />
+			</div>
 		{/each}
 	</div>
 </div>

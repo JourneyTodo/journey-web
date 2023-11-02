@@ -2,6 +2,7 @@
 	import AddModal from './components/AddModal.svelte';
 	import SideNav from './components/side-nav/SideNav.svelte';
 	import { goalModalIsOpen, selectedGoal, taskModalIsOpen } from '$lib/stores/modals.store';
+	import Messages from '$lib/Messages.svelte';
 
 	export let data;
 
@@ -26,6 +27,8 @@
 </script>
 
 <svelte:window on:keydown={handleKeydown} />
+
+<Messages />
 
 <div class="container">
 	<SideNav sb={supabase} {user} {goals} />

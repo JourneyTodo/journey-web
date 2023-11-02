@@ -1,37 +1,43 @@
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte';
 	import type { Message } from './messageHandler';
-	import { fly } from 'svelte/transition';
+	import { messageHandler as mh } from '$lib/messageHandler.js';
+	import { quintInOut } from 'svelte/easing';
 
 	export let message: Message;
-	export let index: number = 0; // Sets the z-index
 	export let type: 'banner' | 'toast' = 'toast';
 
-	const dispatch = createEventDispatcher();
-
-	function deleteMessage(message: Message) {
-		dispatch('change', {
-			message
-		});
+	function deleteMessage(id: number) {
+		mh.pop(id);
 	}
 
 	if (message.lifespan) {
 		setTimeout(function () {
-			deleteMessage(message);
+			deleteMessage(message.id!);
 		}, message.lifespan);
+	}
+
+	function fadeSlide(node: HTMLElement, { duration = 0, delay = 0, start = false }) {
+		return {
+			duration,
+			delay,
+			easing: quintInOut,
+			css: (t: number, u: number) => {
+				return `
+        opacity: ${t};
+        transform: translateY(${start ? -u * 5 : u * 5}%);
+        `;
+			}
+		};
 	}
 </script>
 
-<!-- {#key index} -->
 <div
 	class="message {type}"
-	style="z-index: {100 - index};"
-	transition:fly={{ y: 200, duration: 40 }}
+	in:fadeSlide={{ duration: 400, start: true }}
+	out:fadeSlide={{ duration: 400, start: false }}
 >
 	{message.content}
 </div>
-
-<!-- {/key} -->
 
 <style lang="scss">
 	.message {

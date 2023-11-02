@@ -1,54 +1,56 @@
-import { error } from '@sveltejs/kit';
-// import { setContext, type ComponentType } from 'svelte';
+import { writable } from 'svelte/store';
 
-export class MessageHandler {
-	// map of all queues
-	// When an add/delete is triggered, it will lookup by key to find the correct spot
-	// TODO: refactor to a set of stores
-	private queueMap: Map<string, Message[]> = new Map();
+function createMessageHandler() {
+	const { subscribe, update } = writable(new Array<Message>());
+	let count = 0;
 
-	public add(message: Message) {
-		let messages = this.queueMap.get(message.key);
-		if (messages === undefined) {
-			messages = [message];
-			this.queueMap.set(message.key, messages);
-		} else {
-			messages.push(message);
-			this.queueMap.set(message.key, messages);
+	function push(msg: Message) {
+		if (msg.id === undefined || msg.id === null) {
+			msg.id = ++count;
 		}
-		// TODO: figure out how to get this to work with vite test (mock??)
-		// setContext(message.key, messages);
-		return messages.length;
+		update((messages) => [...messages, msg]);
+		return count;
 	}
 
-	public delete(message: Message) {
-		let messages = this.queueMap.get(message.key);
-		if (messages === undefined) {
-			throw error(404, 'The message could not be found');
-		}
-		messages = messages.filter((m: Message) => m !== message);
-		this.queueMap.set(message.key, messages);
-		this.cleanMap(message.key, messages);
+	function pop(id: number) {
+		update((messages) => {
+			if (!messages.length || id === 0) {
+				return [];
+			}
+			return messages.filter((m) => m.id !== id);
+		});
 	}
 
-	public getAll(key: string): Message[] | undefined {
-		const messages = this.queueMap.get(key);
-		if (messages === undefined) {
-			return undefined;
-		}
-
-		return messages;
+	function set(id: number, msg: Message) {
+		update((messages) => {
+			const idx = messages.findIndex((i) => i.id === id);
+			if (idx > -1) {
+				if (msg.id === undefined || msg.id === null) {
+					msg.id = idx;
+				}
+				messages[idx] = msg;
+			}
+			return messages;
+		});
 	}
 
-	private cleanMap(key: string, messages: Message[]) {
-		if (messages.length === 0) {
-			this.queueMap.delete(key);
-		}
+	function clear() {
+		update(() => []);
 	}
+
+	return {
+		subscribe,
+		push,
+		pop,
+		set,
+		clear
+	};
 }
 
 export type Message = {
-	key: string;
+	id?: number;
 	lifespan?: number;
 	content: string | HTMLElement;
 };
+
+export const messageHandler = createMessageHandler();

@@ -48,6 +48,9 @@
 		p {
 			margin: 0;
 		}
+		h1 {
+			font-size: var(--text-xl);
+		}
 	}
 
 	.content {

@@ -1,33 +1,22 @@
 <script lang="ts">
-	import Messages from '$lib/Messages.svelte';
 	import { setTitle } from '$lib/functions/utils.js';
-	import { MessageHandler } from '$lib/messageHandler.js';
 
 	export let data;
 
 	let { user } = data;
 	$: ({ user } = data);
 
-	const mh = new MessageHandler();
-	const key = 'test';
-	mh.add({
-		key: key,
-		content: 'foo',
-		lifespan: 1000
-	});
-	mh.add({
-		key: key,
-		content: 'bar',
-		lifespan: 3000
-	});
-	mh.add({
-		key: key,
-		content: 'baz'
-	});
+	// This is what you need to add a message on success/fail
+	// Is there a way to do this at a layout level so I don't have to write this on every page?
+	// export let form;
+	// $: if (form?.success) {
+	//   mh.push({
+	//     content: 'success',
+	//     lifespan: 5000
+	//   });
+	// }
 </script>
 
 <svelte:head>
 	<title>{setTitle(user.full_name ?? 'User')}</title>
 </svelte:head>
-
-<Messages {key} />
