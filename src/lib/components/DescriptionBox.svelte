@@ -5,6 +5,7 @@
 	export let content: string;
 	export let header: boolean = false;
 	export let focus: boolean = false; // enable autofocus
+	export let required: boolean = false;
 
 	let ref: HTMLDivElement;
 	let isEmpty = !content;
@@ -27,6 +28,7 @@
 		translate="no"
 		class="description"
 		tabindex="0"
+		aria-required={required}
 		{...$$restProps}
 		bind:this={ref}
 		bind:textContent={content}

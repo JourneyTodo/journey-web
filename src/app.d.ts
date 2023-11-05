@@ -10,7 +10,7 @@ declare global {
 		interface Locals {
 			supabase: SupabaseClient<Database>;
 			getSession(): Promise<Session | null>;
-			getUser(id: string): Promise<User | null>;
+			getUser(id: string): Promise<User | PostgrestError | null>;
 			getGoals(id: string): Promise<Goal[] | PostgrestError | null>;
 			addGoal(
 				user_id: string,

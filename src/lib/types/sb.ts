@@ -1,5 +1,5 @@
 /**
- * Supbase helper types to be used throughout the app
+ * Supabase helper types to be used throughout the app
  */
 
 import type { Database } from './database';

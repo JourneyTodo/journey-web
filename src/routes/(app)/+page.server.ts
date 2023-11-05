@@ -3,6 +3,11 @@ import { setFlash } from 'sveltekit-flash-message/server';
 
 import { goalAdded, taskAdded, taskCompleted } from '$lib/constants/messages';
 import type { Actions } from '@sveltejs/kit';
+import type { PostgrestError } from '@supabase/supabase-js';
+
+function isError(data: unknown): data is PostgrestError {
+	return (data as PostgrestError) !== undefined;
+}
 
 export const actions: Actions = {
 	addGoal: async (event) => {
@@ -20,9 +25,8 @@ export const actions: Actions = {
 
 		const result = await addGoal(user_id, goal_id, name, description, idx);
 		const msg = goalAdded(name);
-		if (result instanceof Error) {
+		if (isError(result)) {
 			setFlash(msg.error, event);
-			console.log(result.message);
 			return { success: false };
 		}
 
@@ -45,9 +49,8 @@ export const actions: Actions = {
 
 		const result = await addTask(user_id, goal_id, name, description, idx);
 		const msg = taskAdded(name);
-		if (result instanceof Error) {
+		if (isError(result)) {
 			setFlash(msg.error, event);
-			console.log(result.message);
 			return { success: false };
 		}
 
@@ -77,7 +80,6 @@ export const actions: Actions = {
 
 		if (result instanceof Error) {
 			setFlash(msg.error, event);
-			console.log(result.message);
 			return { success: false };
 		}
 

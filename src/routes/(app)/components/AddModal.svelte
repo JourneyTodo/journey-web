@@ -33,6 +33,7 @@
 		form="add{type}"
 		header
 		focus
+		required
 		bind:content={name}
 	/>
 
