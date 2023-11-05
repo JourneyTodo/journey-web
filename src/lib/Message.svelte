@@ -2,18 +2,30 @@
 	import type { Message } from './messageHandler';
 	import { messageHandler as mh } from '$lib/messageHandler.js';
 	import { quintInOut } from 'svelte/easing';
+	import Button from './components/Button.svelte';
+	import Icon from './components/Icon/Icon.svelte';
+	import { Timer } from './Timer';
 
 	export let message: Message;
 	export let type: 'banner' | 'toast' = 'toast';
-
-	function deleteMessage(id: number) {
-		mh.pop(id);
-	}
+	let timer: Timer;
 
 	if (message.lifespan) {
-		setTimeout(function () {
-			deleteMessage(message.id!);
+		timer = new Timer(() => {
+			deleteMessage();
 		}, message.lifespan);
+		timer.start();
+	}
+
+	function deleteMessage() {
+		mh.pop(message.id!);
+	}
+
+	function pauseTimer() {
+		timer.pause();
+	}
+	function resumeTimer() {
+		timer.resume();
 	}
 
 	function fadeSlide(node: HTMLElement, { duration = 0, delay = 0, start = false }) {
@@ -32,11 +44,17 @@
 </script>
 
 <div
+	role="alertdialog"
 	class="message {type}"
 	in:fadeSlide={{ duration: 400, start: true }}
 	out:fadeSlide={{ duration: 400, start: false }}
+	on:mouseenter={() => pauseTimer()}
+	on:mouseleave={() => resumeTimer()}
 >
-	{message.content}
+	<span>{message.value}</span>
+	<Button size="xsmall" variant="ghost" style="padding: 0" on:click={deleteMessage}>
+		<Icon name="close" />
+	</Button>
 </div>
 
 <style lang="scss">

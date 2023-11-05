@@ -30,7 +30,9 @@ declare global {
 			): Promise<Task | PostgrestError>;
 			deleteTask(id: string, user_id: string): Promise<Task | PostgrestError>;
 		}
-		// interface PageData {}
+		interface PageData {
+			flash?: { type: 'success' | 'error'; message: string };
+		}
 		// interface Platform {}
 	}
 }

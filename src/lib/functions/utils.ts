@@ -8,6 +8,16 @@ export const titleCase = (str: string) => {
 	});
 };
 
+export const toPastTense = (str: string) => {
+	const c = str[str.length - 1];
+	switch (c) {
+		case 'e':
+			return str + 'd';
+		default:
+			return str + 'ed';
+	}
+};
+
 // Assumes name is in the format "First Last" and first name has no spaces
 export const getFirstName = (name: string) => {
 	return name.split(' ')[0];

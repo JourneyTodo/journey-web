@@ -11,18 +11,18 @@
 </script>
 
 <div class="container">
-	<div class="message-list">
+	<ul class="message-list">
 		<!--
       (message.id) is needed to make sure we
       track items correctly when they change reactively
     -->
 		{#each messages as message (message.id)}
 			<!-- Use flip here to smoothly transition messages when one is deleted -->
-			<div class="msg" animate:flip={{ duration: 400, delay: 200, easing: cubicOut }}>
+			<li class="msg" animate:flip={{ duration: 400, delay: 200, easing: cubicOut }}>
 				<Message {message} />
-			</div>
+			</li>
 		{/each}
-	</div>
+	</ul>
 </div>
 
 <style lang="scss">

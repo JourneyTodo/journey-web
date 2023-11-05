@@ -3,11 +3,24 @@
 	import SideNav from './components/side-nav/SideNav.svelte';
 	import { goalModalIsOpen, selectedGoal, taskModalIsOpen } from '$lib/stores/modals.store';
 	import Messages from '$lib/Messages.svelte';
+	import { getFlash } from 'sveltekit-flash-message';
+	import { page } from '$app/stores';
+	import { messageHandler as mh } from '$lib/messageHandler';
+	import type { Message } from '$lib/messageHandler';
 
 	export let data;
 
 	let { user, goals, supabase } = data;
 	$: ({ user, goals, supabase } = data);
+
+	const flash = getFlash(page);
+
+	$: if ($flash) {
+		mh.push({
+			lifespan: 5000,
+			value: $flash?.message
+		} as Message);
+	}
 
 	// Hotkeys to open modals
 	function handleKeydown(event: KeyboardEvent) {

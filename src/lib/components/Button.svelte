@@ -28,6 +28,8 @@
 			: ''} {variant} {classes} {disabled ? 'disabled' : ''}
       {circle ? 'circle' : ''}"
 		on:click
+		on:mouseenter
+		on:mouseleave
 	>
 		<slot name="icon-start" />
 		{#if label}
