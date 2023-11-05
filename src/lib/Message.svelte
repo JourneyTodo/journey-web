@@ -56,8 +56,25 @@
 	on:mouseenter={() => pauseTimer()}
 	on:mouseleave={() => resumeTimer()}
 >
-	<span class="value">{message.value}</span>
-	<Button size="xsmall" variant="ghost" style="padding: 0" on:click={deleteMessage}>
+	<!-- TODO: Write actual code here, see above -->
+	{#if message.value.includes('added')}
+		<span class="value">
+			{message.value.slice(0, message.value.length - message.value.split(' ')[0].length - 2)}
+			<a href="/inbox">
+				{message.value.split(' ')[0]}
+			</a>
+		</span>
+		<Button
+			size="small"
+			variant="ghost"
+			style="padding: var(--spacing-sm); width: auto !important;"
+		>
+			Open
+		</Button>
+	{:else}
+		<span class="value">{message.value}</span>
+	{/if}
+	<Button size="small" variant="ghost" style="padding: var(--spacing-xs)" on:click={deleteMessage}>
 		<Icon name="close" />
 	</Button>
 </div>
@@ -65,7 +82,7 @@
 <style lang="scss">
 	.message {
 		display: inline-flex;
-		padding: var(--spacing-lg);
+		padding: calc(var(--spacing-lg) - 4px) var(--spacing-lg);
 		justify-content: center;
 		align-items: center;
 		gap: var(--spacing-lg);

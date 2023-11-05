@@ -81,3 +81,5 @@ export const goalDeleted = deleteGeneric('goal');
 export const goalUpdated = updateGeneric('goal');
 export const goalCompleted = (uncomplete: boolean) => completeGeneric('goal', uncomplete);
 export const goalAdded = (name: string): MessageBundle => addGeneric('goal', name);
+
+export const orderChanged = 'Order changed';

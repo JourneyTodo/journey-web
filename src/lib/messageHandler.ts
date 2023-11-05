@@ -50,7 +50,7 @@ function createMessageHandler() {
 export type Message = {
 	id?: number;
 	lifespan?: number;
-	value: string | HTMLElement;
+	value: string;
 };
 
 export const messageHandler = createMessageHandler();

@@ -137,6 +137,7 @@
 	}
 
 	.xsmall {
+		font-size: var(--text-sm);
 		height: 24px !important;
 		width: 24px !important;
 		border-radius: 2px !important;

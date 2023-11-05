@@ -45,6 +45,8 @@
 			<input id="name" type="hidden" name="name" value={name} />
 			<input id="description" type="hidden" name="description" value={description} />
 			<input id="idx" type="hidden" name="idx" value={idx} />
+			<!-- TODO: fall back to buckets once those are set up fully -->
+			<input id="goal_name" type="hidden" name="goal_name" value={$selectedGoal?.name ?? 'Inbox'} />
 			<input id="goal_id" type="hidden" name="goal_id" value={$selectedGoal?.id ?? null} />
 		</form>
 		<DescriptionBox id="description" name="description" bind:content={description} />
@@ -74,11 +76,5 @@
 		display: flex;
 		justify-content: space-between;
 		gap: var(--spacing-xs);
-
-		.group-end {
-			display: flex;
-			justify-content: flex-end;
-			gap: var(--spacing-sm);
-		}
 	}
 </style>

@@ -46,9 +46,10 @@ export const actions: Actions = {
 		const idx = parseInt(formData.get('idx') as string);
 		const user_id = formData.get('user_id') as string;
 		const goal_id = formData.get('goal_id') as string;
+		const goal_name = formData.get('goal_name') as string;
 
 		const result = await addTask(user_id, goal_id, name, description, idx);
-		const msg = taskAdded(name);
+		const msg = taskAdded(goal_name);
 		if (isError(result)) {
 			setFlash(msg.error, event);
 			return { success: false };
