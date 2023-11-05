@@ -49,9 +49,16 @@ const genericBundle = (type: ItemType, action: ActionType, name?: string): Messa
 	} as FlashMessage
 });
 
-const addGeneric = (type: ItemType, name: string): MessageBundle => {
-	return genericBundle(type, 'add', name);
-};
+const addGeneric = (type: ItemType, name?: string): MessageBundle => ({
+	success: {
+		type: 'success',
+		message: `${titleCase(type)} added to ${name ? name + ' ' : ''}`
+	},
+	error: {
+		type: 'error',
+		message: errorGeneric(type, 'add')
+	}
+});
 
 const completeGeneric = (type: ItemType, uncomplete: boolean = false): MessageBundle => {
 	return genericBundle(type, uncomplete ? 'uncomplete' : 'complete');

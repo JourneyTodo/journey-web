@@ -43,6 +43,11 @@
 	}
 </script>
 
+<!-- 
+  TODO: Write helpers to sanitize message and convert it to more html
+  ex: if it was a task added, we want to display a link to the goal
+ -->
+
 <div
 	role="alertdialog"
 	class="message {type}"
@@ -51,7 +56,7 @@
 	on:mouseenter={() => pauseTimer()}
 	on:mouseleave={() => resumeTimer()}
 >
-	<span>{message.value}</span>
+	<span class="value">{message.value}</span>
 	<Button size="xsmall" variant="ghost" style="padding: 0" on:click={deleteMessage}>
 		<Icon name="close" />
 	</Button>
@@ -69,5 +74,14 @@
 		border-radius: var(--br-md);
 		background: white;
 		box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.06), 0px 0px 4px 0px rgba(0, 0, 0, 0.04);
+	}
+
+	.value {
+		max-width: 240px;
+		overflow: hidden;
+		// TODO: update this to use line-clamp & flexbox when browsers support it
+		display: -webkit-box;
+		-webkit-line-clamp: 1;
+		-webkit-box-orient: vertical;
 	}
 </style>

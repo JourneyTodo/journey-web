@@ -129,7 +129,6 @@ export const handle: Handle = async ({ event, resolve }) => {
 	): Promise<Task[] | PostgrestError> => {
 		let err: PostgrestError | null = null;
 		let tasks: Task[];
-		console.log(name);
 
 		if (!name) {
 			return {

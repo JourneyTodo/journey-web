@@ -5,8 +5,8 @@ import { goalAdded, taskAdded, taskCompleted } from '$lib/constants/messages';
 import type { Actions } from '@sveltejs/kit';
 import type { PostgrestError } from '@supabase/supabase-js';
 
-function isError(data: unknown): data is PostgrestError {
-	return (data as PostgrestError) !== undefined;
+function isError(data: PostgrestError): data is PostgrestError {
+	return 'message' in data && 'details' in data && 'hint' in data && 'code' in data;
 }
 
 export const actions: Actions = {
@@ -68,17 +68,16 @@ export const actions: Actions = {
 		const id = formData.get('id') as string;
 		const completed = formData.get('completed') === 'true';
 
-		const result = await supabase
+		const { error } = await supabase
 			.from('tasks')
 			.update({
 				completed
 			})
 			.eq('id', id)
-			.select()
 			.select();
 		const msg = taskCompleted(!completed);
 
-		if (result instanceof Error) {
+		if (error) {
 			setFlash(msg.error, event);
 			return { success: false };
 		}

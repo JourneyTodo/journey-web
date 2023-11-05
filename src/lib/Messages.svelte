@@ -15,8 +15,9 @@
 		<!--
       (message.id) is needed to make sure we
       track items correctly when they change reactively
+      reverse the order too so messages are pushed in from top -> bottom
     -->
-		{#each messages as message (message.id)}
+		{#each [...messages].reverse() as message (message.id)}
 			<!-- Use flip here to smoothly transition messages when one is deleted -->
 			<li class="msg" animate:flip={{ duration: 400, delay: 200, easing: cubicOut }}>
 				<Message {message} />
