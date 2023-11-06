@@ -45,11 +45,14 @@ export const actions: Actions = {
 		const description = formData.get('description') as string;
 		const idx = parseInt(formData.get('idx') as string);
 		const user_id = formData.get('user_id') as string;
-		const goal_id = formData.get('goal_id') as string;
 		const goal_name = formData.get('goal_name') as string;
+		const goal_id = formData.get('goal_id') as string;
+		const user_goal_id = formData.get('user_goal_id') as string;
 
 		const result = await addTask(user_id, goal_id, name, description, idx);
-		const msg = taskAdded(goal_name);
+		const msg = user_goal_id
+			? taskAdded(`/goals/${user_goal_id}`, goal_name)
+			: taskAdded('/inbox', goal_name);
 		if (isError(result)) {
 			setFlash(msg.error, event);
 			return { success: false };

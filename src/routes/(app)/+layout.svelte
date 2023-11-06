@@ -2,11 +2,11 @@
 	import AddModal from './components/AddModal.svelte';
 	import SideNav from './components/side-nav/SideNav.svelte';
 	import { goalModalIsOpen, selectedGoal, taskModalIsOpen } from '$lib/stores/modals.store';
-	import Messages from '$lib/Messages.svelte';
+	import Messages from '$lib/components/Messages.svelte';
 	import { getFlash } from 'sveltekit-flash-message';
 	import { page } from '$app/stores';
-	import { messageHandler as mh } from '$lib/messageHandler';
-	import type { Message } from '$lib/messageHandler';
+	import { messageHandler as mh } from '$lib/MessageHandler';
+	import type { Message } from '$lib/MessageHandler';
 
 	export let data;
 

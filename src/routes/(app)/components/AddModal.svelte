@@ -45,9 +45,15 @@
 			<input id="name" type="hidden" name="name" value={name} />
 			<input id="description" type="hidden" name="description" value={description} />
 			<input id="idx" type="hidden" name="idx" value={idx} />
+			<input id="goal_id" type="hidden" name="goal_id" value={$selectedGoal?.id ?? null} />
+			<input
+				id="user_goal_id"
+				type="hidden"
+				name="user_goal_id"
+				value={$selectedGoal?.user_goal_id ?? null}
+			/>
 			<!-- TODO: fall back to buckets once those are set up fully -->
 			<input id="goal_name" type="hidden" name="goal_name" value={$selectedGoal?.name ?? 'Inbox'} />
-			<input id="goal_id" type="hidden" name="goal_id" value={$selectedGoal?.id ?? null} />
 		</form>
 		<DescriptionBox id="description" name="description" bind:content={description} />
 	</div>

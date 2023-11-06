@@ -1,7 +1,7 @@
 <script lang="ts">
-	import type { Message as MType } from './messageHandler';
+	import type { Message as MType } from '../MessageHandler';
 	import Message from './Message.svelte';
-	import { messageHandler as mh } from '$lib/messageHandler.js';
+	import { messageHandler as mh } from '$lib/MessageHandler.js';
 	import { cubicOut } from 'svelte/easing';
 	import { flip } from 'svelte/animate';
 

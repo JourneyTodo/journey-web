@@ -1,14 +1,19 @@
 <script lang="ts">
-	import type { Message } from './messageHandler';
-	import { messageHandler as mh } from '$lib/messageHandler.js';
+	import type { Message } from '../MessageHandler';
+	import { messageHandler as mh } from '$lib/MessageHandler.js';
 	import { quintInOut } from 'svelte/easing';
-	import Button from './components/Button.svelte';
-	import Icon from './components/Icon/Icon.svelte';
-	import { Timer } from './Timer';
+	import Button from './Button.svelte';
+	import Icon from './Icon/Icon.svelte';
+	import { Timer } from '../Timer';
+	import { parseString, type MessageOptions } from '../constants/messages';
+	import FancyToast from './FancyToast.svelte';
 
 	export let message: Message;
 	export let type: 'banner' | 'toast' = 'toast';
+
 	let timer: Timer;
+	let options: MessageOptions;
+	$: parseMesssge();
 
 	if (message.lifespan) {
 		timer = new Timer(() => {
@@ -41,6 +46,14 @@
 			}
 		};
 	}
+
+	function parseMesssge() {
+		const obj = parseString(message.value);
+		if (!obj) {
+			return;
+		}
+		options = obj;
+	}
 </script>
 
 <!-- 
@@ -57,22 +70,25 @@
 	on:mouseleave={() => resumeTimer()}
 >
 	<!-- TODO: Write actual code here, see above -->
-	{#if message.value.includes('added')}
-		<span class="value">
-			{message.value.slice(0, message.value.length - message.value.split(' ')[0].length - 2)}
-			<a href="/inbox">
-				{message.value.split(' ')[0]}
-			</a>
-		</span>
-		<Button
-			size="small"
-			variant="ghost"
-			style="padding: var(--spacing-sm); width: auto !important;"
-		>
-			Open
-		</Button>
-	{:else}
-		<span class="value">{message.value}</span>
+	{#if options}
+		{#if options.action === 'add'}
+			<FancyToast
+				text={options.text}
+				buttonLabel="Open"
+				url={options.url ?? ''}
+				location={options.location ?? ''}
+				on:click={() => console.log('todo: task & goal detail modals')}
+			/>
+		{:else if options.action === 'order'}
+			<FancyToast
+				text={options.text}
+				buttonLabel="Undo"
+				on:click={() => console.log('todo: undo order change')}
+			/>
+		{:else}
+			<!-- Fallback to message.value if options is invalid. It'll likely be useful to the user, but at least debugging is easier. -->
+			<span class="value">{options ? options.text : message.value}</span>
+		{/if}
 	{/if}
 	<Button size="small" variant="ghost" style="padding: var(--spacing-xs)" on:click={deleteMessage}>
 		<Icon name="close" />

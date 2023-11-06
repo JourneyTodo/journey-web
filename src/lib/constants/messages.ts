@@ -32,7 +32,49 @@ type ItemType = 'goal' | 'task';
 
 type StatusType = 'success' | 'error';
 
-type ActionType = 'add' | 'delete' | 'update' | 'complete' | 'uncomplete';
+type ActionType = 'add' | 'delete' | 'update' | 'complete' | 'uncomplete' | 'order';
+
+export type MessageOptions = {
+	text: string;
+	type: ItemType;
+	action: ActionType;
+	url?: string;
+	location?: string;
+};
+
+const createString = (
+	text: string,
+	type: ItemType,
+	action: ActionType,
+	url?: string,
+	location?: string
+): string => {
+	const mOptions: MessageOptions = {
+		text,
+		type,
+		action,
+		url,
+		location
+	};
+	return JSON.stringify(mOptions);
+};
+
+export const parseString = (str: string): MessageOptions | null => {
+	try {
+		const mOptions = JSON.parse(str) as MessageOptions;
+		// Validate
+		if (isMessageOptions(mOptions)) {
+			return mOptions;
+		}
+	} catch {
+		console.error('message options could not be parsed. string was: ' + str);
+	}
+	return null;
+};
+
+const isMessageOptions = (obj: unknown): obj is MessageOptions => {
+	return 'text' in obj && 'type' in obj && 'action' in obj;
+};
 
 const successGeneric = (type: ItemType, action: ActionType, name?: string) =>
 	`${titleCase(type)} ${name ? name + ' ' : ''}${toPastTense(action)}`;
@@ -41,22 +83,22 @@ const errorGeneric = (type: ItemType, action: ActionType) => `${unableTo} ${acti
 const genericBundle = (type: ItemType, action: ActionType, name?: string): MessageBundle => ({
 	success: {
 		type: 'success',
-		message: successGeneric(type, action, name)
+		message: createString(successGeneric(type, action, name), type, action)
 	} as FlashMessage,
 	error: {
 		type: 'error',
-		message: errorGeneric(type, action)
+		message: createString(errorGeneric(type, action), type, action)
 	} as FlashMessage
 });
 
-const addGeneric = (type: ItemType, name?: string): MessageBundle => ({
+const addGeneric = (type: ItemType, url: string, location?: string): MessageBundle => ({
 	success: {
 		type: 'success',
-		message: `${titleCase(type)} added to ${name ? name + ' ' : ''}`
+		message: createString(`${titleCase(type)} added`, type, 'add', url, location)
 	},
 	error: {
 		type: 'error',
-		message: errorGeneric(type, 'add')
+		message: createString(errorGeneric(type, 'add'), type, 'add', url, location)
 	}
 });
 
@@ -74,7 +116,8 @@ const updateGeneric = (type: ItemType): MessageBundle => {
 
 export const taskDeleted = deleteGeneric('task');
 export const taskUpdated = updateGeneric('task');
-export const taskAdded = (name: string): MessageBundle => addGeneric('task', name);
+export const taskAdded = (url: string, location?: string): MessageBundle =>
+	addGeneric('task', url, location);
 export const taskCompleted = (uncomplete: boolean) => completeGeneric('task', uncomplete);
 
 export const goalDeleted = deleteGeneric('goal');
@@ -82,4 +125,4 @@ export const goalUpdated = updateGeneric('goal');
 export const goalCompleted = (uncomplete: boolean) => completeGeneric('goal', uncomplete);
 export const goalAdded = (name: string): MessageBundle => addGeneric('goal', name);
 
-export const orderChanged = 'Order changed';
+export const orderChanged = createString('Order changed', 'goal', 'order'); // Keep things simple here

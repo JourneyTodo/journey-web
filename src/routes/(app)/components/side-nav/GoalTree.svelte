@@ -7,7 +7,7 @@
 	import { quintOut } from 'svelte/easing';
 	import type { SupabaseClient } from '@supabase/supabase-js';
 	import { updateGoalOrder } from './sbHelper';
-	import { messageHandler as mh } from '$lib/messageHandler';
+	import { messageHandler as mh } from '$lib/MessageHandler';
 	import { orderChanged } from '$lib/constants/messages';
 
 	export let sb: SupabaseClient;
