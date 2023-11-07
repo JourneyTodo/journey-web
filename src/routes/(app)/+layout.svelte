@@ -2,11 +2,26 @@
 	import AddModal from './components/AddModal.svelte';
 	import SideNav from './components/side-nav/SideNav.svelte';
 	import { goalModalIsOpen, selectedGoal, taskModalIsOpen } from '$lib/stores/modals.store';
+	import Messages from '$lib/components/Messages.svelte';
+	import { getFlash } from 'sveltekit-flash-message';
+	import { page } from '$app/stores';
+	import { messageHandler as mh } from '$lib/MessageHandler';
+	import type { Message } from '$lib/MessageHandler';
 
 	export let data;
 
 	let { user, goals, supabase } = data;
 	$: ({ user, goals, supabase } = data);
+
+	const flash = getFlash(page);
+
+	$: if ($flash) {
+		mh.push({
+			lifespan: 5000,
+			value: $flash?.message,
+			status: $flash.type
+		} as Message);
+	}
 
 	// Hotkeys to open modals
 	function handleKeydown(event: KeyboardEvent) {
@@ -26,6 +41,8 @@
 </script>
 
 <svelte:window on:keydown={handleKeydown} />
+
+<Messages />
 
 <div class="container">
 	<SideNav sb={supabase} {user} {goals} />

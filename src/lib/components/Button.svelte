@@ -28,6 +28,8 @@
 			: ''} {variant} {classes} {disabled ? 'disabled' : ''}
       {circle ? 'circle' : ''}"
 		on:click
+		on:mouseenter
+		on:mouseleave
 	>
 		<slot name="icon-start" />
 		{#if label}
@@ -135,6 +137,7 @@
 	}
 
 	.xsmall {
+		font-size: var(--text-sm);
 		height: 24px !important;
 		width: 24px !important;
 		border-radius: 2px !important;

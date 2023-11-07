@@ -7,6 +7,8 @@
 	import { quintOut } from 'svelte/easing';
 	import type { SupabaseClient } from '@supabase/supabase-js';
 	import { updateGoalOrder } from './sbHelper';
+	import { messageHandler as mh } from '$lib/MessageHandler';
+	import { orderChanged } from '$lib/constants/messages';
 
 	export let sb: SupabaseClient;
 	export let goals: Goal[] = [];
@@ -38,10 +40,13 @@
 		if (e.dataTransfer?.dropEffect !== 'none') {
 			// Make sure indices are valid
 			if (dragIndex !== -1 && dropIndex !== -1 && dragIndex !== dropIndex) {
-				goals = (await updateGoalOrder(sb, goals, dragIndex, dropIndex)).sort();
-				goals.sort((a, b) =>
+				goals = (await updateGoalOrder(sb, goals, dragIndex, dropIndex)).sort((a, b) =>
 					(a.path as number).toString().localeCompare((b.path as number).toString())
 				);
+				mh.push({
+					value: orderChanged,
+					lifespan: 5000
+				});
 			}
 		}
 		resetDragDrop();
