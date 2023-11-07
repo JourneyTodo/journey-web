@@ -53,6 +53,7 @@ export interface Database {
 					{
 						foreignKeyName: 'goals_parent_id_fkey';
 						columns: ['parent_id'];
+						isOneToOne: false;
 						referencedRelation: 'goals';
 						referencedColumns: ['id'];
 					}
@@ -90,6 +91,7 @@ export interface Database {
 					{
 						foreignKeyName: 'profiles_id_fkey';
 						columns: ['id'];
+						isOneToOne: true;
 						referencedRelation: 'users';
 						referencedColumns: ['id'];
 					}
@@ -145,12 +147,14 @@ export interface Database {
 					{
 						foreignKeyName: 'tasks_goal_id_fkey';
 						columns: ['goal_id'];
+						isOneToOne: false;
 						referencedRelation: 'goals';
 						referencedColumns: ['id'];
 					},
 					{
 						foreignKeyName: 'tasks_user_id_fkey';
 						columns: ['user_id'];
+						isOneToOne: false;
 						referencedRelation: 'users';
 						referencedColumns: ['id'];
 					}
