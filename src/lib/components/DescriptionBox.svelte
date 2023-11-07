@@ -28,7 +28,7 @@
 		translate="no"
 		class="description"
 		tabindex="0"
-		aria-required={required}
+		requuired={required}
 		{...$$restProps}
 		bind:this={ref}
 		bind:textContent={content}

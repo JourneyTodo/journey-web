@@ -6,6 +6,8 @@
 	export let buttonLabel: string;
 	export let url: string | null = null;
 	export let location: string | null = null;
+
+	let enableButton = false;
 </script>
 
 {#if url && location}
@@ -15,11 +17,16 @@
 {:else}
 	<span class="value">{text}</span>
 {/if}
-<Button
-	size="small"
-	variant="ghost"
-	style="padding: var(--spacing-sm); width: auto !important; color: var(--more-powerful-purple) !important;"
-	on:click
->
-	{buttonLabel}
-</Button>
+
+<!-- This'll be removed when after task & goal detail modals are done :-) -->
+{#if enableButton}
+	<!-- If this styling needs to be re-used, I'll move it into a class. But for now... -->
+	<Button
+		size="small"
+		variant="ghost"
+		style="padding: var(--spacing-sm); width: auto !important; color: var(--more-powerful-purple) !important;"
+		on:click
+	>
+		{buttonLabel}
+	</Button>
+{/if}

@@ -71,6 +71,7 @@
 				slot="footer"
 				type="submit"
 				label="Add {type.toLocaleLowerCase()}"
+				disabled={!name}
 				on:click={closeModal}
 			/>
 		</div>

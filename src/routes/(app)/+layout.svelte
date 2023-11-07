@@ -18,7 +18,8 @@
 	$: if ($flash) {
 		mh.push({
 			lifespan: 5000,
-			value: $flash?.message
+			value: $flash?.message,
+			status: $flash.type
 		} as Message);
 	}
 

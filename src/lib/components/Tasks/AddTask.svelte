@@ -7,10 +7,13 @@
 	export let goal: Goal | null;
 
 	function showModal() {
+		taskModalIsOpen.set(true);
+
 		if (goal) {
 			selectedGoal.set(goal);
+			return;
 		}
-		taskModalIsOpen.set(true);
+		selectedGoal.set(null);
 	}
 </script>
 

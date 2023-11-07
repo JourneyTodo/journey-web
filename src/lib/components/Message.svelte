@@ -56,11 +56,6 @@
 	}
 </script>
 
-<!-- 
-  TODO: Write helpers to sanitize message and convert it to more html
-  ex: if it was a task added, we want to display a link to the goal
- -->
-
 <div
 	role="alertdialog"
 	class="message {type}"
@@ -69,9 +64,9 @@
 	on:mouseenter={() => pauseTimer()}
 	on:mouseleave={() => resumeTimer()}
 >
-	<!-- TODO: Write actual code here, see above -->
 	{#if options}
-		{#if options.action === 'add'}
+		<!-- For now, we only show the fancy stuff when its a success message -->
+		{#if options.action === 'add' && message.status === 'success'}
 			<FancyToast
 				text={options.text}
 				buttonLabel="Open"

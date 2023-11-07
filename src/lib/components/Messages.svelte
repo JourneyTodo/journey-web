@@ -15,7 +15,7 @@
 		<!--
       (message.id) is needed to make sure we
       track items correctly when they change reactively
-      reverse the order too so messages are pushed in from top -> bottom
+      reverse the order too so messages are pushed in from top to bottom
     -->
 		{#each [...messages].reverse() as message (message.id)}
 			<!-- Use flip here to smoothly transition messages when one is deleted -->

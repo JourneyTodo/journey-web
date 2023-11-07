@@ -1,5 +1,8 @@
 import { writable } from 'svelte/store';
-
+/**
+ * A custom store to handle messages like toasts and banners
+ * @returns
+ */
 function createMessageHandler() {
 	const { subscribe, update } = writable(new Array<Message>());
 	let count = 0;
@@ -50,6 +53,7 @@ function createMessageHandler() {
 export type Message = {
 	id?: number;
 	lifespan?: number;
+	status: 'success' | 'error';
 	value: string;
 };
 

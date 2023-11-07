@@ -11,6 +11,8 @@
 			return t.completed;
 		}).length),
 		(total = tasks?.length ?? 0);
+	// TODO: uncomment this when you have time to fix the dropdown to include buckets
+	// selectedGoal.set(goal);
 </script>
 
 <div class="section">
