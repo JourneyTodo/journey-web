@@ -2,6 +2,7 @@
 	import { tweened } from 'svelte/motion';
 	import ProgressBar from './ProgressBar.svelte';
 	import { cubicOut } from 'svelte/easing';
+	import EllipsisButton from './EllipsisButton.svelte';
 
 	export let title = '';
 	export let numCompleted: number | null = null;
@@ -18,11 +19,14 @@
 
 <!-- <div class="temp-container"> -->
 <header>
-	<div class="content">
-		<h1>{title}</h1>
-		{#if total}
-			<p>{Math.floor($percent)}% complete</p>
-		{/if}
+	<div class="wrapper">
+		<div class="content">
+			<h1>{title}</h1>
+			{#if total}
+				<p>{Math.floor($percent)}% complete</p>
+			{/if}
+		</div>
+		<EllipsisButton />
 	</div>
 	{#if numCompleted !== null && total !== null}
 		<ProgressBar bind:numCompleted bind:total />
@@ -41,7 +45,6 @@
 		z-index: 1; // For some reason if we don't specify a z-index, the SVGs in task items show up
 		.content {
 			margin-bottom: var(--spacing-sm);
-			padding: 32px 0 0 4px;
 			align-items: baseline;
 		}
 		h1,
@@ -51,6 +54,12 @@
 		h1 {
 			font-size: var(--text-xl);
 		}
+	}
+
+	.wrapper {
+		display: flex;
+		justify-content: space-between;
+		padding: 32px 0 0 4px;
 	}
 
 	.content {

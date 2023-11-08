@@ -16,9 +16,16 @@
 	style={displayIcon.rotate ? `transform: rotate(${displayIcon.rotate}deg)` : ''}
 	{...$$restProps}
 >
-	{#each displayIcon.paths as path}
-		<path class:fill d={path} stroke="currentColor" />
-	{/each}
+	{#if displayIcon.paths}
+		{#each displayIcon.paths as path}
+			<path class:fill d={path} stroke="currentColor" />
+		{/each}
+	{/if}
+	{#if displayIcon.circles}
+		{#each displayIcon.circles as circle}
+			<circle cx={circle.cx} cy={circle.cy} r={circle.r} stroke="currentColor" fill="#110D26" />
+		{/each}
+	{/if}
 </svg>
 
 <style lang="scss">

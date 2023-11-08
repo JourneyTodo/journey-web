@@ -1,6 +1,14 @@
+// TODO: figure out how we can handle paths & circles when they're a different order
 export type Icon = {
-	paths: string[];
+	paths?: string[];
+	circles?: circle[];
 	rotate?: number;
+};
+
+type circle = {
+	cx: number;
+	cy: number;
+	r: number;
 };
 
 export const paths: Record<string, Icon> = {
@@ -15,6 +23,25 @@ export const paths: Record<string, Icon> = {
 	},
 	checkmark: {
 		paths: ['M1 5L5 9L13 1']
+	},
+	ellipsis: {
+		circles: [
+			{
+				cx: 6.5,
+				cy: 12.25,
+				r: 1.25
+			},
+			{
+				cx: 12,
+				cy: 12.25,
+				r: 1.25
+			},
+			{
+				cx: 17.5,
+				cy: 12.25,
+				r: 1.25
+			}
+		]
 	}
 };
 

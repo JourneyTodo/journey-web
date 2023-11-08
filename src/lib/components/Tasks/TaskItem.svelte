@@ -3,8 +3,10 @@
 	import { slide } from 'svelte/transition';
 	import CompleteBox from './CompleteBox.svelte';
 	import { quintOut } from 'svelte/easing';
+	import EllipsisButton from '../EllipsisButton.svelte';
 
 	export let task: Task;
+
 	$: ({ name, description, completed } = task);
 </script>
 
@@ -22,14 +24,30 @@
 			<p class="description">{description}</p>
 		{/if}
 	</div>
+	<div class="menu">
+		<EllipsisButton />
+	</div>
 </div>
 
 <style lang="scss">
+	.menu {
+		margin-inline-start: auto;
+		visibility: hidden;
+		transition: opacity 150ms linear;
+		opacity: 0;
+	}
 	.container {
 		display: flex;
 		gap: var(--spacing-md);
 		padding: var(--spacing-md) 0;
 		border-bottom: 1px solid var(--border-common);
+
+		&:hover {
+			.menu {
+				visibility: initial;
+				opacity: 1;
+			}
+		}
 	}
 	.text-container {
 		display: flex;
