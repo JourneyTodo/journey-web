@@ -3,10 +3,16 @@
 	import ProgressBar from './ProgressBar.svelte';
 	import { cubicOut } from 'svelte/easing';
 	import EllipsisButton from './EllipsisButton.svelte';
+	import Button from './Button.svelte';
+	import type { Goal } from '$lib/types/sb';
+	import DeleteModal from '../../routes/(app)/components/DeleteModal.svelte';
+	import Icon from './Icon/Icon.svelte';
 
 	export let title = '';
 	export let numCompleted: number | null = null;
 	export let total: number | null = null;
+	let showModal = false;
+	export let goal: Goal | null = null;
 
 	$: total !== null && total > 0 ? percent.set((numCompleted! / total) * 100, { delay: 0 }) : '';
 
@@ -15,6 +21,9 @@
 		delay: 200,
 		easing: cubicOut
 	});
+	function handleDelete() {
+		showModal = !showModal;
+	}
 </script>
 
 <!-- <div class="temp-container"> -->
@@ -26,14 +35,38 @@
 				<p>{Math.floor($percent)}% complete</p>
 			{/if}
 		</div>
-		<EllipsisButton />
+		{#if goal}
+			<div class="menu">
+				<EllipsisButton>
+					<Button
+						slot="items"
+						size="small"
+						variant="secondary"
+						action="destructive"
+						fill
+						on:click={handleDelete}
+					>
+						<Icon name="trashcan" slot="icon-start" />
+						Delete
+					</Button>
+				</EllipsisButton>
+			</div>
+		{/if}
 	</div>
 	{#if numCompleted !== null && total !== null}
 		<ProgressBar bind:numCompleted bind:total />
 	{/if}
 </header>
 
-<!-- </div> -->
+{#if showModal && goal}
+	<DeleteModal
+		bind:isOpen={showModal}
+		type="Goal"
+		user_id={goal.user_id ?? ''}
+		id={goal.id}
+		name={goal.name ?? ''}
+	/>
+{/if}
 
 <style lang="scss">
 	header {

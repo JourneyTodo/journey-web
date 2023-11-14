@@ -3,24 +3,42 @@
 	import Icon from './Icon/Icon.svelte';
 	import Listbox from './Listbox.svelte';
 
-	let showMore = false;
-	function showMoreMenu() {
-		showMore = true;
+	export let showMore = false;
+
+	let element: HTMLDivElement;
+	let listBox: HTMLElement;
+
+	function toggleMenu() {
+		showMore = !showMore;
+	}
+	function handleClickOut(e: MouseEvent) {
+		if (!showMore) return;
+
+		// If the click is outside the menu/listbox, close it
+		const target = e.target as HTMLElement;
+		if (target === listBox || target === element) return;
+		if (element.contains(target) || listBox.contains(target)) return;
+
+		showMore = false;
 	}
 </script>
 
-<Button
-	variant="ghost"
-	size="xsmall"
-	style="padding: 0; margin-inline-start: auto;"
-	on:click={showMoreMenu}
->
-	<Icon slot="icon-start" name="ellipsis" />
-</Button>
+<svelte:window on:click={handleClickOut} />
+
+<div class="container" id="menu" bind:this={element}>
+	<Button
+		variant="ghost"
+		size="xsmall"
+		style="padding: 0; margin-inline-start: auto;"
+		on:click={toggleMenu}
+	>
+		<Icon slot="icon-start" name="ellipsis" />
+	</Button>
+</div>
 {#if showMore}
-	<div class="listbox-wrapper">
+	<div class="listbox-wrapper" bind:this={listBox}>
 		<Listbox>
-			<Button size="small" variant="secondary">Delete</Button>
+			<slot name="items" />
 		</Listbox>
 	</div>
 {/if}

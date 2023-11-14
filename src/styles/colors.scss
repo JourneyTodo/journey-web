@@ -10,6 +10,7 @@
 	--bluuberry: #1c0dbe;
 	--goldoleum: #f2b818;
 	--razzleberry: #e91e63;
+	--razzleberry-lite: #fce9ef;
 	--ever-so-green: #008573;
 	/**
     * Color aliases
@@ -25,6 +26,7 @@
    */
 	--text-primary: var(--moody-purple);
 	--text-link: var(--bluuberry);
+	--danger-text: #b90010;
 
 	/**
     * Decorative colors
@@ -34,6 +36,7 @@
 	--btn-secondary-outline: #716b8a;
 	--focus-outline-primary: rgba(129, 102, 255, 0.25);
 	--ghost-hover: color-mix(in srgb, var(--gurple-lite) 20%, var(--gurple) 20%);
+	--focus-shadow-primary: 0px 0px 0px 2px #fff, 0px 0px 0px 4px rgba(88, 52, 255, 0.6);
 
 	/**
     * Background colors

@@ -4,16 +4,38 @@
 	import CompleteBox from './CompleteBox.svelte';
 	import { quintOut } from 'svelte/easing';
 	import EllipsisButton from '../EllipsisButton.svelte';
+	import Button from '../Button.svelte';
+	import DeleteModal from '../../../routes/(app)/components/DeleteModal.svelte';
 
 	export let task: Task;
+	let showMenu = false;
+	let showModal = false;
+	let menuActive = false;
 
 	$: ({ name, description, completed } = task);
+
+	function handleMouseOver() {
+		showMenu = true;
+	}
+	function handleMouseOut() {
+		if (!menuActive) {
+			showMenu = false;
+		}
+	}
+	function handleDelete() {
+		showModal = !showModal;
+	}
 </script>
 
 <div
 	class="container"
 	class:completed
 	transition:slide={{ duration: 300, easing: quintOut, axis: 'y' }}
+	role="presentation"
+	on:mouseout={handleMouseOut}
+	on:mouseover={handleMouseOver}
+	on:focus={handleMouseOver}
+	on:blur={handleMouseOut}
 >
 	{#if completed !== null}
 		<CompleteBox bind:task />
@@ -24,30 +46,44 @@
 			<p class="description">{description}</p>
 		{/if}
 	</div>
-	<div class="menu">
-		<EllipsisButton />
+	<div class="menu" class:showMenu>
+		<EllipsisButton bind:showMore={menuActive}>
+			<Button
+				slot="items"
+				size="small"
+				variant="secondary"
+				action="destructive"
+				fill
+				on:click={handleDelete}>Delete</Button
+			>
+		</EllipsisButton>
 	</div>
 </div>
 
+{#if showModal}
+	<DeleteModal
+		bind:isOpen={showModal}
+		type="Task"
+		user_id={task.user_id ?? ''}
+		id={task.id}
+		name={task.name ?? ''}
+	/>
+{/if}
+
 <style lang="scss">
 	.menu {
-		margin-inline-start: auto;
-		visibility: hidden;
 		transition: opacity 150ms linear;
+		margin-inline-start: auto;
 		opacity: 0;
+	}
+	.showMenu {
+		opacity: 1;
 	}
 	.container {
 		display: flex;
 		gap: var(--spacing-md);
 		padding: var(--spacing-md) 0;
 		border-bottom: 1px solid var(--border-common);
-
-		&:hover {
-			.menu {
-				visibility: initial;
-				opacity: 1;
-			}
-		}
 	}
 	.text-container {
 		display: flex;

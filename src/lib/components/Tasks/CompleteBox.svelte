@@ -45,7 +45,11 @@
 			width: 20px;
 			height: 20px;
 			border: 1px solid var(--primitive-outline);
-			cursor: pointer;
+			cursor: inherit;
+
+			&:focus-visible {
+				outline-color: var(--primary);
+			}
 		}
 	}
 </style>
