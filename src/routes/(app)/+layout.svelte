@@ -102,7 +102,7 @@
 		main {
 			flex: 1;
 			padding: 0 var(--spacing-main);
-			margin: 0 auto;
+			margin: 2rem auto 0;
 			background: var(--background-primary);
 			max-width: 50rem; // 800px;
 			max-height: 100svh;
