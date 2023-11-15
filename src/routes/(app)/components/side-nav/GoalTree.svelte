@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Goal } from '$lib/types/sb';
-	import { beforeUpdate, onMount } from 'svelte';
+	import { beforeUpdate } from 'svelte';
 	import NavItem from './NavItem.svelte';
 	import { createIdToParentMap } from '$lib/functions/utils';
 	import { slide } from 'svelte/transition';

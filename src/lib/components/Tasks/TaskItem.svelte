@@ -3,15 +3,33 @@
 	import { slide } from 'svelte/transition';
 	import CompleteBox from './CompleteBox.svelte';
 	import { quintOut } from 'svelte/easing';
+	import TaskMenu from './TaskMenu.svelte';
 
 	export let task: Task;
+	let showMenu = false;
+	let menuActive = false;
+
 	$: ({ name, description, completed } = task);
+
+	function handleMouseOver() {
+		showMenu = true;
+	}
+	function handleMouseOut() {
+		if (!menuActive) {
+			showMenu = false;
+		}
+	}
 </script>
 
 <div
 	class="container"
 	class:completed
 	transition:slide={{ duration: 300, easing: quintOut, axis: 'y' }}
+	role="presentation"
+	on:mouseout={handleMouseOut}
+	on:mouseover={handleMouseOver}
+	on:focus={handleMouseOver}
+	on:blur={handleMouseOut}
 >
 	{#if completed !== null}
 		<CompleteBox bind:task />
@@ -22,9 +40,20 @@
 			<p class="description">{description}</p>
 		{/if}
 	</div>
+	<div class="menu" class:showMenu>
+		<TaskMenu bind:menuActive bind:task />
+	</div>
 </div>
 
 <style lang="scss">
+	.menu {
+		transition: opacity 150ms linear;
+		margin-inline-start: auto;
+		opacity: 0;
+	}
+	.showMenu {
+		opacity: 1;
+	}
 	.container {
 		display: flex;
 		gap: var(--spacing-md);

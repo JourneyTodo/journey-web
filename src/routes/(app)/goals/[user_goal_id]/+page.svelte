@@ -16,7 +16,7 @@
 </script>
 
 <div class="section">
-	<Header title={goal?.name} bind:numCompleted bind:total />
+	<Header title={goal?.name} bind:numCompleted bind:total {goal} />
 	{#if tasks}
 		<div class="tasklist-container">
 			<TaskList {tasks} {goal} />

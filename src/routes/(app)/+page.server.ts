@@ -1,9 +1,16 @@
 // import type { Message } from '$lib/messageHandler';
 import { setFlash } from 'sveltekit-flash-message/server';
 
-import { goalAdded, taskAdded, taskCompleted } from '$lib/constants/messages';
-import type { Actions } from '@sveltejs/kit';
+import {
+	goalAdded,
+	goalDeleted,
+	taskAdded,
+	taskCompleted,
+	taskDeleted
+} from '$lib/constants/messages';
+import { redirect, type Actions } from '@sveltejs/kit';
 import type { PostgrestError } from '@supabase/supabase-js';
+import { baseRoutes } from '$lib/constants/routes';
 
 function isError(data: PostgrestError): data is PostgrestError {
 	return 'message' in data && 'details' in data && 'hint' in data && 'code' in data;
@@ -88,6 +95,48 @@ export const actions: Actions = {
 
 		setFlash(msg.success, event);
 
+		return { success: true };
+	},
+
+	deleteGoal: async (event) => {
+		const {
+			request,
+			locals: { deleteGoal }
+		} = event;
+		const formData = await request.formData();
+		const id = formData.get('id') as string;
+		const user_id = formData.get('user_id') as string;
+
+		const { error } = await deleteGoal(id, user_id);
+
+		const msg = goalDeleted;
+		if (error) {
+			setFlash(msg.error, event);
+			return { success: false };
+		}
+
+		setFlash(msg.success, event);
+		throw redirect(303, baseRoutes.goals);
+	},
+
+	deleteTask: async (event) => {
+		const {
+			request,
+			locals: { deleteTask }
+		} = event;
+		const formData = await request.formData();
+		const id = formData.get('id') as string;
+		const user_id = formData.get('user_id') as string;
+
+		const { error } = await deleteTask(id, user_id);
+
+		const msg = taskDeleted;
+		if (error) {
+			setFlash(msg.error, event);
+			return { success: false };
+		}
+
+		setFlash(msg.success, event);
 		return { success: true };
 	}
 };

@@ -1,12 +1,20 @@
 <script lang="ts">
 	import AddModal from './components/AddModal.svelte';
 	import SideNav from './components/side-nav/SideNav.svelte';
-	import { goalModalIsOpen, selectedGoal, taskModalIsOpen } from '$lib/stores/modals.store';
+	import {
+		deleteModalIsOpen,
+		goalModalIsOpen,
+		selectedGoal,
+		taskModalIsOpen,
+		currentTask,
+		currentGoal
+	} from '$lib/stores/modals.store';
 	import Messages from '$lib/components/Messages.svelte';
 	import { getFlash } from 'sveltekit-flash-message';
 	import { page } from '$app/stores';
 	import { messageHandler as mh } from '$lib/MessageHandler';
 	import type { Message } from '$lib/MessageHandler';
+	import DeleteModal from './components/DeleteModal.svelte';
 
 	export let data;
 
@@ -70,13 +78,31 @@
 	/>
 {/if}
 
+{#if $deleteModalIsOpen && $currentTask}
+	<DeleteModal
+		bind:isOpen={$deleteModalIsOpen}
+		type="Task"
+		user_id={$currentTask.user_id ?? ''}
+		id={$currentTask.id}
+		name={$currentTask.name ?? ''}
+	/>
+{:else if $deleteModalIsOpen && $currentGoal}
+	<DeleteModal
+		bind:isOpen={$deleteModalIsOpen}
+		type="Goal"
+		user_id={$currentGoal.user_id ?? ''}
+		id={$currentGoal.id}
+		name={$currentGoal.name ?? ''}
+	/>
+{/if}
+
 <style lang="scss">
 	.container {
 		display: flex;
 		main {
 			flex: 1;
 			padding: 0 var(--spacing-main);
-			margin: 0 auto;
+			margin: 2rem auto 0;
 			background: var(--background-primary);
 			max-width: 50rem; // 800px;
 			max-height: 100svh;

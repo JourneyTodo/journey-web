@@ -1,5 +1,6 @@
 <script lang="ts">
 	export let variant: 'primary' | 'secondary' | 'danger' | 'ghost' = 'primary';
+	export let action: 'destructive' | '' = '';
 	export let size: 'large' | 'medium' | 'small' | 'xsmall' = 'medium';
 	export let outline: boolean = false;
 	export let classes: string = '';
@@ -16,8 +17,9 @@
 		{form}
 		class="btn flex-center {size} {outline ? 'outline' : ''} {fill
 			? 'fill'
-			: ''} {variant} {classes} {disabled ? 'disabled' : ''}
+			: ''} {variant} {action} {classes} {disabled ? 'disabled' : ''}
       {circle ? 'circle' : ''}"
+		class:destructive={action}
 		value={label}
 	/>
 {:else}
@@ -25,7 +27,7 @@
 		{...$$restProps}
 		class="btn flex-center {size} {outline ? 'outline' : ''} {fill
 			? 'fill'
-			: ''} {variant} {classes} {disabled ? 'disabled' : ''}
+			: ''} {variant} {classes} {action} {disabled ? 'disabled' : ''}
       {circle ? 'circle' : ''}"
 		on:click
 		on:mouseenter
@@ -60,7 +62,7 @@
 		padding: 0 var(--spacing-lg);
 		&:focus {
 			outline: none;
-			box-shadow: 0px 0px 0px 5px rgba(129, 102, 255, 0.25);
+			box-shadow: var(--focus-shadow-primary);
 		}
 
 		&.primary {
@@ -68,7 +70,7 @@
 			color: white;
 			background-blend-mode: soft-light, normal;
 			&:focus {
-				box-shadow: 0px 0px 0px 1px #fff, 0px 0px 0px 5px rgba(129, 102, 255, 0.25) !important;
+				box-shadow: var(--focus-shadow-primary);
 			}
 			&:hover {
 				cursor: pointer;
@@ -80,11 +82,20 @@
 			background: var(--secondary);
 
 			&:focus {
-				box-shadow: 0px 0px 0px 1px #fff, 0px 0px 0px 5px rgba(129, 102, 255, 0.25) !important;
+				box-shadow: var(--focus-shadow-primary);
 			}
 			&:hover {
 				cursor: pointer;
 				background: #d8d6db; //TODO: unhardcode, figure out how to get programmatically
+			}
+
+			&.destructive {
+				color: var(--danger-text);
+				background: var(--razzleberry-lite);
+				&:hover {
+					cursor: pointer;
+					background: #f9d4df;
+				}
 			}
 		}
 
@@ -104,7 +115,7 @@
 			background: none;
 			&:focus {
 				background: var(--gurple-lite);
-				box-shadow: 0px 0px 0px 1px #fff, 0px 0px 0px 5px rgba(129, 102, 255, 0.25) !important;
+				box-shadow: var(--focus-shadow-primary);
 			}
 			&:hover {
 				cursor: pointer;

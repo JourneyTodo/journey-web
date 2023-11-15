@@ -48,6 +48,7 @@
 	transition:slide={{ duration: 300, easing: quintOut, axis: 'y' }}
 >
 	<ul class="list" bind:this={list}>
+		<slot />
 		{#each items as item, i}
 			<li id="listBox-items">
 				<div
