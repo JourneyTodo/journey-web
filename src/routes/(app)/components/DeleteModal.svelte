@@ -2,7 +2,7 @@
 	import Modal from '$lib/components/Modal.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import { enhance } from '$app/forms';
-	import { selectedGoal } from '$lib/stores/modals.store';
+	import { currentTask } from '$lib/stores/modals.store';
 
 	export let isOpen = false;
 	export let user_id: string;
@@ -14,7 +14,7 @@
 
 	function closeModal() {
 		isOpen = false;
-		selectedGoal.set(null);
+		currentTask.set(null);
 	}
 </script>
 

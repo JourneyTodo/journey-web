@@ -3,13 +3,10 @@
 	import { slide } from 'svelte/transition';
 	import CompleteBox from './CompleteBox.svelte';
 	import { quintOut } from 'svelte/easing';
-	import EllipsisButton from '../EllipsisButton.svelte';
-	import Button from '../Button.svelte';
-	import DeleteModal from '../../../routes/(app)/components/DeleteModal.svelte';
+	import TaskMenu from './TaskMenu.svelte';
 
 	export let task: Task;
 	let showMenu = false;
-	let showModal = false;
 	let menuActive = false;
 
 	$: ({ name, description, completed } = task);
@@ -21,9 +18,6 @@
 		if (!menuActive) {
 			showMenu = false;
 		}
-	}
-	function handleDelete() {
-		showModal = !showModal;
 	}
 </script>
 
@@ -47,28 +41,9 @@
 		{/if}
 	</div>
 	<div class="menu" class:showMenu>
-		<EllipsisButton bind:showMore={menuActive}>
-			<Button
-				slot="items"
-				size="small"
-				variant="secondary"
-				action="destructive"
-				fill
-				on:click={handleDelete}>Delete</Button
-			>
-		</EllipsisButton>
+		<TaskMenu bind:showMenu bind:task />
 	</div>
 </div>
-
-{#if showModal}
-	<DeleteModal
-		bind:isOpen={showModal}
-		type="Task"
-		user_id={task.user_id ?? ''}
-		id={task.id}
-		name={task.name ?? ''}
-	/>
-{/if}
 
 <style lang="scss">
 	.menu {
