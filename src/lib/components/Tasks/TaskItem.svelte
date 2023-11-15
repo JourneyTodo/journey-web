@@ -41,7 +41,7 @@
 		{/if}
 	</div>
 	<div class="menu" class:showMenu>
-		<TaskMenu bind:showMenu bind:task />
+		<TaskMenu bind:menuActive bind:task />
 	</div>
 </div>
 
