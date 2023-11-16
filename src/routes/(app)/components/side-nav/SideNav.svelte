@@ -48,7 +48,7 @@
 		<NavItem href="/upcoming" disabled>
 			<span slot="text" class="today">Upcoming</span>
 		</NavItem>
-		<NavItem href="/completed" disabled>
+		<NavItem href="/completed">
 			<span slot="text" class="today">Completed</span>
 		</NavItem>
 	</div>
