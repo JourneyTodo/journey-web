@@ -20,7 +20,6 @@
 	}
 
 	function handleClickOut(e: MouseEvent) {
-		console.log('foo');
 		// if showListBox is false, let the click pass through
 		if (!showListbox) return;
 

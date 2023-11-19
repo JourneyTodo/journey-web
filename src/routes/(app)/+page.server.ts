@@ -82,7 +82,8 @@ export const actions: Actions = {
 		const { error } = await supabase
 			.from('tasks')
 			.update({
-				completed
+				completed,
+				completed_at: completed ? new Date().toISOString() : null
 			})
 			.eq('id', id)
 			.select();

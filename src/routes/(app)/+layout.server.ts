@@ -15,11 +15,11 @@ export const load: LayoutServerLoad = loadFlash(
 		const profile = await getUser(session.user.id);
 
 		if (!profile) {
-			throw new Error('User not found');
+			console.error('User not found');
+			throw redirect(303, signIn);
 		}
 
 		const goals = await getGoals(session.user.id);
-
 		return {
 			user: profile as User,
 			goals: goals as Goal[]

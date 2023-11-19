@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { setTitle, titleCase, toPastTense } from './utils';
+import { parseTimestamp, setTitle, titleCase, toPastTense } from './utils';
 
 describe('titleCase tests', () => {
 	it('should title case string', () => {
@@ -13,12 +13,22 @@ describe('setTitle tests', () => {
 	});
 });
 
-describe('toPastTens tests', () => {
+describe('toPastTense tests', () => {
 	it('should past tense delete', () => {
 		expect(toPastTense('delete')).toBe('deleted');
 	});
 
 	it('should past tense add to added', () => {
 		expect(toPastTense('add')).toBe('added');
+	});
+});
+
+describe('parseTimestamp tests', () => {
+	it('should return valide number', () => {
+		expect(parseTimestamp('05/06/1999')).toBeGreaterThan(-1);
+	});
+
+	it('should return -1', () => {
+		expect(parseTimestamp('foobar')).toBe(-1);
 	});
 });

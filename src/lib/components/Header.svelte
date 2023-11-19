@@ -62,7 +62,7 @@
 	.wrapper {
 		display: flex;
 		justify-content: space-between;
-		padding: 32px 0 0 4px;
+		padding-top: var(--spacing-xxl);
 	}
 
 	.content {

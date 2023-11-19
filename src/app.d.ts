@@ -20,7 +20,8 @@ declare global {
 				idx: number
 			): Promise<Goal | PostgrestError>;
 			deleteGoal(id: string, user_id: string): Promise<Goal | PostgrestError>;
-			getTasks(id: string, goal_id: string | null): Promise<Task[] | PostgrestError | null>;
+			getTasks(user_id: string, goal_id: string | null): Promise<Task[] | PostgrestError | null>;
+			getAllCompletedTasks(user_id: string): Task[];
 			addTask(
 				user_id: string,
 				goal_id: string | null,

@@ -1,3 +1,5 @@
+import type { Goal } from '$lib/types/sb';
+
 export const setTitle = (title: string) => {
 	return `${title} – Journey`;
 };
@@ -38,4 +40,16 @@ export const createIdToParentMap = (objList: GenericIdToParent[]) => {
 		idToParent.set(objList.id, objList.parent_id);
 	});
 	return idToParent;
+};
+
+export const parseTimestamp = (timestamp: string): number => {
+	const ts = Date.parse(timestamp);
+	if (!isNaN(ts)) {
+		return ts;
+	}
+	return -1;
+};
+
+export const findGoal = (id: string, goals: Goal[]): Goal | undefined => {
+	return goals.find((g: Goal) => g.id === id);
 };
