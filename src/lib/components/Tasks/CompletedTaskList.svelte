@@ -1,15 +1,10 @@
 <script lang="ts">
-	import type { Task } from '$lib/types/sb';
+	import type { Goal, Task } from '$lib/types/sb';
 	import CompletedTaskItem from './CompletedTaskItem.svelte';
+	import { findGoal } from '$lib/functions/utils';
 
 	export let tasksByDates: Map<string, Task[]>;
-	/**
-	 * TasksByDay: {
-	 *  date: number,
-	 *  tasks: Task[]
-	 * }
-	 *
-	 */
+	export let goals: Goal[];
 
 	function getDayAndMonth(dateStr: string) {
 		const date = new Date(Date.parse(dateStr));
@@ -28,7 +23,7 @@
 	{#each [...tasksByDates] as [k, v]}
 		<h2>{getDayAndMonth(k)}<span class="day-of-week">{getDayOfWeek(k)}</span></h2>
 		{#each v as task}
-			<CompletedTaskItem {task} />
+			<CompletedTaskItem {task} goal={findGoal(task.goal_id ?? '', goals)} />
 		{/each}
 	{/each}
 </div>

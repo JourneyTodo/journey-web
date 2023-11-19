@@ -1,3 +1,5 @@
+import type { Goal } from '$lib/types/sb';
+
 export const setTitle = (title: string) => {
 	return `${title} – Journey`;
 };
@@ -46,4 +48,8 @@ export const parseTimestamp = (timestamp: string): number => {
 		return ts;
 	}
 	return -1;
+};
+
+export const findGoal = (id: string, goals: Goal[]): Goal | undefined => {
+	return goals.find((g: Goal) => g.id === id);
 };

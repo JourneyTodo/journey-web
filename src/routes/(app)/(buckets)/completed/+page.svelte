@@ -4,9 +4,9 @@
 
 	export let data;
 
-	let { tasks } = data;
-	$: ({ tasks } = data);
+	let { tasks, goals } = data;
+	$: ({ tasks, goals } = data);
 </script>
 
 <Header title="Completed" />
-<CompletedTaskList tasksByDates={tasks} />
+<CompletedTaskList tasksByDates={tasks} {goals} />
