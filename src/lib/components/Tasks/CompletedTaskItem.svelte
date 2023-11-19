@@ -2,6 +2,7 @@
 	import type { Task } from '$lib/types/sb';
 	import { slide } from 'svelte/transition';
 	import { quintOut } from 'svelte/easing';
+	import CompleteBox from './CompleteBox.svelte';
 
 	export let task: Task;
 	let date = new Date(Date.parse(task.completed_at!));
@@ -12,13 +13,19 @@
 	transition:slide={{ duration: 300, easing: quintOut, axis: 'y' }}
 	role="presentation"
 >
+	<CompleteBox {task} />
 	<div class="text-container">
 		<span class="name">{task.name}</span>
-		<p class="completed-time">Completed at {date.toLocaleTimeString()}</p>
+		<p class="completed-time">
+			Completed at {date.toLocaleTimeString('en-us', { timeStyle: 'short' })}
+		</p>
 	</div>
 </div>
 
 <style lang="scss">
+	p {
+		margin: 0;
+	}
 	.container {
 		display: flex;
 		gap: var(--spacing-md);

@@ -39,3 +39,11 @@ export const createIdToParentMap = (objList: GenericIdToParent[]) => {
 	});
 	return idToParent;
 };
+
+export const parseTimestamp = (timestamp: string): number => {
+	const ts = Date.parse(timestamp);
+	if (!isNaN(ts)) {
+		return ts;
+	}
+	return -1;
+};

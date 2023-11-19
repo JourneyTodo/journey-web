@@ -9,4 +9,4 @@
 </script>
 
 <Header title="Completed" />
-<CompletedTaskList {tasks} />
+<CompletedTaskList tasksByDates={tasks} />

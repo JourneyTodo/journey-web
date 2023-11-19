@@ -101,7 +101,9 @@ export const handle: Handle = async ({ event, resolve }) => {
 				.from('tasks')
 				.select(query)
 				.eq('user_id', user_id)
-				.filter('goal_id', 'is', 'null');
+				.filter('goal_id', 'is', 'null')
+				.order('completed')
+				.order('created_at');
 
 			tasks = data;
 			err = error;
@@ -110,7 +112,9 @@ export const handle: Handle = async ({ event, resolve }) => {
 				.from('tasks')
 				.select(query)
 				.eq('user_id', user_id)
-				.eq('goal_id', goal_id);
+				.eq('goal_id', goal_id)
+				.order('completed')
+				.order('created_at');
 
 			tasks = data;
 			err = error;
