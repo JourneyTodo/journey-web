@@ -134,3 +134,13 @@ export function formatDate(defaultDate: Date) {
 export const isError = (data: unknown): data is PostgrestError => {
 	return 'message' in data && 'details' in data && 'hint' in data && 'code' in data;
 };
+
+/**
+ * Checks to see if the given string is a) a valid date and b) in the year 2023 or later
+ * @param date date string
+ * @returns boolean
+ */
+export const isValidDate = (date: string): boolean => {
+	const inputDate = new Date(date);
+	return !isNaN(inputDate.getTime()) && inputDate.getFullYear() > 2022;
+};

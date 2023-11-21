@@ -4,6 +4,7 @@ import type { Handle } from '@sveltejs/kit';
 import type { Database } from '$lib/types/database';
 import type { Goal, Task, User } from '$lib/types/sb';
 import type { PostgrestError } from '@supabase/supabase-js';
+import { isValidDate } from '$lib/functions/utils';
 
 export const handle: Handle = async ({ event, resolve }) => {
 	event.locals.supabase = createSupabaseServerClient<Database>({
@@ -122,6 +123,44 @@ export const handle: Handle = async ({ event, resolve }) => {
 			err = error;
 		}
 
+		return err ?? tasks;
+	};
+
+	event.locals.getTasksByDate = async (
+		user_id: string,
+		date: string,
+		operator: 'eq' | 'gt' = 'eq'
+	) => {
+		const query = `id, goal_id, user_id, user_task_id, name, description, created_at, updated_at, target_date, completed_at, completed, index, bucket`;
+		let tasks: Task[] | null = null;
+		let err: PostgrestError | null = null;
+		if (!isValidDate(date)) {
+			return {
+				message: `The date ${date} is not a valid format.`,
+				details: '',
+				hint: 'Make sure the date is valid and after the year 2022.',
+				code: '400'
+			} as PostgrestError;
+		}
+		if (operator === 'eq') {
+			const { data, error } = await event.locals.supabase
+				.from('tasks')
+				.select(query)
+				.eq('user_id', user_id)
+				.eq('target_date', date)
+				.neq('completed', true);
+			tasks = data;
+			err = error;
+		} else if (operator === 'gt') {
+			const { data, error } = await event.locals.supabase
+				.from('tasks')
+				.select(query)
+				.eq('user_id', user_id)
+				.gt('target_date', date)
+				.neq('completed', true);
+			tasks = data;
+			err = error;
+		}
 		return err ?? tasks;
 	};
 

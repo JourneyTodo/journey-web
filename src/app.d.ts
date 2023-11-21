@@ -22,6 +22,11 @@ declare global {
 			): Promise<Goal | PostgrestError>;
 			deleteGoal(id: string, user_id: string): Promise<Goal[] | PostgrestError>;
 			getTasks(user_id: string, goal_id: string | null): Promise<Task[] | PostgrestError | null>;
+			getTasksByDate(
+				user_id: string,
+				date?: string,
+				operator: 'eq' | 'gt'
+			): Promise<Task[] | PostgrestError | null>;
 			getAllCompletedTasks(user_id: string): Promise<Task[] | PostgrestError | null>;
 			addTask(
 				user_id: string,

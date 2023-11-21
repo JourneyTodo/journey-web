@@ -1,14 +1,18 @@
-import type { Task } from '$lib/types/sb';
-import { isError, isSameDay } from '$lib/functions/utils';
+import { formatDate, isError } from '$lib/functions/utils';
+import { redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
+import { signIn } from '$lib/constants/routes';
 
-export const load: PageServerLoad = async ({ parent }) => {
-	const { tasks } = await parent();
-	if (tasks && !isError(tasks)) {
+export const load: PageServerLoad = async ({ parent, locals: { getTasksByDate } }) => {
+	const { session } = await parent();
+	if (!session) {
+		throw redirect(302, signIn);
+	}
+	const today = formatDate(new Date());
+	const result = getTasksByDate(session.user.id, today, 'eq');
+	if (result && !isError(result)) {
 		return {
-			tasks: tasks.filter((t: Task) => {
-				return isSameDay(new Date(t.target_date!), new Date());
-			})
+			tasks: result
 		};
 	}
 };
