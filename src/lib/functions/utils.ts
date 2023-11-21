@@ -64,7 +64,7 @@ export const getDayOfWeek = (dateStr: string) => {
 };
 
 export const isTodayOrTomorrow = (dateStr: string): string | undefined => {
-	const date = new Date(Date.parse(dateStr));
+	const date = new Date(dateStr);
 	const now = new Date();
 
 	if (isSameDay(date, now)) {
@@ -86,8 +86,8 @@ export const isTodayOrTomorrow = (dateStr: string): string | undefined => {
 export const isSameDay = (date1: Date, date2: Date): boolean => {
 	return (
 		date1.getUTCDate() === date2.getDate() &&
-		date1.getUTCMonth() === date2.getMonth() &&
-		date1.getUTCFullYear() === date2.getFullYear()
+		date1.getMonth() === date2.getMonth() &&
+		date1.getFullYear() === date2.getFullYear()
 	);
 };
 

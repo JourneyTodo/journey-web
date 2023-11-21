@@ -9,7 +9,7 @@ export const load: PageServerLoad = async ({ parent, locals: { getTasksByDate } 
 		throw redirect(302, signIn);
 	}
 	const today = formatDate(new Date());
-	const result = getTasksByDate(session.user.id, today, 'eq');
+	const result = getTasksByDate(session.user.id, today, 'lte');
 	if (result && !isError(result)) {
 		return {
 			tasks: result

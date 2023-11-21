@@ -20,6 +20,19 @@
 			showMenu = false;
 		}
 	}
+	function isOverdue() {
+		const d = new Date(task.target_date!);
+		const today = new Date();
+		// TODO: update this to support time comparisons later on
+		if (
+			d.getUTCDate() === today.getUTCDate() &&
+			d.getUTCFullYear() === today.getUTCFullYear() &&
+			d.getUTCMonth() === today.getUTCMonth()
+		) {
+			return false;
+		}
+		return d < today;
+	}
 </script>
 
 <div
@@ -41,7 +54,7 @@
 			<p class="description">{description}</p>
 		{/if}
 		{#if target_date}
-			<p class="description target-date">
+			<p class="description target-date" class:overdue={isOverdue()}>
 				{isTodayOrTomorrow(target_date) ?? getDayAndMonth(target_date)}
 			</p>
 		{/if}
@@ -92,5 +105,8 @@
 			opacity: var(--opacity-50);
 			text-decoration: line-through;
 		}
+	}
+	.overdue {
+		color: var(--danger-text);
 	}
 </style>

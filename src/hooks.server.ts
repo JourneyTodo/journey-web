@@ -129,7 +129,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 	event.locals.getTasksByDate = async (
 		user_id: string,
 		date: string,
-		operator: 'eq' | 'gt' = 'eq'
+		operator: 'eq' | 'lte' | 'gt' = 'eq'
 	) => {
 		const query = `id, goal_id, user_id, user_task_id, name, description, created_at, updated_at, target_date, completed_at, completed, index, bucket`;
 		let tasks: Task[] | null = null;
@@ -142,12 +142,12 @@ export const handle: Handle = async ({ event, resolve }) => {
 				code: '400'
 			} as PostgrestError;
 		}
-		if (operator === 'eq') {
+		if (operator === 'lte') {
 			const { data, error } = await event.locals.supabase
 				.from('tasks')
 				.select(query)
 				.eq('user_id', user_id)
-				.eq('target_date', date)
+				.lte('target_date', date)
 				.neq('completed', true);
 			tasks = data;
 			err = error;

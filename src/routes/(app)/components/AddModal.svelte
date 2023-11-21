@@ -25,7 +25,6 @@
 	}
 
 	$: selectedDate = $currentDate ?? '';
-	$: console.log(selectedDate);
 </script>
 
 <Modal bind:isOpen>
