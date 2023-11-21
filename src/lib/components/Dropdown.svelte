@@ -50,7 +50,9 @@
 				{label}
 			{/if}
 		</span>
-		<Icon slot="icon-end" name="chevron-down" />
+		<div class="icn-container">
+			<Icon slot="icon-end" name="chevron-down" />
+		</div>
 	</Button>
 	{#if showListbox}
 		<div class="listbox-wrapper">
@@ -75,5 +77,15 @@
 		display: -webkit-box;
 		-webkit-line-clamp: 1;
 		-webkit-box-orient: vertical;
+	}
+
+	// Some hacks to bypass the viewbox. Not optimal, but it works and I'm trying to move fast
+	.icn-container {
+		width: 12px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		overflow: hidden;
+		padding-inline-start: var(--spacing-xs);
 	}
 </style>

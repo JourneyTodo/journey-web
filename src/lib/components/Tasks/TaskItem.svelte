@@ -4,12 +4,13 @@
 	import CompleteBox from './CompleteBox.svelte';
 	import { quintOut } from 'svelte/easing';
 	import TaskMenu from './TaskMenu.svelte';
+	import { getDayAndMonth, isTodayOrTomorrow } from '$lib/functions/utils';
 
 	export let task: Task;
 	let showMenu = false;
 	let menuActive = false;
 
-	$: ({ name, description, completed } = task);
+	$: ({ name, description, completed, target_date } = task);
 
 	function handleMouseOver() {
 		showMenu = true;
@@ -38,6 +39,11 @@
 		<span class="name">{name}</span>
 		{#if description}
 			<p class="description">{description}</p>
+		{/if}
+		{#if target_date}
+			<p class="description target-date">
+				{isTodayOrTomorrow(target_date) ?? getDayAndMonth(target_date)}
+			</p>
 		{/if}
 	</div>
 	<div class="menu" class:showMenu>

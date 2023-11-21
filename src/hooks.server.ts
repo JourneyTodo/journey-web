@@ -49,7 +49,8 @@ export const handle: Handle = async ({ event, resolve }) => {
 		goal_id: string | null,
 		name: string,
 		description: string,
-		idx: number
+		idx: number,
+		target_date: string
 	): Promise<Goal | PostgrestError> => {
 		if (!name) {
 			return {
@@ -67,7 +68,8 @@ export const handle: Handle = async ({ event, resolve }) => {
 				parent_id: goal_id,
 				name,
 				description,
-				index: idx
+				index: idx,
+				target_date
 			})
 			.select()
 			.single();
@@ -123,7 +125,9 @@ export const handle: Handle = async ({ event, resolve }) => {
 		return err ?? tasks;
 	};
 
-	event.locals.getAllCompletedTasks = async (user_id: string) => {
+	event.locals.getAllCompletedTasks = async (
+		user_id: string
+	): Promise<Task[] | PostgrestError | null> => {
 		let tasks: Task[] | null = null;
 		let err: PostgrestError | null = null;
 
@@ -144,7 +148,8 @@ export const handle: Handle = async ({ event, resolve }) => {
 		goal_id: string | null,
 		name: string | null,
 		description: string,
-		idx: number
+		idx: number,
+		target_date: string
 	): Promise<Task[] | PostgrestError> => {
 		let err: PostgrestError | null = null;
 		let tasks: Task[];
@@ -165,7 +170,8 @@ export const handle: Handle = async ({ event, resolve }) => {
 					user_id,
 					name,
 					description,
-					index: idx
+					index: idx,
+					target_date
 				})
 				.select();
 			tasks = data!;
@@ -178,7 +184,8 @@ export const handle: Handle = async ({ event, resolve }) => {
 					goal_id,
 					name,
 					description,
-					index: idx
+					index: idx,
+					target_date
 				})
 				.select();
 			tasks = data!;

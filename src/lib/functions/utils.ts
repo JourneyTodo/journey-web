@@ -50,6 +50,46 @@ export const parseTimestamp = (timestamp: string): number => {
 	return -1;
 };
 
+export const getDayAndMonth = (dateStr: string) => {
+	const date = new Date(dateStr);
+	const month = date.toLocaleString('en-us', { month: 'long' });
+	const day = date.getUTCDate();
+	return `${month} ${day}`;
+};
+export const getDayOfWeek = (dateStr: string) => {
+	const date = new Date(dateStr);
+	const dayOfWeek = date.toLocaleString('en-us', { weekday: 'long' });
+	return `${dayOfWeek}`;
+};
+
+export const isTodayOrTomorrow = (dateStr: string): string | undefined => {
+	const date = new Date(Date.parse(dateStr));
+	const now = new Date();
+
+	if (isSameDay(date, now)) {
+		return 'Today';
+	} else if (isNextDay(date, now)) {
+		return 'Tomorrow';
+	}
+
+	// If the date is neither today nor tomorrow
+	return undefined;
+};
+
+const isSameDay = (date1: Date, date2: Date): boolean => {
+	return (
+		date1.getDate() === date2.getDate() &&
+		date1.getMonth() === date2.getMonth() &&
+		date1.getFullYear() === date2.getFullYear()
+	);
+};
+
+const isNextDay = (date1: Date, date2: Date): boolean => {
+	const nextDay = new Date(date2);
+	nextDay.setDate(date2.getDate() + 1);
+	return isSameDay(date1, nextDay);
+};
+
 export const findGoal = (id: string, goals: Goal[]): Goal | undefined => {
 	return goals.find((g: Goal) => g.id === id);
 };

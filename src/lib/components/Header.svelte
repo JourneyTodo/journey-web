@@ -2,13 +2,16 @@
 	import { tweened } from 'svelte/motion';
 	import ProgressBar from './ProgressBar.svelte';
 	import { cubicOut } from 'svelte/easing';
-	import type { Goal } from '$lib/types/sb';
+	import type { Goal, Task } from '$lib/types/sb';
 	import GoalMenu from './GoalMenu.svelte';
+	import { currentTasks } from '$lib/stores/modals.store';
+	import { getDayAndMonth, isTodayOrTomorrow } from '$lib/functions/utils';
 
 	export let title = '';
 	export let numCompleted: number | null = null;
 	export let total: number | null = null;
 	export let goal: Goal | null = null;
+	let targetDate: string | null = null;
 
 	$: total !== null && total > 0 ? percent.set((numCompleted! / total) * 100, { delay: 0 }) : '';
 	const percent = tweened(0, {
@@ -16,6 +19,16 @@
 		delay: 200,
 		easing: cubicOut
 	});
+	$: targetDate = goal ? goal.target_date ?? getLatestTargetDate() : null;
+
+	function getLatestTargetDate() {
+		const defaultTime = '01 Jan 1970 00:00:00 GMT';
+		const sortedByLatestDate = [...$currentTasks].sort(
+			(a: Task, b: Task) =>
+				Date.parse(b.target_date ?? defaultTime) - Date.parse(a.target_date ?? defaultTime)
+		);
+		return sortedByLatestDate.length > 0 ? sortedByLatestDate[0].target_date : null;
+	}
 </script>
 
 <!-- <div class="temp-container"> -->
@@ -24,7 +37,11 @@
 		<div class="content">
 			<h1>{title}</h1>
 			{#if total}
-				<p>{Math.floor($percent)}% complete</p>
+				<span>{Math.floor($percent)}% complete</span>
+				<span>{total} {total > 1 ? 'tasks' : 'task'}</span>
+				{#if targetDate}
+					<span>{isTodayOrTomorrow(targetDate) ?? getDayAndMonth(targetDate)}</span>
+				{/if}
 			{/if}
 		</div>
 		{#if goal}
@@ -51,7 +68,7 @@
 			align-items: baseline;
 		}
 		h1,
-		p {
+		span {
 			margin: 0;
 		}
 		h1 {
@@ -68,7 +85,7 @@
 	.content {
 		display: flex;
 		gap: var(--spacing-lg);
-		p {
+		span {
 			opacity: var(--opacity-subtext);
 		}
 	}

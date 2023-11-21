@@ -50,5 +50,6 @@
 	}
 	.completed-time {
 		opacity: var(--opacity-subtext);
+		font-size: var(--text-xs);
 	}
 </style>

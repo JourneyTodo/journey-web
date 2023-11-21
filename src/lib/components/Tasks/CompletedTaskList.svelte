@@ -1,22 +1,10 @@
 <script lang="ts">
 	import type { Goal, Task } from '$lib/types/sb';
 	import CompletedTaskItem from './CompletedTaskItem.svelte';
-	import { findGoal } from '$lib/functions/utils';
+	import { findGoal, getDayAndMonth, getDayOfWeek } from '$lib/functions/utils';
 
 	export let tasksByDates: Map<string, Task[]>;
 	export let goals: Goal[];
-
-	function getDayAndMonth(dateStr: string) {
-		const date = new Date(Date.parse(dateStr));
-		const month = date.toLocaleString('en-us', { month: 'long' });
-		const day = date.getDate();
-		return `${month} ${day}`;
-	}
-	function getDayOfWeek(dateStr: string) {
-		const date = new Date(Date.parse(dateStr));
-		const dayOfWeek = date.toLocaleString('en-us', { weekday: 'long' });
-		return `${dayOfWeek}`;
-	}
 </script>
 
 <div class="container">
