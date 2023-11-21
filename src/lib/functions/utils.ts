@@ -1,4 +1,5 @@
 import type { Goal } from '$lib/types/sb';
+import type { PostgrestError } from '@supabase/supabase-js';
 
 export const setTitle = (title: string) => {
 	return `${title} – Journey`;
@@ -76,20 +77,60 @@ export const isTodayOrTomorrow = (dateStr: string): string | undefined => {
 	return undefined;
 };
 
-const isSameDay = (date1: Date, date2: Date): boolean => {
+/**
+ *
+ * @param date1 UTC date
+ * @param date2 non-UTC date
+ * @returns boolean
+ */
+export const isSameDay = (date1: Date, date2: Date): boolean => {
 	return (
-		date1.getDate() === date2.getDate() &&
-		date1.getMonth() === date2.getMonth() &&
-		date1.getFullYear() === date2.getFullYear()
+		date1.getUTCDate() === date2.getDate() &&
+		date1.getUTCMonth() === date2.getMonth() &&
+		date1.getUTCFullYear() === date2.getFullYear()
 	);
 };
 
-const isNextDay = (date1: Date, date2: Date): boolean => {
-	const nextDay = new Date(date2);
-	nextDay.setDate(date2.getDate() + 1);
-	return isSameDay(date1, nextDay);
+/**
+ *
+ * @param date1 UTC date
+ * @param date2 non-UTC date
+ * @returns boolean
+ */
+export const isNextDay = (date1: Date, date2: Date): boolean => {
+	return date1.getUTCDate() === date2.getDate() + 1;
 };
 
 export const findGoal = (id: string, goals: Goal[]): Goal | undefined => {
 	return goals.find((g: Goal) => g.id === id);
+};
+
+export const nowUTC = () => {
+	const now = new Date();
+	return new Date(
+		Date.UTC(
+			now.getUTCFullYear(),
+			now.getUTCMonth(),
+			now.getUTCDate(),
+			now.getUTCHours(),
+			now.getUTCMinutes(),
+			now.getUTCSeconds()
+		)
+	);
+};
+
+/**
+ * Formats date to yyyy-mm-dd format
+ */
+export function formatDate(defaultDate: Date) {
+	return `${defaultDate.toLocaleString('en-us', {
+		year: 'numeric'
+	})}-${defaultDate.toLocaleString('en-us', { month: '2-digit' })}-${defaultDate.toLocaleString(
+		'en-us',
+		{ day: '2-digit' }
+	)}`;
+}
+
+export const isError = (data: unknown): data is PostgrestError => {
+	return 'message' in data && 'details' in data && 'hint' in data && 'code' in data;
 };

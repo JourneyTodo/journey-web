@@ -10,3 +10,4 @@ export const deleteModalIsOpen = writable(false);
 export const currentGoal = writable<Goal | null>(null);
 export const currentTask = writable<Task | null>(null);
 export const currentTasks = writable<Task[]>([]);
+export const currentDate = writable<string | null>(null);

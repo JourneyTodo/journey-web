@@ -9,12 +9,8 @@ import {
 	taskDeleted
 } from '$lib/constants/messages';
 import { redirect, type Actions } from '@sveltejs/kit';
-import type { PostgrestError } from '@supabase/supabase-js';
 import { baseRoutes } from '$lib/constants/routes';
-
-function isError(data: PostgrestError): data is PostgrestError {
-	return 'message' in data && 'details' in data && 'hint' in data && 'code' in data;
-}
+import { isError } from '$lib/functions/utils';
 
 export const actions: Actions = {
 	addGoal: async (event) => {

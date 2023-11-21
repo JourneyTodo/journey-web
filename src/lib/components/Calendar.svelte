@@ -1,18 +1,12 @@
 <script lang="ts">
+	import { formatDate } from '$lib/functions/utils';
+
 	let defaultDate = new Date();
-	export let selectedDate: string | null = formatMinDate();
-	function formatMinDate() {
-		return `${defaultDate.toLocaleString('en-us', {
-			year: 'numeric'
-		})}-${defaultDate.toLocaleString('en-us', { month: '2-digit' })}-${defaultDate.toLocaleString(
-			'en-us',
-			{ day: '2-digit' }
-		)}`;
-	}
-	$: console.log(selectedDate);
+	export let selectedDate: string | null = formatDate(defaultDate);
+	let minDate = formatDate(defaultDate);
 </script>
 
-<input type="date" min={formatMinDate()} bind:value={selectedDate} {...$$restProps} />
+<input type="date" min={minDate} bind:value={selectedDate} {...$$restProps} />
 
 <style lang="scss">
 	input[type='date'] {

@@ -4,7 +4,7 @@
 	import { enhance } from '$app/forms';
 	import Dropdown from '$lib/components/Dropdown.svelte';
 	import type { Goal } from '$lib/types/sb';
-	import { selectedGoal } from '$lib/stores/modals.store';
+	import { currentDate, selectedGoal } from '$lib/stores/modals.store';
 	import DescriptionBox from '$lib/components/DescriptionBox.svelte';
 	import Calendar from '$lib/components/Calendar.svelte';
 
@@ -23,6 +23,9 @@
 		isOpen = false;
 		selectedGoal.set(null);
 	}
+
+	$: selectedDate = $currentDate ?? '';
+	$: console.log(selectedDate);
 </script>
 
 <Modal bind:isOpen>

@@ -42,10 +42,10 @@
 		<NavItem href="/inbox">
 			<span slot="text" class="inbox">Inbox</span>
 		</NavItem>
-		<NavItem href="/today" disabled>
+		<NavItem href="/today">
 			<span slot="text" class="today">Today</span>
 		</NavItem>
-		<NavItem href="/upcoming" disabled>
+		<NavItem href="/upcoming">
 			<span slot="text" class="today">Upcoming</span>
 		</NavItem>
 		<NavItem href="/completed">
