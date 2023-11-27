@@ -18,12 +18,18 @@
 >
 	{#if displayIcon.paths}
 		{#each displayIcon.paths as path}
-			<path class:fill d={path} stroke="currentColor" />
+			<path class:fill d={path} stroke="currentColor" stroke-width="0.8" stroke-linecap="round" />
 		{/each}
 	{/if}
 	{#if displayIcon.circles}
 		{#each displayIcon.circles as circle}
-			<circle cx={circle.cx} cy={circle.cy} r={circle.r} stroke="currentColor" fill="#110D26" />
+			<circle
+				cx={circle.cx}
+				cy={circle.cy}
+				r={circle.r}
+				fill={circle.fill ? 'currentColor' : 'none'}
+				stroke="currentColor"
+			/>
 		{/each}
 	{/if}
 </svg>

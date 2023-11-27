@@ -12,16 +12,19 @@
 </script>
 
 {#if form}
-	<input
-		type="submit"
-		{form}
-		class="btn flex-center {size} {outline ? 'outline' : ''} {fill
-			? 'fill'
-			: ''} {variant} {action} {classes} {disabled ? 'disabled' : ''}
+	<div class="input-btn-container">
+		<slot name="icon-start" />
+		<input
+			type="submit"
+			{form}
+			class="btn flex-center {size} {outline ? 'outline' : ''} {fill
+				? 'fill'
+				: ''} {variant} {classes} {action} {disabled ? 'disabled' : ''}
       {circle ? 'circle' : ''}"
-		class:destructive={action}
-		value={label}
-	/>
+			class:destructive={action}
+			value={label}
+		/>
+	</div>
 {:else}
 	<button
 		{...$$restProps}
@@ -179,5 +182,11 @@
 			width: 50px;
 			height: 50px;
 		}
+	}
+	.icon-wrapper {
+		position: absolute;
+	}
+	.input-btn-container {
+		display: flex;
 	}
 </style>

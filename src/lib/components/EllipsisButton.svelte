@@ -37,7 +37,7 @@
 </div>
 {#if showMore}
 	<div class="listbox-wrapper" bind:this={listBox}>
-		<Listbox>
+		<Listbox bind:isOpen={showMore}>
 			<slot name="items" />
 		</Listbox>
 	</div>

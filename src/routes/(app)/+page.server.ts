@@ -6,11 +6,13 @@ import {
 	goalDeleted,
 	taskAdded,
 	taskCompleted,
-	taskDeleted
+	taskDeleted,
+	taskPostponed,
+	taskRescheduled
 } from '$lib/constants/messages';
 import { redirect, type Actions } from '@sveltejs/kit';
 import { baseRoutes } from '$lib/constants/routes';
-import { isError } from '$lib/functions/utils';
+import { getNextDay, isError } from '$lib/functions/utils';
 
 export const actions: Actions = {
 	addGoal: async (event) => {
@@ -95,6 +97,78 @@ export const actions: Actions = {
 		return { success: true };
 	},
 
+	// TODO
+	updateTask: async () => {
+		return;
+	},
+
+	// postpone task till tomorrow
+	postponeTask: async (event) => {
+		const {
+			request,
+			locals: { supabase }
+		} = event;
+		const formData = await request.formData();
+		const id = formData.get('id') as string;
+		const user_id = formData.get('user_id') as string;
+		// new day
+		const tomorrow = getNextDay(new Date());
+
+		const { error } = await supabase
+			.from('tasks')
+			.update({
+				target_date: new Date(tomorrow).toISOString(),
+				updated_at: new Date().toISOString()
+			})
+			.eq('id', id)
+			.eq('user_id', user_id)
+			.select();
+
+		const msg = taskPostponed();
+		if (error) {
+			setFlash(msg.error, event);
+			return { success: false };
+		}
+		setFlash(msg.success, event);
+
+		return { success: true };
+	},
+
+	rescheduleTask: async (event) => {
+		const {
+			request,
+			locals: { supabase }
+		} = event;
+		const formData = await request.formData();
+		const id = formData.get('id') as string;
+		const user_id = formData.get('user_id') as string;
+		const today = formData.get('target_date') as string;
+
+		const { error } = await supabase
+			.from('tasks')
+			.update({
+				target_date: today,
+				updated_at: new Date().toISOString()
+			})
+			.eq('id', id)
+			.eq('user_id', user_id)
+			.select();
+
+		const msg = taskRescheduled();
+		if (error) {
+			setFlash(msg.error, event);
+			return { success: false };
+		}
+		setFlash(msg.success, event);
+
+		return { success: true };
+	},
+
+	// TODO
+	updateGoal: async () => {
+		return;
+	},
+
 	completeTask: async (event) => {
 		const {
 			request,
@@ -108,7 +182,8 @@ export const actions: Actions = {
 			.from('tasks')
 			.update({
 				completed,
-				completed_at: completed ? new Date().toISOString() : null
+				completed_at: completed ? new Date().toISOString() : null,
+				updated_at: new Date().toISOString()
 			})
 			.eq('id', id)
 			.select();

@@ -119,6 +119,11 @@ export const nowUTC = () => {
 	);
 };
 
+// trims off time
+export const getNextDay = (date: Date) => {
+	return new Date(new Date(date.toDateString()).getTime() + 24 * 60 * 60 * 1000);
+};
+
 /**
  * Formats date to yyyy-mm-dd format
  */
@@ -144,3 +149,17 @@ export const isValidDate = (date: string): boolean => {
 	const inputDate = new Date(date);
 	return !isNaN(inputDate.getTime()) && inputDate.getFullYear() > 2022;
 };
+
+export function isOverdue(targetDate: string) {
+	const d = new Date(targetDate);
+	const today = new Date();
+	// TODO: update this to support time comparisons later on
+	if (
+		d.getUTCDate() === today.getUTCDate() &&
+		d.getUTCFullYear() === today.getUTCFullYear() &&
+		d.getUTCMonth() === today.getUTCMonth()
+	) {
+		return false;
+	}
+	return d < today;
+}

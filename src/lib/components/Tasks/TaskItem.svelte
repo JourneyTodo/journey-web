@@ -4,13 +4,14 @@
 	import CompleteBox from './CompleteBox.svelte';
 	import { quintOut } from 'svelte/easing';
 	import TaskMenu from './TaskMenu.svelte';
-	import { getDayAndMonth, isTodayOrTomorrow } from '$lib/functions/utils';
+	import { getDayAndMonth, isTodayOrTomorrow, isOverdue } from '$lib/functions/utils';
 
 	export let task: Task;
 	let showMenu = false;
 	let menuActive = false;
 
 	$: ({ name, description, completed, target_date } = task);
+	$: overdue = isOverdueHandler();
 
 	function handleMouseOver() {
 		showMenu = true;
@@ -20,18 +21,11 @@
 			showMenu = false;
 		}
 	}
-	function isOverdue() {
-		const d = new Date(task.target_date!);
-		const today = new Date();
-		// TODO: update this to support time comparisons later on
-		if (
-			d.getUTCDate() === today.getUTCDate() &&
-			d.getUTCFullYear() === today.getUTCFullYear() &&
-			d.getUTCMonth() === today.getUTCMonth()
-		) {
+	function isOverdueHandler() {
+		if (task.completed) {
 			return false;
 		}
-		return d < today;
+		return isOverdue(task.target_date!);
 	}
 </script>
 
@@ -54,7 +48,7 @@
 			<p class="description">{description}</p>
 		{/if}
 		{#if target_date}
-			<p class="description target-date" class:overdue={isOverdue()}>
+			<p class="description target-date" class:overdue>
 				{isTodayOrTomorrow(target_date) ?? getDayAndMonth(target_date)}
 			</p>
 		{/if}

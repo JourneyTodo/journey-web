@@ -1,4 +1,4 @@
-import { formatDate, isError } from '$lib/functions/utils';
+import { formatDate, getNextDay, isError } from '$lib/functions/utils';
 import { redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import { signIn } from '$lib/constants/routes';
@@ -8,8 +8,8 @@ export const load: PageServerLoad = async ({ parent, locals: { getTasksByDate } 
 	if (!session) {
 		throw redirect(302, signIn);
 	}
-	const today = formatDate(new Date());
-	const result = getTasksByDate(session.user.id, today, 'lte');
+	const tomorrow = formatDate(getNextDay(new Date()));
+	const result = await getTasksByDate(session.user.id, tomorrow, 'lt');
 	if (result && !isError(result)) {
 		return {
 			tasks: result
