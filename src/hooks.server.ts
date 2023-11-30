@@ -4,6 +4,7 @@ import type { Handle } from '@sveltejs/kit';
 import type { Database } from '$lib/types/database';
 import type { Goal, Task, User } from '$lib/types/sb';
 import type { PostgrestError } from '@supabase/supabase-js';
+import { isValidDate } from '$lib/functions/utils';
 
 export const handle: Handle = async ({ event, resolve }) => {
 	event.locals.supabase = createSupabaseServerClient<Database>({
@@ -49,7 +50,8 @@ export const handle: Handle = async ({ event, resolve }) => {
 		goal_id: string | null,
 		name: string,
 		description: string,
-		idx: number
+		idx: number,
+		target_date: string
 	): Promise<Goal | PostgrestError> => {
 		if (!name) {
 			return {
@@ -67,7 +69,8 @@ export const handle: Handle = async ({ event, resolve }) => {
 				parent_id: goal_id,
 				name,
 				description,
-				index: idx
+				index: idx,
+				target_date
 			})
 			.select()
 			.single();
@@ -123,7 +126,47 @@ export const handle: Handle = async ({ event, resolve }) => {
 		return err ?? tasks;
 	};
 
-	event.locals.getAllCompletedTasks = async (user_id: string) => {
+	event.locals.getTasksByDate = async (
+		user_id: string,
+		date: string,
+		operator: 'eq' | 'lt' | 'gte' = 'eq'
+	) => {
+		const query = `id, goal_id, user_id, user_task_id, name, description, created_at, updated_at, target_date, completed_at, completed, index, bucket`;
+		let tasks: Task[] | null = null;
+		let err: PostgrestError | null = null;
+		if (!isValidDate(date)) {
+			return {
+				message: `The date ${date} is not a valid format.`,
+				details: '',
+				hint: 'Make sure the date is valid and after the year 2022.',
+				code: '400'
+			} as PostgrestError;
+		}
+		if (operator === 'lt') {
+			const { data, error } = await event.locals.supabase
+				.from('tasks')
+				.select(query)
+				.eq('user_id', user_id)
+				.lt('target_date', date)
+				.neq('completed', true);
+			tasks = data;
+			err = error;
+		} else if (operator === 'gte') {
+			const { data, error } = await event.locals.supabase
+				.from('tasks')
+				.select(query)
+				.eq('user_id', user_id)
+				.gte('target_date', date)
+				.neq('completed', true);
+			tasks = data;
+			err = error;
+		}
+		return err ?? tasks;
+	};
+
+	event.locals.getAllCompletedTasks = async (
+		user_id: string
+	): Promise<Task[] | PostgrestError | null> => {
 		let tasks: Task[] | null = null;
 		let err: PostgrestError | null = null;
 
@@ -144,7 +187,8 @@ export const handle: Handle = async ({ event, resolve }) => {
 		goal_id: string | null,
 		name: string | null,
 		description: string,
-		idx: number
+		idx: number,
+		target_date: string
 	): Promise<Task[] | PostgrestError> => {
 		let err: PostgrestError | null = null;
 		let tasks: Task[];
@@ -165,7 +209,8 @@ export const handle: Handle = async ({ event, resolve }) => {
 					user_id,
 					name,
 					description,
-					index: idx
+					index: idx,
+					target_date
 				})
 				.select();
 			tasks = data!;
@@ -178,7 +223,8 @@ export const handle: Handle = async ({ event, resolve }) => {
 					goal_id,
 					name,
 					description,
-					index: idx
+					index: idx,
+					target_date
 				})
 				.select();
 			tasks = data!;

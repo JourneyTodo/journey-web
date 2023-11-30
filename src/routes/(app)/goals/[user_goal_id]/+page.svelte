@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Header from '$lib/components/Header.svelte';
 	import TaskList from '$lib/components/Tasks/TaskList.svelte';
+	import { currentTasks } from '$lib/stores/modals.store.js';
 
 	export let data;
 	let { tasks, goal } = data;
@@ -11,6 +12,7 @@
 			return t.completed;
 		}).length),
 		(total = tasks?.length ?? 0);
+	$: currentTasks.set(tasks ?? []);
 	// TODO: uncomment this when you have time to fix the dropdown to include buckets
 	// selectedGoal.set(goal);
 </script>

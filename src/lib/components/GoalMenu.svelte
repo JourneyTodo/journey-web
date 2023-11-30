@@ -22,9 +22,10 @@
 		variant="secondary"
 		action="destructive"
 		fill
+		style="justify-content: start;"
 		on:click={handleDelete}
 	>
 		<Icon name="trashcan" slot="icon-start" />
-		Delete
+		Delete goal
 	</Button>
 </EllipsisButton>

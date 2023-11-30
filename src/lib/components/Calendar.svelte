@@ -1,0 +1,41 @@
+<script lang="ts">
+	import { formatDate } from '$lib/functions/utils';
+
+	let defaultDate = new Date();
+	export let selectedDate: string | null = formatDate(defaultDate);
+	let minDate = formatDate(defaultDate);
+</script>
+
+<input type="date" min={minDate} bind:value={selectedDate} {...$$restProps} />
+
+<style lang="scss">
+	input[type='date'] {
+		background-color: transparent;
+		height: 2rem;
+		width: 6.25rem;
+		border: none;
+		border-radius: var(--br-sm);
+		transition: all 120ms ease;
+		padding: 0 var(--spacing-sm);
+		color: var(--text-primary);
+		&:focus {
+			box-shadow: var(--focus-shadow-primary);
+		}
+		&:focus-visible {
+			box-shadow: var(--focus-shadow-primary);
+			outline: none;
+		}
+		&:hover {
+			background-color: var(--ghost-hover);
+			cursor: pointer;
+		}
+		&::-webkit-calendar-picker-indicator {
+			cursor: pointer;
+			padding: var(--spacing-xs);
+			&:focus-visible {
+				outline-color: var(--primary);
+				border-radius: var(--br-sm);
+			}
+		}
+	}
+</style>

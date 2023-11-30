@@ -4,8 +4,9 @@
 	import { enhance } from '$app/forms';
 	import Dropdown from '$lib/components/Dropdown.svelte';
 	import type { Goal } from '$lib/types/sb';
-	import { selectedGoal } from '$lib/stores/modals.store';
+	import { currentDate, selectedGoal } from '$lib/stores/modals.store';
 	import DescriptionBox from '$lib/components/DescriptionBox.svelte';
+	import Calendar from '$lib/components/Calendar.svelte';
 
 	export let isOpen = false;
 	export let user_id: string;
@@ -16,11 +17,14 @@
 	let name: string;
 	let description: string;
 	let formId = `add${type}`;
+	let selectedDate: string;
 
 	function closeModal() {
 		isOpen = false;
 		selectedGoal.set(null);
 	}
+
+	$: selectedDate = $currentDate ?? '';
 </script>
 
 <Modal bind:isOpen>
@@ -61,6 +65,7 @@
 	<div slot="footer" class="btn-group">
 		<div class="group-start">
 			<Dropdown label="Goal" items={goals} propLabel="name" bind:selected={$selectedGoal} />
+			<Calendar form={formId} id="target_date" name="target_date" bind:value={selectedDate} />
 		</div>
 
 		<div class="group-end">

@@ -4,12 +4,14 @@
 	import CompleteBox from './CompleteBox.svelte';
 	import { quintOut } from 'svelte/easing';
 	import TaskMenu from './TaskMenu.svelte';
+	import { getDayAndMonth, isTodayOrTomorrow, isOverdue } from '$lib/functions/utils';
 
 	export let task: Task;
 	let showMenu = false;
 	let menuActive = false;
 
-	$: ({ name, description, completed } = task);
+	$: ({ name, description, completed, target_date } = task);
+	$: overdue = isOverdueHandler();
 
 	function handleMouseOver() {
 		showMenu = true;
@@ -18,6 +20,12 @@
 		if (!menuActive) {
 			showMenu = false;
 		}
+	}
+	function isOverdueHandler() {
+		if (task.completed) {
+			return false;
+		}
+		return isOverdue(task.target_date!);
 	}
 </script>
 
@@ -38,6 +46,11 @@
 		<span class="name">{name}</span>
 		{#if description}
 			<p class="description">{description}</p>
+		{/if}
+		{#if target_date}
+			<p class="description target-date" class:overdue>
+				{isTodayOrTomorrow(target_date) ?? getDayAndMonth(target_date)}
+			</p>
 		{/if}
 	</div>
 	<div class="menu" class:showMenu>
@@ -86,5 +99,8 @@
 			opacity: var(--opacity-50);
 			text-decoration: line-through;
 		}
+	}
+	.overdue {
+		color: var(--danger-text);
 	}
 </style>

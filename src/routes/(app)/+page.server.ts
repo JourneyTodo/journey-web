@@ -6,15 +6,13 @@ import {
 	goalDeleted,
 	taskAdded,
 	taskCompleted,
-	taskDeleted
+	taskDeleted,
+	taskPostponed,
+	taskRescheduled
 } from '$lib/constants/messages';
 import { redirect, type Actions } from '@sveltejs/kit';
-import type { PostgrestError } from '@supabase/supabase-js';
 import { baseRoutes } from '$lib/constants/routes';
-
-function isError(data: PostgrestError): data is PostgrestError {
-	return 'message' in data && 'details' in data && 'hint' in data && 'code' in data;
-}
+import { getNextDay, isError } from '$lib/functions/utils';
 
 export const actions: Actions = {
 	addGoal: async (event) => {
@@ -29,9 +27,23 @@ export const actions: Actions = {
 		const user_id = formData.get('user_id') as string;
 		const goal_id =
 			(formData.get('goal_id') as string) !== '' ? (formData.get('goal_id') as string) : null;
-
-		const result = await addGoal(user_id, goal_id, name, description, idx);
+		const target_date = Date.parse(formData.get('target_date') as string);
 		const msg = goalAdded(name);
+
+		if (isNaN(target_date)) {
+			setFlash(msg.error, event);
+			console.error('Form sent incorrect date format.');
+			return { success: false };
+		}
+
+		const result = await addGoal(
+			user_id,
+			goal_id,
+			name,
+			description,
+			idx,
+			new Date(target_date).toISOString()
+		);
 		if (isError(result)) {
 			setFlash(msg.error, event);
 			return { success: false };
@@ -55,11 +67,26 @@ export const actions: Actions = {
 		const goal_name = formData.get('goal_name') as string;
 		const goal_id = formData.get('goal_id') as string;
 		const user_goal_id = formData.get('user_goal_id') as string;
-
-		const result = await addTask(user_id, goal_id, name, description, idx);
+		const target_date = Date.parse(formData.get('target_date') as string);
 		const msg = user_goal_id
 			? taskAdded(`/goals/${user_goal_id}`, goal_name)
 			: taskAdded('/inbox', goal_name);
+
+		if (isNaN(target_date)) {
+			setFlash(msg.error, event);
+			console.error('Form sent incorrect date format.');
+			return { success: false };
+		}
+
+		const result = await addTask(
+			user_id,
+			goal_id,
+			name,
+			description,
+			idx,
+			new Date(target_date).toISOString()
+		);
+
 		if (isError(result)) {
 			setFlash(msg.error, event);
 			return { success: false };
@@ -68,6 +95,78 @@ export const actions: Actions = {
 		setFlash(msg.success, event);
 
 		return { success: true };
+	},
+
+	// TODO
+	updateTask: async () => {
+		return;
+	},
+
+	// postpone task till tomorrow
+	postponeTask: async (event) => {
+		const {
+			request,
+			locals: { supabase }
+		} = event;
+		const formData = await request.formData();
+		const id = formData.get('id') as string;
+		const user_id = formData.get('user_id') as string;
+		// new day
+		const tomorrow = getNextDay(new Date());
+
+		const { error } = await supabase
+			.from('tasks')
+			.update({
+				target_date: new Date(tomorrow).toISOString(),
+				updated_at: new Date().toISOString()
+			})
+			.eq('id', id)
+			.eq('user_id', user_id)
+			.select();
+
+		const msg = taskPostponed();
+		if (error) {
+			setFlash(msg.error, event);
+			return { success: false };
+		}
+		setFlash(msg.success, event);
+
+		return { success: true };
+	},
+
+	rescheduleTask: async (event) => {
+		const {
+			request,
+			locals: { supabase }
+		} = event;
+		const formData = await request.formData();
+		const id = formData.get('id') as string;
+		const user_id = formData.get('user_id') as string;
+		const today = formData.get('target_date') as string;
+
+		const { error } = await supabase
+			.from('tasks')
+			.update({
+				target_date: today,
+				updated_at: new Date().toISOString()
+			})
+			.eq('id', id)
+			.eq('user_id', user_id)
+			.select();
+
+		const msg = taskRescheduled();
+		if (error) {
+			setFlash(msg.error, event);
+			return { success: false };
+		}
+		setFlash(msg.success, event);
+
+		return { success: true };
+	},
+
+	// TODO
+	updateGoal: async () => {
+		return;
 	},
 
 	completeTask: async (event) => {
@@ -83,7 +182,8 @@ export const actions: Actions = {
 			.from('tasks')
 			.update({
 				completed,
-				completed_at: completed ? new Date().toISOString() : null
+				completed_at: completed ? new Date().toISOString() : null,
+				updated_at: new Date().toISOString()
 			})
 			.eq('id', id)
 			.select();

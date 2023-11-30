@@ -32,7 +32,15 @@ type ItemType = 'goal' | 'task';
 
 type StatusType = 'success' | 'error';
 
-type ActionType = 'add' | 'delete' | 'update' | 'complete' | 'uncomplete' | 'order';
+type ActionType =
+	| 'add'
+	| 'delete'
+	| 'update'
+	| 'complete'
+	| 'uncomplete'
+	| 'order'
+	| 'postpone'
+	| 'reschedule';
 
 export type MessageOptions = {
 	text: string;
@@ -114,11 +122,21 @@ const updateGeneric = (type: ItemType): MessageBundle => {
 	return genericBundle(type, 'update');
 };
 
+const postponeGeneric = (type: ItemType): MessageBundle => {
+	return genericBundle(type, 'postpone');
+};
+
+const rescheduleGeneric = (type: ItemType): MessageBundle => {
+	return genericBundle(type, 'reschedule');
+};
+
 export const taskDeleted = deleteGeneric('task');
 export const taskUpdated = updateGeneric('task');
 export const taskAdded = (url: string, location?: string): MessageBundle =>
 	addGeneric('task', url, location);
 export const taskCompleted = (uncomplete: boolean) => completeGeneric('task', uncomplete);
+export const taskPostponed = () => postponeGeneric('task');
+export const taskRescheduled = () => rescheduleGeneric('task');
 
 export const goalDeleted = deleteGeneric('goal');
 export const goalUpdated = updateGeneric('goal');
