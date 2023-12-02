@@ -39,9 +39,9 @@
 			{#if total}
 				<span>{Math.floor($percent)}% complete</span>
 				<span>{total} {total > 1 ? 'tasks' : 'task'}</span>
-				{#if targetDate}
-					<span>{isTodayOrTomorrow(targetDate) ?? getDayAndMonth(targetDate)}</span>
-				{/if}
+			{/if}
+			{#if targetDate}
+				<span>{isTodayOrTomorrow(targetDate) ?? getDayAndMonth(targetDate)}</span>
 			{/if}
 		</div>
 		{#if goal}

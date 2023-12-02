@@ -48,7 +48,7 @@
 			<p class="description">{description}</p>
 		{/if}
 		{#if target_date}
-			<p class="description target-date" class:overdue>
+			<p class="description target-date" class:overdue={!task.completed && overdue}>
 				{isTodayOrTomorrow(target_date) ?? getDayAndMonth(target_date)}
 			</p>
 		{/if}

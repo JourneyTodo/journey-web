@@ -12,7 +12,7 @@
 	input[type='date'] {
 		background-color: transparent;
 		height: 2rem;
-		width: 6.25rem;
+		max-width: 6.75rem;
 		border: none;
 		border-radius: var(--br-sm);
 		transition: all 120ms ease;
