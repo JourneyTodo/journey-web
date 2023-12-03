@@ -1,5 +1,5 @@
 <script lang="ts" generics="T">
-	import { quintOut } from 'svelte/easing';
+	import { cubicOut } from 'svelte/easing';
 	import { slide } from 'svelte/transition';
 
 	export let items: T[] = [];
@@ -45,7 +45,7 @@
 <div
 	{...$$restProps}
 	class="box {position}"
-	transition:slide={{ duration: 300, easing: quintOut, axis: 'y' }}
+	transition:slide={{ duration: 200, easing: cubicOut, axis: 'y' }}
 >
 	<ul class="list" bind:this={list}>
 		<slot />
