@@ -9,7 +9,7 @@
 
 <div class="archived">
 	<div class="header-sm header-container">
-		<h2 class="">Recently Archived tasks</h2>
+		<h2 class="">Recently archived tasks</h2>
 		<form id="restore-all" action="/?/restoreTasks" method="POST" use:enhance>
 			<input type="hidden" name="ids" value={tasks.map((t) => t.id)} />
 			<input type="hidden" name="user_id" value={tasks[0].user_id} />

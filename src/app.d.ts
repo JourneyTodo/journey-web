@@ -26,7 +26,7 @@ declare global {
 				user_id: string,
 				date?: string,
 				operator: 'eq' | 'lt' | 'gte'
-			): Promise<Task[] | PostgrestError | null>;
+			): Promise<Task[] | null>;
 			getAllCompletedTasks(user_id: string): Promise<Task[] | PostgrestError | null>;
 			addTask(
 				user_id: string,
