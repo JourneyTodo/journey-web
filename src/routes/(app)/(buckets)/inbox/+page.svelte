@@ -4,9 +4,9 @@
 
 	export let data;
 
-	let { tasks } = data;
-	$: ({ tasks } = data);
+	let { tasks, archivedTasks } = data;
+	$: ({ tasks, archivedTasks } = data);
 </script>
 
 <Header title="Inbox" />
-<TaskList {tasks} goal={null} />
+<TaskList {tasks} {archivedTasks} goal={null} />

@@ -21,7 +21,7 @@ declare global {
 				target_date: string
 			): Promise<Goal | PostgrestError>;
 			deleteGoal(id: string, user_id: string): Promise<Goal[] | PostgrestError>;
-			getTasks(user_id: string, goal_id: string | null): Promise<Task[] | PostgrestError | null>;
+			getTasks(user_id: string, goal_id: string | null): Promise<Task[] | null>;
 			getTasksByDate(
 				user_id: string,
 				date?: string,
@@ -36,6 +36,8 @@ declare global {
 				idx: number,
 				target_date: string
 			): Promise<Task | PostgrestError>;
+			restoreTask(user_id: string, task_id: string);
+			restoreTasks(user_id: string, task_ids: string[]);
 			deleteTask(id: string, user_id: string): Promise<Task | PostgrestError>;
 		}
 		interface PageData {

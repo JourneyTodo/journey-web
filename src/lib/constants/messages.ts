@@ -40,7 +40,8 @@ type ActionType =
 	| 'uncomplete'
 	| 'order'
 	| 'postpone'
-	| 'reschedule';
+	| 'reschedule'
+	| 'restore';
 
 export type MessageOptions = {
 	text: string;
@@ -137,6 +138,7 @@ export const taskAdded = (url: string, location?: string): MessageBundle =>
 export const taskCompleted = (uncomplete: boolean) => completeGeneric('task', uncomplete);
 export const taskPostponed = () => postponeGeneric('task');
 export const taskRescheduled = () => rescheduleGeneric('task');
+export const taskRestored = () => genericBundle('task', 'restore');
 
 export const goalDeleted = deleteGeneric('goal');
 export const goalUpdated = updateGeneric('goal');

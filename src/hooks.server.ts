@@ -4,7 +4,7 @@ import type { Handle } from '@sveltejs/kit';
 import type { Database } from '$lib/types/database';
 import type { Goal, Task, User } from '$lib/types/sb';
 import type { PostgrestError } from '@supabase/supabase-js';
-import { isValidDate } from '$lib/functions/utils';
+import { formatDate, isValidDate } from '$lib/functions/utils';
 
 export const handle: Handle = async ({ event, resolve }) => {
 	event.locals.supabase = createSupabaseServerClient<Database>({
@@ -45,66 +45,20 @@ export const handle: Handle = async ({ event, resolve }) => {
 		return error ?? goals;
 	};
 
-	event.locals.addGoal = async (
-		user_id: string,
-		goal_id: string | null,
-		name: string,
-		description: string,
-		idx: number,
-		target_date: string
-	): Promise<Goal | PostgrestError> => {
-		if (!name) {
-			return {
-				message: 'Name is either empty, null, or undefined.',
-				details: '',
-				hint: '',
-				code: '400'
-			} as PostgrestError;
-		}
-
-		const { data, error } = await event.locals.supabase
-			.from('goals')
-			.insert({
-				user_id,
-				parent_id: goal_id,
-				name,
-				description,
-				index: idx,
-				target_date
-			})
-			.select()
-			.single();
-
-		return error ?? data;
-	};
-
-	event.locals.deleteGoal = async (
-		id: string,
-		user_id: string
-	): Promise<Goal[] | PostgrestError> => {
-		const { data, error } = await event.locals.supabase
-			.from('goals')
-			.delete()
-			.eq('id', id)
-			.eq('user_id', user_id)
-			.select();
-
-		return error ?? data;
-	};
-
 	event.locals.getTasks = async (
 		user_id: string,
 		goal_id: string | null = null
-	): Promise<Task[] | PostgrestError | null> => {
+	): Promise<Task[] | null> => {
 		let tasks: Task[] | null = null;
 		let err: PostgrestError | null = null;
-		const query = `id, goal_id, user_id, user_task_id, name, description, created_at, updated_at, target_date, completed_at, completed, index, bucket`;
+		const query = `id, goal_id, user_id, user_task_id, name, description, created_at, updated_at, target_date, completed_at, completed, index, bucket, is_archived`;
 		if (goal_id === null) {
 			const { data, error } = await event.locals.supabase
 				.from('tasks')
 				.select(query)
 				.eq('user_id', user_id)
-				.filter('goal_id', 'is', 'null')
+				.is('goal_id', null)
+				// .not('is_archived', 'is', true)
 				.order('completed')
 				.order('created_at');
 
@@ -116,14 +70,15 @@ export const handle: Handle = async ({ event, resolve }) => {
 				.select(query)
 				.eq('user_id', user_id)
 				.eq('goal_id', goal_id)
+				// .not('is_archived', 'is', true)
 				.order('completed')
 				.order('created_at');
 
 			tasks = data;
 			err = error;
 		}
-
-		return err ?? tasks;
+		if (err) throw err;
+		return tasks;
 	};
 
 	event.locals.getTasksByDate = async (
@@ -131,7 +86,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 		date: string,
 		operator: 'eq' | 'lt' | 'gte' = 'eq'
 	) => {
-		const query = `id, goal_id, user_id, user_task_id, name, description, created_at, updated_at, target_date, completed_at, completed, index, bucket`;
+		const query = `id, goal_id, user_id, user_task_id, name, description, created_at, updated_at, target_date, completed_at, completed, index, bucket, is_archived`;
 		let tasks: Task[] | null = null;
 		let err: PostgrestError | null = null;
 		if (!isValidDate(date)) {
@@ -180,6 +135,82 @@ export const handle: Handle = async ({ event, resolve }) => {
 		err = error;
 
 		return err ?? tasks;
+	};
+
+	event.locals.addGoal = async (
+		user_id: string,
+		goal_id: string | null,
+		name: string,
+		description: string,
+		idx: number,
+		target_date: string
+	): Promise<Goal | PostgrestError> => {
+		if (!name) {
+			return {
+				message: 'Name is either empty, null, or undefined.',
+				details: '',
+				hint: '',
+				code: '400'
+			} as PostgrestError;
+		}
+
+		const { data, error } = await event.locals.supabase
+			.from('goals')
+			.insert({
+				user_id,
+				parent_id: goal_id,
+				name,
+				description,
+				index: idx,
+				target_date
+			})
+			.select()
+			.single();
+
+		return error ?? data;
+	};
+
+	event.locals.restoreTask = async (user_id: string, task_id: string) => {
+		const { data, error } = await event.locals.supabase
+			.from('tasks')
+			.update({
+				is_archived: false,
+				target_date: formatDate(new Date()),
+				updated_at: new Date().toISOString()
+			})
+			.eq('user_id', user_id)
+			.eq('id', task_id)
+			.select();
+		if (error) throw error;
+		return data;
+	};
+	event.locals.restoreTasks = async (user_id: string, task_ids: string[]) => {
+		const { data, error } = await event.locals.supabase
+			.from('tasks')
+			.update({
+				is_archived: false,
+				target_date: formatDate(new Date()),
+				updated_at: new Date().toISOString()
+			})
+			.eq('user_id', user_id)
+			.in('id', task_ids)
+			.select();
+		if (error) throw error;
+		return data;
+	};
+
+	event.locals.deleteGoal = async (
+		id: string,
+		user_id: string
+	): Promise<Goal[] | PostgrestError> => {
+		const { data, error } = await event.locals.supabase
+			.from('goals')
+			.delete()
+			.eq('id', id)
+			.eq('user_id', user_id)
+			.select();
+
+		return error ?? data;
 	};
 
 	event.locals.addTask = async (

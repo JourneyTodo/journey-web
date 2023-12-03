@@ -8,9 +8,10 @@ export const load: PageServerLoad = async ({ parent, locals: { getTasksByDate } 
 	if (!session) {
 		throw redirect(302, signIn);
 	}
+
 	const nextDay = formatDate(getNextDay(new Date()));
-	const result = getTasksByDate(session.user.id, nextDay, 'gte');
-	if (result && !isError(result)) {
+	const result = await getTasksByDate(session.user.id, nextDay, 'gte');
+	if (result !== null && !isError(result)) {
 		return {
 			tasks: result
 		};

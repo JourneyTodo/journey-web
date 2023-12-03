@@ -8,7 +8,8 @@ import {
 	taskCompleted,
 	taskDeleted,
 	taskPostponed,
-	taskRescheduled
+	taskRescheduled,
+	taskRestored
 } from '$lib/constants/messages';
 import { redirect, type Actions } from '@sveltejs/kit';
 import { baseRoutes } from '$lib/constants/routes';
@@ -161,6 +162,48 @@ export const actions: Actions = {
 		}
 		setFlash(msg.success, event);
 
+		return { success: true };
+	},
+
+	restoreTask: async (event) => {
+		const {
+			request,
+			locals: { restoreTask }
+		} = event;
+
+		const formData = await request.formData();
+		const task_id = formData.get('id') as string;
+		const user_id = formData.get('user_id') as string;
+
+		const { error } = await restoreTask(user_id, task_id);
+
+		const msg = taskRestored();
+		if (error) {
+			setFlash(msg.error, event);
+			return { success: false };
+		}
+		setFlash(msg.success, event);
+		return { success: true };
+	},
+
+	restoreTasks: async (event) => {
+		const {
+			request,
+			locals: { restoreTasks }
+		} = event;
+
+		const formData = await request.formData();
+		const task_ids = (formData.get('ids') as string).split(',');
+		const user_id = formData.get('user_id') as string;
+
+		const { error } = await restoreTasks(user_id, task_ids);
+
+		const msg = taskRestored();
+		if (error) {
+			setFlash(msg.error, event);
+			return { success: false };
+		}
+		setFlash(msg.success, event);
 		return { success: true };
 	},
 

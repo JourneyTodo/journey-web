@@ -154,10 +154,11 @@ export function isOverdue(targetDate: string) {
 	const d = new Date(targetDate);
 	const today = new Date();
 	// TODO: update this to support time comparisons later on
+	// I think today should NOT be UTC since it's a new Date()
 	if (
-		d.getUTCDate() === today.getUTCDate() &&
-		d.getUTCFullYear() === today.getUTCFullYear() &&
-		d.getUTCMonth() === today.getUTCMonth()
+		d.getUTCDate() === today.getDate() &&
+		d.getUTCFullYear() === today.getFullYear() &&
+		d.getUTCMonth() === today.getMonth()
 	) {
 		return false;
 	}

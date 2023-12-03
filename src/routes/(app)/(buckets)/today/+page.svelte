@@ -4,11 +4,9 @@
 
 	export let data;
 
-	let { tasks } = data;
-	$: ({ tasks } = data);
+	let { tasks, archivedTasks } = data;
+	$: ({ tasks, archivedTasks } = data);
 </script>
 
 <Header title="Today" />
-{#if tasks}
-	<TaskList {tasks} goal={null} />
-{/if}
+<TaskList {tasks} {archivedTasks} goal={null} />

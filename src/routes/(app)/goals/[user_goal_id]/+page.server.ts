@@ -1,5 +1,6 @@
 import type { PageServerLoad } from './$types';
 import type { Goal, Task } from '$lib/types/sb';
+import { error } from '@sveltejs/kit';
 
 export const load: PageServerLoad = async ({ parent, params, locals: { getTasks } }) => {
 	const { goals, user } = await parent();
@@ -15,9 +16,14 @@ export const load: PageServerLoad = async ({ parent, params, locals: { getTasks 
 	}
 
 	const tasks = await getTasks(user.id, goal?.id);
+	if (!tasks) {
+		throw error(404, 'no tasks found.');
+	}
 
+	const archivedTasks = tasks.filter((task: Task) => task.is_archived === true);
 	return {
 		goal: goal as Goal,
-		tasks: tasks as Task[]
+		tasks: tasks.filter((task: Task) => task.is_archived === false || task.is_archived === null),
+		archivedTasks: archivedTasks
 	};
 };
