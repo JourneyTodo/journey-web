@@ -36,6 +36,13 @@ li {
 .header-sm {
 	margin: 0;
 	padding: var(--spacing-md) 0;
-	border-bottom: 1px solid var(--border-common);
 	font-size: var(--text-md);
+}
+
+.border-bot {
+	border-bottom: 1px solid var(--border-common);
+}
+
+p {
+	margin: 0;
 }

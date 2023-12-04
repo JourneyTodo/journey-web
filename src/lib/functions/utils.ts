@@ -1,3 +1,4 @@
+import { DaysOfWeek, type dayOfWeek } from '$lib/constants/DaysOfWeek.enum';
 import type { Goal } from '$lib/types/sb';
 import type { PostgrestError } from '@supabase/supabase-js';
 
@@ -164,3 +165,15 @@ export function isOverdue(targetDate: string) {
 	}
 	return d < today;
 }
+
+export const getDayToNumber = (day: dayOfWeek) => {
+	const normalizedDay = day.trim().toLowerCase();
+
+	for (const d in DaysOfWeek) {
+		if (isNaN(Number(d)) && normalizedDay === d.toLowerCase()) {
+			return DaysOfWeek[d as keyof typeof DaysOfWeek];
+		}
+	}
+
+	return undefined;
+};

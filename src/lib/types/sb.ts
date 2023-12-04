@@ -12,3 +12,5 @@ export type Goal = Row<'goals'>;
 export type User = Row<'profiles'>;
 
 export type Task = Row<'tasks'>;
+
+export type UserSettings = Row<'user_settings'>;

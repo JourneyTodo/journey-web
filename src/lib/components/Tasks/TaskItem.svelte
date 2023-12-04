@@ -30,9 +30,6 @@
 		}
 		return isOverdue(task.target_date!);
 	}
-	function restoreTask() {
-		console.log('restoring task!');
-	}
 </script>
 
 <div
@@ -74,13 +71,7 @@
 		>
 			<input type="hidden" name="id" value={task.id} />
 			<input type="hidden" name="user_id" value={task.user_id} />
-			<Button
-				type="submit"
-				variant="secondary"
-				size="small"
-				on:click={restoreTask}
-				label="Restore task"
-			/>
+			<Button type="submit" variant="secondary" size="small" label="Restore task" />
 		</form>
 	{/if}
 </div>

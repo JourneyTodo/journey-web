@@ -8,7 +8,7 @@
 </script>
 
 <div class="archived">
-	<div class="header-sm header-container">
+	<div class="header-sm header-container border-bot">
 		<h2 class="">Recently archived tasks</h2>
 		<form id="restore-all" action="/?/restoreTasks" method="POST" use:enhance>
 			<input type="hidden" name="ids" value={tasks.map((t) => t.id)} />

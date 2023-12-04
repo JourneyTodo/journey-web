@@ -28,7 +28,7 @@ export type MessageBundle = {
  * Naming is hard. This is type is for 'items' that requests are for.
  * Currently can be a goal or a task.
  */
-type ItemType = 'goal' | 'task';
+type ItemType = 'goal' | 'task' | 'user';
 
 type StatusType = 'success' | 'error';
 
@@ -146,3 +146,14 @@ export const goalCompleted = (uncomplete: boolean) => completeGeneric('goal', un
 export const goalAdded = (name: string): MessageBundle => addGeneric('goal', name);
 
 export const orderChanged = createString('Order changed', 'goal', 'order'); // Keep things simple here
+
+export const settingsUpdated: MessageBundle = {
+	success: {
+		type: 'success',
+		message: createString('User settings saved successfully', 'user', 'update')
+	},
+	error: {
+		type: 'error',
+		message: createString('Unable to save user settings', 'user', 'update')
+	}
+};

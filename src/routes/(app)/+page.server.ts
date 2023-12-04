@@ -4,6 +4,7 @@ import { setFlash } from 'sveltekit-flash-message/server';
 import {
 	goalAdded,
 	goalDeleted,
+	settingsUpdated,
 	taskAdded,
 	taskCompleted,
 	taskDeleted,
@@ -13,7 +14,8 @@ import {
 } from '$lib/constants/messages';
 import { redirect, type Actions } from '@sveltejs/kit';
 import { baseRoutes } from '$lib/constants/routes';
-import { getNextDay, isError } from '$lib/functions/utils';
+import { getDayToNumber, getNextDay, isError } from '$lib/functions/utils';
+import type { dayOfWeek } from '$lib/constants/DaysOfWeek.enum';
 
 export const actions: Actions = {
 	addGoal: async (event) => {
@@ -239,6 +241,33 @@ export const actions: Actions = {
 
 		setFlash(msg.success, event);
 
+		return { success: true };
+	},
+
+	settings: async (event) => {
+		const {
+			request,
+			locals: { updateUserSettings }
+		} = event;
+		const formData = await request.formData();
+		const id = formData.get('id') as string;
+		const day = formData.get('week_start') as dayOfWeek;
+		const dayAsNum = getDayToNumber(day);
+		const msg = settingsUpdated;
+
+		if (!dayAsNum) {
+			setFlash(msg.error, event);
+			return { success: false };
+		}
+
+		const data = await updateUserSettings(id, dayAsNum);
+
+		if (!data) {
+			setFlash(msg.error, event);
+			return { success: false };
+		}
+
+		setFlash(msg.success, event);
 		return { success: true };
 	},
 

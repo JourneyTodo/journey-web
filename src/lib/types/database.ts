@@ -163,6 +163,29 @@ export interface Database {
 					}
 				];
 			};
+			user_settings: {
+				Row: {
+					user_id: string;
+					week_start: number | null;
+				};
+				Insert: {
+					user_id: string;
+					week_start?: number | null;
+				};
+				Update: {
+					user_id?: string;
+					week_start?: number | null;
+				};
+				Relationships: [
+					{
+						foreignKeyName: 'user_settings_user_id_fkey';
+						columns: ['user_id'];
+						isOneToOne: true;
+						referencedRelation: 'users';
+						referencedColumns: ['id'];
+					}
+				];
+			};
 		};
 		Views: {
 			[_ in never]: never;

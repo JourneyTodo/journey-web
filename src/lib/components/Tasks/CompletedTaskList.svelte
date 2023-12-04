@@ -9,7 +9,9 @@
 
 <div class="container">
 	{#each [...tasksByDates] as [k, v]}
-		<h2 class="header-sm">{getDayAndMonth(k)}<span class="day-of-week">{getDayOfWeek(k)}</span></h2>
+		<h2 class="header-sm border-bot">
+			{getDayAndMonth(k)}<span class="day-of-week">{getDayOfWeek(k)}</span>
+		</h2>
 		{#each v as task}
 			<CompletedTaskItem {task} goal={findGoal(task.goal_id ?? '', goals)} />
 		{/each}

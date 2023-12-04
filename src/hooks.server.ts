@@ -2,9 +2,10 @@ import { PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY } from '$env/static/publi
 import { createSupabaseServerClient } from '@supabase/auth-helpers-sveltekit';
 import type { Handle } from '@sveltejs/kit';
 import type { Database } from '$lib/types/database';
-import type { Goal, Task, User } from '$lib/types/sb';
+import type { Goal, Task, User, UserSettings } from '$lib/types/sb';
 import type { PostgrestError } from '@supabase/supabase-js';
 import { formatDate, isValidDate } from '$lib/functions/utils';
+import type { DaysOfWeek } from '$lib/constants/DaysOfWeek.enum';
 
 export const handle: Handle = async ({ event, resolve }) => {
 	event.locals.supabase = createSupabaseServerClient<Database>({
@@ -29,8 +30,20 @@ export const handle: Handle = async ({ event, resolve }) => {
 			.select(`id, full_name, preferred_name, email, avatar_url, created_at, updated_at`)
 			.eq('id', id)
 			.single();
+		if (error) throw error;
 
-		return error ?? profile;
+		return profile;
+	};
+
+	event.locals.getUserSettings = async (id: string): Promise<UserSettings | null> => {
+		const { data: settings, error } = await event.locals.supabase
+			.from('user_settings')
+			.select(`*`)
+			.eq('user_id', id)
+			.single();
+		if (error) throw error;
+
+		return settings;
 	};
 
 	event.locals.getGoals = async (id: string): Promise<Goal[] | PostgrestError> => {
@@ -58,7 +71,6 @@ export const handle: Handle = async ({ event, resolve }) => {
 				.select(query)
 				.eq('user_id', user_id)
 				.is('goal_id', null)
-				// .not('is_archived', 'is', true)
 				.order('completed')
 				.order('created_at');
 
@@ -70,7 +82,6 @@ export const handle: Handle = async ({ event, resolve }) => {
 				.select(query)
 				.eq('user_id', user_id)
 				.eq('goal_id', goal_id)
-				// .not('is_archived', 'is', true)
 				.order('completed')
 				.order('created_at');
 
@@ -85,17 +96,12 @@ export const handle: Handle = async ({ event, resolve }) => {
 		user_id: string,
 		date: string,
 		operator: 'eq' | 'lt' | 'gte' = 'eq'
-	) => {
+	): Promise<Task[] | null> => {
 		const query = `id, goal_id, user_id, user_task_id, name, description, created_at, updated_at, target_date, completed_at, completed, index, bucket, is_archived`;
 		let tasks: Task[] | null = null;
 		let err: PostgrestError | null = null;
 		if (!isValidDate(date)) {
-			return {
-				message: `The date ${date} is not a valid format.`,
-				details: '',
-				hint: 'Make sure the date is valid and after the year 2022.',
-				code: '400'
-			} as PostgrestError;
+			throw err;
 		}
 		if (operator === 'lt') {
 			const { data, error } = await event.locals.supabase
@@ -116,7 +122,8 @@ export const handle: Handle = async ({ event, resolve }) => {
 			tasks = data;
 			err = error;
 		}
-		return err ?? tasks;
+		if (err) throw err;
+		return tasks;
 	};
 
 	event.locals.getAllCompletedTasks = async (
@@ -198,7 +205,48 @@ export const handle: Handle = async ({ event, resolve }) => {
 		if (error) throw error;
 		return data;
 	};
+	event.locals.archiveTasks = async (user_id: string, task_ids: string[]) => {
+		if (task_ids && task_ids.length > 0) {
+			const { data, error } = await event.locals.supabase
+				.from('tasks')
+				.update({
+					is_archived: true,
+					updated_at: new Date().toISOString()
+				})
+				.eq('user_id', user_id)
+				.in('id', task_ids)
+				.select();
+			if (error) throw error;
+			return data;
+		}
+		// archive all tasks older than today
+		else {
+			const { data, error } = await event.locals.supabase
+				.from('tasks')
+				.update({
+					is_archived: true,
+					updated_at: new Date().toISOString()
+				})
+				.eq('user_id', user_id)
+				.lt('target_date', formatDate(new Date()))
+				.select();
+			if (error) throw error;
+			return data;
+		}
+	};
 
+	// TODO: debug this
+	event.locals.updateUserSettings = async (user_id: string, week_start: DaysOfWeek) => {
+		const { data, error } = await event.locals.supabase
+			.from('user_settings')
+			.update({
+				week_start
+			})
+			.eq('user_id', user_id)
+			.single();
+		if (error) throw error;
+		return data;
+	};
 	event.locals.deleteGoal = async (
 		id: string,
 		user_id: string
