@@ -28,7 +28,7 @@
 	.header-container {
 		display: flex;
 		justify-content: space-between;
-		align-items: center;
+		align-items: end;
 	}
 	h2 {
 		font-size: var(--text-md);

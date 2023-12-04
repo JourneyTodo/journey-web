@@ -214,6 +214,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 					updated_at: new Date().toISOString()
 				})
 				.eq('user_id', user_id)
+				.neq('completed', true)
 				.in('id', task_ids)
 				.select();
 			if (error) throw error;
@@ -228,6 +229,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 					updated_at: new Date().toISOString()
 				})
 				.eq('user_id', user_id)
+				.neq('completed', true)
 				.lt('target_date', formatDate(new Date()))
 				.select();
 			if (error) throw error;

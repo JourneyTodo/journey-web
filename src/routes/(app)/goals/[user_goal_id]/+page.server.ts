@@ -20,7 +20,7 @@ export const load: PageServerLoad = async ({ parent, params, locals: { getTasks 
 		throw error(404, 'no tasks found.');
 	}
 
-	const archivedTasks = tasks.filter((task: Task) => task.is_archived === true);
+	const archivedTasks = tasks.filter((task: Task) => task.is_archived === true && !task.completed);
 	return {
 		goal: goal as Goal,
 		tasks: tasks.filter((task: Task) => task.is_archived === false || task.is_archived === null),
