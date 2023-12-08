@@ -105,8 +105,6 @@
 			margin: 0 auto;
 			background: var(--background-primary);
 			max-width: 50rem; // 800px;
-			max-height: 100svh;
-			overflow-y: auto;
 		}
 	}
 	:global(body) {
