@@ -15,7 +15,7 @@ export const load: PageServerLoad = async ({ parent, locals: { getAllCompletedTa
 	// Ensure map is in order of most recent -> least recent
 	tasks.sort(
 		(a: Task, b: Task) =>
-			Date.parse(b.target_date ?? defaultTime) - Date.parse(a.target_date ?? defaultTime)
+			Date.parse(b.completed_at ?? defaultTime) - Date.parse(a.completed_at ?? defaultTime)
 	);
 
 	// key is date in mm/dd/yyyy format
