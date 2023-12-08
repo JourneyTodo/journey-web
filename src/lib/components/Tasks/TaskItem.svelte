@@ -5,12 +5,15 @@
 	import { quintOut } from 'svelte/easing';
 	import TaskMenu from './TaskMenu.svelte';
 	import { getDayAndMonth, isTodayOrTomorrow, isOverdue } from '$lib/functions/utils';
+	import Button from '../Button.svelte';
+	import { enhance } from '$app/forms';
 
 	export let task: Task;
 	let showMenu = false;
 	let menuActive = false;
+	let formId = `restore-${task.id}`;
 
-	$: ({ name, description, completed, target_date } = task);
+	$: ({ name, description, completed, target_date, is_archived } = task);
 	$: overdue = isOverdueHandler();
 
 	function handleMouseOver() {
@@ -39,7 +42,7 @@
 	on:focus={handleMouseOver}
 	on:blur={handleMouseOut}
 >
-	{#if completed !== null}
+	{#if !is_archived && completed !== null}
 		<CompleteBox bind:task />
 	{/if}
 	<div class="text-container">
@@ -48,21 +51,41 @@
 			<p class="description">{description}</p>
 		{/if}
 		{#if target_date}
-			<p class="description target-date" class:overdue={!task.completed && overdue}>
+			<p class="description target-date" class:overdue={!completed && overdue && !is_archived}>
 				{isTodayOrTomorrow(target_date) ?? getDayAndMonth(target_date)}
 			</p>
 		{/if}
 	</div>
-	<div class="menu" class:showMenu>
-		<TaskMenu bind:menuActive bind:task />
-	</div>
+	{#if !is_archived}
+		<div class="menu" class:showMenu>
+			<TaskMenu bind:menuActive bind:task />
+		</div>
+	{:else}
+		<form
+			id={formId}
+			action="/?/restoreTask"
+			class="btn-wrapper"
+			class:showMenu
+			method="POST"
+			use:enhance
+		>
+			<input type="hidden" name="id" value={task.id} />
+			<input type="hidden" name="user_id" value={task.user_id} />
+			<Button type="submit" variant="secondary" size="small" label="Restore task" />
+		</form>
+	{/if}
 </div>
 
 <style lang="scss">
-	.menu {
+	.menu,
+	.btn-wrapper {
 		transition: opacity 150ms linear;
 		margin-inline-start: auto;
 		opacity: 0;
+	}
+	.btn-wrapper {
+		margin-top: auto;
+		margin-bottom: auto;
 	}
 	.showMenu {
 		opacity: 1;
@@ -71,6 +94,7 @@
 		display: flex;
 		gap: var(--spacing-md);
 		padding: var(--spacing-md) 0;
+		// align-items: center;
 		border-bottom: 1px solid var(--border-common);
 	}
 	.text-container {

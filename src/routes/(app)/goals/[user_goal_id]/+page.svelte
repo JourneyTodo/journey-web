@@ -4,10 +4,10 @@
 	import { currentTasks } from '$lib/stores/modals.store.js';
 
 	export let data;
-	let { tasks, goal } = data;
+	let { tasks, goal, archivedTasks } = data;
 	let numCompleted: number = 0;
 	let total: number = tasks?.length ?? 0;
-	$: ({ tasks, goal } = data),
+	$: ({ tasks, goal, archivedTasks } = data),
 		(numCompleted = tasks!.filter((t) => {
 			return t.completed;
 		}).length),
@@ -21,7 +21,7 @@
 	<Header title={goal?.name} bind:numCompleted bind:total {goal} />
 	{#if tasks}
 		<div class="tasklist-container">
-			<TaskList {tasks} {goal} />
+			<TaskList {tasks} {goal} {archivedTasks} />
 		</div>
 	{/if}
 </div>

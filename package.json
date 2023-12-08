@@ -19,7 +19,8 @@
 		"update-types": "npx supabase gen types typescript --project-id \"$PROJECT_REF\" > src/lib/types/supabase.ts",
 		"prepare": "husky install",
 		"storybook": "storybook dev -p 6006",
-		"build-storybook": "storybook build"
+		"build-storybook": "storybook build",
+		"sb:sync": "supabase gen types typescript --linked --schema public > src/lib/types/database.ts"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.23.0",

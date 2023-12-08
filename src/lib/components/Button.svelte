@@ -97,7 +97,7 @@
 				background: var(--razzleberry-lite);
 				&:hover {
 					cursor: pointer;
-					background: #f9d4df;
+					background: #f9dbe4;
 				}
 			}
 		}

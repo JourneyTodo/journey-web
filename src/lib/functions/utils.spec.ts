@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { parseTimestamp, setTitle, titleCase, toPastTense } from './utils';
+import { getDayToNumber, parseTimestamp, setTitle, titleCase, toPastTense } from './utils';
+import { DaysOfWeek } from '../constants/DaysOfWeek.enum';
 
 describe('titleCase tests', () => {
 	it('should title case string', () => {
@@ -24,11 +25,17 @@ describe('toPastTense tests', () => {
 });
 
 describe('parseTimestamp tests', () => {
-	it('should return valide number', () => {
+	it('should return valid number', () => {
 		expect(parseTimestamp('05/06/1999')).toBeGreaterThan(-1);
 	});
 
 	it('should return -1', () => {
 		expect(parseTimestamp('foobar')).toBe(-1);
+	});
+});
+
+describe('getDayToNumber', () => {
+	it('should return a valid enum value', () => {
+		expect(getDayToNumber('Monday')).toBe(DaysOfWeek.Monday);
 	});
 });

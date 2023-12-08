@@ -37,7 +37,7 @@
 			action="destructive"
 			type="submit"
 			slot="footer"
-			form="delete{type}"
+			form={formId}
 			label="Delete {type.toLocaleLowerCase()}"
 			on:click={closeModal}>Delete</Button
 		>

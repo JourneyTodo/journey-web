@@ -82,7 +82,7 @@
 		bottom: 0;
 		width: 270px;
 		overflow-x: hidden;
-		padding: var(--spacing-lg);
+		padding: var(--spacing-xxl) var(--spacing-lg);
 		background: #f5f5f7;
 		box-shadow: -4px 0px 8px -4px rgba(17, 13, 38, 0.025) inset;
 		font-size: 14px;

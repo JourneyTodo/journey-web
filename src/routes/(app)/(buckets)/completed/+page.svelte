@@ -9,4 +9,6 @@
 </script>
 
 <Header title="Completed" />
-<CompletedTaskList tasksByDates={tasks} {goals} />
+{#if tasks && goals}
+	<CompletedTaskList tasksByDates={tasks} {goals} />
+{/if}

@@ -1,21 +1,21 @@
 import type { PageServerLoad } from './$types';
 import type { Goal, Task } from '$lib/types/sb';
-import { isError, parseTimestamp } from '$lib/functions/utils';
-import { fail } from '@sveltejs/kit';
+import { parseTimestamp } from '$lib/functions/utils';
 
 export const load: PageServerLoad = async ({ parent, locals: { getAllCompletedTasks } }) => {
 	const { goals, user } = await parent();
 
-	const tasks = await getAllCompletedTasks(user.id);
-	if (!tasks || isError(tasks)) {
-		throw fail(400);
+	const { data: tasks, error } = await getAllCompletedTasks(user.id);
+	if (error) {
+		console.error(404, 'no tasks found.', error);
+		return;
 	}
 	const defaultTime = '01 Jan 1970 00:00:00 GMT';
 
 	// Ensure map is in order of most recent -> least recent
 	tasks.sort(
 		(a: Task, b: Task) =>
-			Date.parse(b.target_date ?? defaultTime) - Date.parse(a.target_date ?? defaultTime)
+			Date.parse(b.completed_at ?? defaultTime) - Date.parse(a.completed_at ?? defaultTime)
 	);
 
 	// key is date in mm/dd/yyyy format

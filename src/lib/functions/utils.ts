@@ -1,3 +1,4 @@
+import { DaysOfWeek, type dayOfWeek } from '$lib/constants/DaysOfWeek.enum';
 import type { Goal } from '$lib/types/sb';
 import type { PostgrestError } from '@supabase/supabase-js';
 
@@ -154,12 +155,25 @@ export function isOverdue(targetDate: string) {
 	const d = new Date(targetDate);
 	const today = new Date();
 	// TODO: update this to support time comparisons later on
+	// I think today should NOT be UTC since it's a new Date()
 	if (
-		d.getUTCDate() === today.getUTCDate() &&
-		d.getUTCFullYear() === today.getUTCFullYear() &&
-		d.getUTCMonth() === today.getUTCMonth()
+		d.getUTCDate() === today.getDate() &&
+		d.getUTCFullYear() === today.getFullYear() &&
+		d.getUTCMonth() === today.getMonth()
 	) {
 		return false;
 	}
 	return d < today;
 }
+
+export const getDayToNumber = (day: dayOfWeek) => {
+	const normalizedDay = day.trim().toLowerCase();
+
+	for (const d in DaysOfWeek) {
+		if (isNaN(Number(d)) && normalizedDay === d.toLowerCase()) {
+			return DaysOfWeek[d as keyof typeof DaysOfWeek];
+		}
+	}
+
+	return undefined;
+};

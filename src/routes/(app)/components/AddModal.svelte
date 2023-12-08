@@ -34,7 +34,7 @@
 		label="{type} name"
 		placeholder="{type} name"
 		name="name"
-		form="add{type}"
+		form={formId}
 		header
 		focus
 		required
@@ -72,7 +72,7 @@
 			<Button type="reset" size="small" variant="secondary" on:click={closeModal}>Cancel</Button>
 			<Button
 				size="small"
-				form="add{type}"
+				form={formId}
 				slot="footer"
 				type="submit"
 				label="Add {type.toLocaleLowerCase()}"

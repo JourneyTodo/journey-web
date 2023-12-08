@@ -4,15 +4,18 @@ import { setFlash } from 'sveltekit-flash-message/server';
 import {
 	goalAdded,
 	goalDeleted,
+	settingsUpdated,
 	taskAdded,
 	taskCompleted,
 	taskDeleted,
 	taskPostponed,
-	taskRescheduled
+	taskRescheduled,
+	taskRestored
 } from '$lib/constants/messages';
 import { redirect, type Actions } from '@sveltejs/kit';
 import { baseRoutes } from '$lib/constants/routes';
-import { getNextDay, isError } from '$lib/functions/utils';
+import { getDayToNumber, getNextDay } from '$lib/functions/utils';
+import type { dayOfWeek } from '$lib/constants/DaysOfWeek.enum';
 
 export const actions: Actions = {
 	addGoal: async (event) => {
@@ -36,7 +39,7 @@ export const actions: Actions = {
 			return { success: false };
 		}
 
-		const result = await addGoal(
+		const { error } = await addGoal(
 			user_id,
 			goal_id,
 			name,
@@ -44,7 +47,8 @@ export const actions: Actions = {
 			idx,
 			new Date(target_date).toISOString()
 		);
-		if (isError(result)) {
+		if (error) {
+			console.error(error);
 			setFlash(msg.error, event);
 			return { success: false };
 		}
@@ -78,7 +82,7 @@ export const actions: Actions = {
 			return { success: false };
 		}
 
-		const result = await addTask(
+		const { error } = await addTask(
 			user_id,
 			goal_id,
 			name,
@@ -87,7 +91,8 @@ export const actions: Actions = {
 			new Date(target_date).toISOString()
 		);
 
-		if (isError(result)) {
+		if (error) {
+			console.error(error);
 			setFlash(msg.error, event);
 			return { success: false };
 		}
@@ -164,6 +169,48 @@ export const actions: Actions = {
 		return { success: true };
 	},
 
+	restoreTask: async (event) => {
+		const {
+			request,
+			locals: { restoreTask }
+		} = event;
+
+		const formData = await request.formData();
+		const task_id = formData.get('id') as string;
+		const user_id = formData.get('user_id') as string;
+
+		const { error } = await restoreTask(user_id, task_id);
+
+		const msg = taskRestored();
+		if (error) {
+			setFlash(msg.error, event);
+			return { success: false };
+		}
+		setFlash(msg.success, event);
+		return { success: true };
+	},
+
+	restoreTasks: async (event) => {
+		const {
+			request,
+			locals: { restoreTasks }
+		} = event;
+
+		const formData = await request.formData();
+		const task_ids = (formData.get('ids') as string).split(',');
+		const user_id = formData.get('user_id') as string;
+
+		const { error } = await restoreTasks(user_id, task_ids);
+
+		const msg = taskRestored();
+		if (error) {
+			setFlash(msg.error, event);
+			return { success: false };
+		}
+		setFlash(msg.success, event);
+		return { success: true };
+	},
+
 	// TODO
 	updateGoal: async () => {
 		return;
@@ -196,6 +243,33 @@ export const actions: Actions = {
 
 		setFlash(msg.success, event);
 
+		return { success: true };
+	},
+
+	settings: async (event) => {
+		const {
+			request,
+			locals: { updateUserSettings }
+		} = event;
+		const formData = await request.formData();
+		const id = formData.get('id') as string;
+		const day = formData.get('week_start') as dayOfWeek;
+		const dayAsNum = getDayToNumber(day);
+		const msg = settingsUpdated;
+
+		if (!dayAsNum) {
+			setFlash(msg.error, event);
+			return { success: false };
+		}
+
+		const data = await updateUserSettings(id, dayAsNum);
+
+		if (!data) {
+			setFlash(msg.error, event);
+			return { success: false };
+		}
+
+		setFlash(msg.success, event);
 		return { success: true };
 	},
 
