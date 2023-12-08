@@ -7,11 +7,16 @@
 	export let tasks: Task[] = [];
 	export let archivedTasks: Task[] | undefined;
 	export let goal: Goal | null;
+	export let showCompleted = false;
 </script>
 
 <div class="container">
 	{#each tasks as task}
-		<TaskItem {task} />
+		{#if !task.completed && !showCompleted}
+			<TaskItem {task} />
+		{:else if showCompleted}
+			<TaskItem {task} />
+		{/if}
 	{/each}
 	<AddTask {goal} />
 	{#if archivedTasks && archivedTasks.length > 0}

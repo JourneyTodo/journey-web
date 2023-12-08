@@ -13,18 +13,18 @@ export const load: LayoutServerLoad = loadFlash(
 		}
 		const id = session.user.id;
 
-		const profile = await getUser(id);
+		const { data: profile } = await getUser(id);
 
 		if (!profile) {
 			console.error('User not found');
 			throw redirect(303, signIn);
 		}
 
-		const settings = await getUserSettings(id);
+		const { data: settings } = await getUserSettings(id);
 		if (!settings) {
 			console.error('User settings not found');
 		}
-		const goals = await getGoals(id);
+		const { data: goals } = await getGoals(id);
 
 		// archive tasks on initial load
 		const today = new Date();

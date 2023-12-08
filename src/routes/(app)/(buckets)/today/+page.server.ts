@@ -1,5 +1,5 @@
 import { formatDate, getNextDay } from '$lib/functions/utils';
-import { error, redirect } from '@sveltejs/kit';
+import { redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import { signIn } from '$lib/constants/routes';
 import type { Task } from '$lib/types/sb';
@@ -10,9 +10,9 @@ export const load: PageServerLoad = async ({ parent, locals: { getTasksByDate } 
 		throw redirect(302, signIn);
 	}
 	const tomorrow = formatDate(getNextDay(new Date()));
-	const tasks = await getTasksByDate(session.user.id, tomorrow, 'lt');
-	if (!tasks) {
-		throw error(404, 'no tasks found.');
+	const { data: tasks, error } = await getTasksByDate(session.user.id, tomorrow, 'lt');
+	if (error) {
+		console.error(404, 'no tasks found.', error);
 	}
 	const archivedTasks = tasks.filter((task: Task) => task.is_archived === true && !task.completed);
 	return {

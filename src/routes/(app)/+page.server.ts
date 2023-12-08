@@ -14,7 +14,7 @@ import {
 } from '$lib/constants/messages';
 import { redirect, type Actions } from '@sveltejs/kit';
 import { baseRoutes } from '$lib/constants/routes';
-import { getDayToNumber, getNextDay, isError } from '$lib/functions/utils';
+import { getDayToNumber, getNextDay } from '$lib/functions/utils';
 import type { dayOfWeek } from '$lib/constants/DaysOfWeek.enum';
 
 export const actions: Actions = {
@@ -39,7 +39,7 @@ export const actions: Actions = {
 			return { success: false };
 		}
 
-		const result = await addGoal(
+		const { error } = await addGoal(
 			user_id,
 			goal_id,
 			name,
@@ -47,7 +47,8 @@ export const actions: Actions = {
 			idx,
 			new Date(target_date).toISOString()
 		);
-		if (isError(result)) {
+		if (error) {
+			console.error(error);
 			setFlash(msg.error, event);
 			return { success: false };
 		}
@@ -81,7 +82,7 @@ export const actions: Actions = {
 			return { success: false };
 		}
 
-		const result = await addTask(
+		const { error } = await addTask(
 			user_id,
 			goal_id,
 			name,
@@ -90,7 +91,8 @@ export const actions: Actions = {
 			new Date(target_date).toISOString()
 		);
 
-		if (isError(result)) {
+		if (error) {
+			console.error(error);
 			setFlash(msg.error, event);
 			return { success: false };
 		}
