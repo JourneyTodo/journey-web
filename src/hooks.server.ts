@@ -242,9 +242,10 @@ export const handle: Handle = async ({ event, resolve }) => {
 		const { data, error } = await event.locals.supabase
 			.from('user_settings')
 			.update({
-				week_start
+				week_start: week_start
 			})
 			.eq('user_id', user_id)
+			.select()
 			.single();
 		if (error) throw error;
 		return data;

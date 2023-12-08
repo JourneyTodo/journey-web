@@ -8,8 +8,8 @@
 
 	export let data;
 	let { user, settings } = data;
+	let selectedDayOfWeek = daysOfWeek[settings.week_start ?? 0];
 	$: ({ settings } = data);
-	$: selectedDayOfWeek = daysOfWeek[settings.week_start ?? 0];
 </script>
 
 <Header title="Profile" />
@@ -32,12 +32,12 @@
 
 	<div class="wrapper">
 		<h2 class="header-sm">Week start</h2>
-		<Dropdown items={daysOfWeek} selected={selectedDayOfWeek} label="start of the week" />
+		<Dropdown items={daysOfWeek} bind:selected={selectedDayOfWeek} label="start of the week" />
 	</div>
 
 	<form id="user-settings" action="/?/settings" method="POST" use:enhance>
 		<input type="hidden" name="id" value={user.id} />
-		<input type="hidden" name="week_start" value={selectedDayOfWeek} />
+		<input type="hidden" name="week_start" bind:value={selectedDayOfWeek} />
 		<Button type="submit" size="small" variant="secondary">Save changes</Button>
 	</form>
 </div>

@@ -5,7 +5,7 @@
 	import TaskItem from './TaskItem.svelte';
 
 	export let tasks: Task[] = [];
-	export let archivedTasks: Task[];
+	export let archivedTasks: Task[] | undefined;
 	export let goal: Goal | null;
 </script>
 
