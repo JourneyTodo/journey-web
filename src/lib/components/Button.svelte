@@ -124,6 +124,13 @@
 				cursor: pointer;
 				background: var(--ghost-hover);
 			}
+      &.destructive {
+          color: var(--danger-text);
+          &:hover {
+            cursor: pointer;
+            background: var(--razzleberry-lite);
+          }
+        }
 		}
 	}
 	.outline {

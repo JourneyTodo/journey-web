@@ -88,7 +88,7 @@
 		<Button
 			slot="items"
 			size="small"
-			variant="secondary"
+			variant="ghost"
 			action="destructive"
 			fill
 			style="justify-content: start;"

@@ -23,7 +23,7 @@
 		</Button>
 		<Button
 			size="small"
-			variant="secondary"
+			variant="ghost"
 			action="destructive"
 			fill
 			style="justify-content: start;"
@@ -34,3 +34,11 @@
 		</Button>
 	</div>
 </EllipsisButton>
+
+<style lang="scss">
+  .btns {
+		display: flex;
+		flex-direction: column;
+		gap: var(--spacing-xs);
+	}
+</style>
