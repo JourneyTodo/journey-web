@@ -3,6 +3,7 @@
 
 	let defaultDate = new Date();
 	export let selectedDate: string | null = formatDate(defaultDate);
+	$: if (selectedDate) selectedDate = formatDate(new Date(selectedDate!));
 	let minDate = formatDate(defaultDate);
 </script>
 

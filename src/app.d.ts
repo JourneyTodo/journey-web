@@ -39,6 +39,14 @@ declare global {
 			restoreTask(user_id: string, task_id: string): Promise<Result<Task>>;
 			restoreTasks(user_id: string, task_ids: string[]): Promise<Result<Task[]>>;
 			archiveTasks(user_id: string, task_ids?: string[]): Promise<Result<Task[]>>;
+			updateTask(
+				user_id: string,
+				task_id: string,
+				goal_id: string | null,
+				name: string,
+				description: string,
+				target_date: string
+			): Promise<Result<Task>>;
 			updateUserSettings(user_id: string, week_start: DaysOfWeek): Promise<Result<UserSettings>>;
 			deleteGoal(id: string, user_id: string): Promise<Result<Goal[]>>;
 			deleteTask(id: string, user_id: string): Promise<Result<Task[]>>;

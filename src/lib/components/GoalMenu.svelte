@@ -36,7 +36,7 @@
 </EllipsisButton>
 
 <style lang="scss">
-  .btns {
+	.btns {
 		display: flex;
 		flex-direction: column;
 		gap: var(--spacing-xs);
