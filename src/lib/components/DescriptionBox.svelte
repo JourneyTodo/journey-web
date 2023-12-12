@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 
 	export let placeholder: string = 'Description';
-	export let content: string;
+	export let content: string | null;
 	export let header: boolean = false;
 	export let focus: boolean = false; // enable autofocus
 	export let required: boolean = false;
@@ -28,7 +28,7 @@
 		translate="no"
 		class="description"
 		tabindex="0"
-		requuired={required}
+		{required}
 		{...$$restProps}
 		bind:this={ref}
 		bind:textContent={content}

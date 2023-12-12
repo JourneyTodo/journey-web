@@ -16,16 +16,21 @@
 </script>
 
 <EllipsisButton bind:showMore={showMenu}>
-	<Button
-		slot="items"
-		size="small"
-		variant="secondary"
-		action="destructive"
-		fill
-		style="justify-content: start;"
-		on:click={handleDelete}
-	>
-		<Icon name="trashcan" slot="icon-start" />
-		Delete goal
-	</Button>
+	<div class="btns" slot="items">
+		<Button size="small" variant="ghost" fill style="justify-content: start;">
+			<Icon name="edit" slot="icon-start" />
+			Edit goal
+		</Button>
+		<Button
+			size="small"
+			variant="secondary"
+			action="destructive"
+			fill
+			style="justify-content: start;"
+			on:click={handleDelete}
+		>
+			<Icon name="trashcan" slot="icon-start" />
+			Delete goal
+		</Button>
+	</div>
 </EllipsisButton>

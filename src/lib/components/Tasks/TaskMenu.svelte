@@ -7,8 +7,9 @@
 	import EllipsisButton from '../EllipsisButton.svelte';
 	import Icon from '../Icon/Icon.svelte';
 
-	export let menuActive = false;
 	export let task: Task;
+	export let menuActive = false;
+	export let isEdit = false;
 
 	let postponeForm = `postpone-task-${task.id}`;
 
@@ -19,6 +20,11 @@
 	}
 
 	function handlePostpone(): void {
+		menuActive = false;
+	}
+
+	function handleEdit(): void {
+		isEdit = true;
 		menuActive = false;
 	}
 </script>
@@ -75,6 +81,10 @@
 				</form>
 			{/if}
 		{/if}
+		<Button size="small" variant="ghost" fill style="justify-content: start;" on:click={handleEdit}>
+			<Icon name="edit" slot="icon-start" />
+			Edit task
+		</Button>
 		<Button
 			slot="items"
 			size="small"
