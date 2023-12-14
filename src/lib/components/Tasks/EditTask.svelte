@@ -11,11 +11,16 @@
 
 	export let task: Task;
 	export let isEdit = false;
+
 	let formId = `edit-${task.id}`;
+	// Kind of hacky, but for whatever reason the placeholder only shows up when content
+	// is undefined, but it cant be SET to undefined or it wont show up...
+	let newDescription: string;
+
 	$: selectedGoal.set($goals?.find((g) => g.id === task.goal_id) ?? null);
-	$: console.log('target', task.target_date, typeof task.target_date);
 
 	onMount(() => {
+		if (task.description) newDescription = task.description;
 		editingTask.set(true);
 	});
 
@@ -27,13 +32,26 @@
 
 <form id={formId} class="container" action="/?/updateTask" method="POST" use:enhance={handleBtn}>
 	<input id="name" type="hidden" name="name" value={task.name} />
-	<input id="description" type="hidden" name="description" value={task.description} />
+	<input id="description" type="hidden" name="description" value={newDescription} />
 	<input id="description" type="hidden" name="target_date" value={task.target_date} />
 	<input type="hidden" name="user_id" value={task.user_id} />
 	<input type="hidden" name="id" value={task.id} />
 	<input type="hidden" name="goal_id" value={task.goal_id} />
-	<DescriptionBox id="name" header label="Task name" focus required bind:content={task.name} />
-	<DescriptionBox id="description" name="description" bind:content={task.description} />
+	<DescriptionBox
+		id="name"
+		name="name"
+		label="Task name"
+		placeholder="Task name"
+		focus
+		required
+		bind:content={task.name}
+	/>
+	<DescriptionBox
+		id="description"
+		name="description"
+		bind:content={newDescription}
+		style="font-size: var(--text-xs)"
+	/>
 	<footer>
 		<div class="group">
 			<Dropdown label="Goal" items={$goals ?? []} propLabel="name" bind:selected={$selectedGoal} />

@@ -118,8 +118,7 @@ export const actions: Actions = {
 			(formData.get('goal_id') as string) !== '' ? (formData.get('goal_id') as string) : null;
 
 		const msg = taskUpdated;
-		const { data, error } = await updateTask(user_id, id, goal_id, name, description, target_date);
-		console.log(data, error);
+		const { error } = await updateTask(user_id, id, goal_id, name, description, target_date);
 		if (error) {
 			setFlash(msg.error, event);
 			return { success: false };

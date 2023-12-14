@@ -129,6 +129,7 @@ export const getNextDay = (date: Date) => {
  * Formats date to yyyy-mm-dd format
  */
 export function formatDate(defaultDate: Date) {
+	console.log(defaultDate, defaultDate.toLocaleString());
 	return `${defaultDate.toLocaleString('en-us', {
 		year: 'numeric'
 	})}-${defaultDate.toLocaleString('en-us', { month: '2-digit' })}-${defaultDate.toLocaleString(
@@ -157,9 +158,9 @@ export function isOverdue(targetDate: string) {
 	// TODO: update this to support time comparisons later on
 	// I think today should NOT be UTC since it's a new Date()
 	if (
-		d.getUTCDate() === today.getDate() &&
-		d.getUTCFullYear() === today.getFullYear() &&
-		d.getUTCMonth() === today.getMonth()
+		d.getDate() === today.getDate() &&
+		d.getFullYear() === today.getFullYear() &&
+		d.getMonth() === today.getMonth()
 	) {
 		return false;
 	}
