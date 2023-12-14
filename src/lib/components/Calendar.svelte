@@ -1,10 +1,18 @@
 <script lang="ts">
 	import { formatDate } from '$lib/functions/utils';
+	import { onMount } from 'svelte';
 
 	let defaultDate = new Date();
-	export let selectedDate: string | null = formatDate(defaultDate);
-	$: if (selectedDate) selectedDate = formatDate(new Date(selectedDate!));
+	export let selectedDate: string | null;
+	// $: if (selectedDate) selectedDate = formatDate(new Date(selectedDate!));
 	let minDate = formatDate(defaultDate);
+	onMount(() => {
+		if (selectedDate) {
+			selectedDate = formatDate(new Date(selectedDate));
+		} else {
+			selectedDate = formatDate(new Date(defaultDate));
+		}
+	});
 </script>
 
 <input type="date" min={minDate} bind:value={selectedDate} {...$$restProps} />

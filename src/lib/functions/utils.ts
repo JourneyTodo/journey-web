@@ -67,6 +67,9 @@ export const getDayOfWeek = (dateStr: string) => {
 export const isTodayOrTomorrow = (dateStr: string): string | undefined => {
 	const date = new Date(dateStr);
 	const now = new Date();
+	console.log(date.getUTCDate());
+	console.log(now);
+	console.log('');
 
 	if (isSameDay(date, now)) {
 		return 'Today';
@@ -87,8 +90,8 @@ export const isTodayOrTomorrow = (dateStr: string): string | undefined => {
 export const isSameDay = (date1: Date, date2: Date): boolean => {
 	return (
 		date1.getUTCDate() === date2.getDate() &&
-		date1.getMonth() === date2.getMonth() &&
-		date1.getFullYear() === date2.getFullYear()
+		date1.getUTCMonth() === date2.getMonth() &&
+		date1.getUTCFullYear() === date2.getFullYear()
 	);
 };
 
@@ -129,7 +132,8 @@ export const getNextDay = (date: Date) => {
  * Formats date to yyyy-mm-dd format
  */
 export function formatDate(defaultDate: Date) {
-	console.log(defaultDate, defaultDate.toLocaleString());
+	defaultDate = new Date(defaultDate.toUTCString());
+	console.log(defaultDate, defaultDate.toLocaleString(), defaultDate.toISOString());
 	return `${defaultDate.toLocaleString('en-us', {
 		year: 'numeric'
 	})}-${defaultDate.toLocaleString('en-us', { month: '2-digit' })}-${defaultDate.toLocaleString(
@@ -158,9 +162,9 @@ export function isOverdue(targetDate: string) {
 	// TODO: update this to support time comparisons later on
 	// I think today should NOT be UTC since it's a new Date()
 	if (
-		d.getDate() === today.getDate() &&
-		d.getFullYear() === today.getFullYear() &&
-		d.getMonth() === today.getMonth()
+		d.getUTCDate() === today.getDate() &&
+		d.getUTCFullYear() === today.getFullYear() &&
+		d.getUTCMonth() === today.getMonth()
 	) {
 		return false;
 	}
