@@ -69,6 +69,10 @@
 					propLabel="name"
 					bind:selected={$selectedGoal}
 				/>
+				<!-- 
+          TODO: fix bug related to date moving backwards on edit. 
+          Pretty sure it's related to the truncating of time & stuff
+        -->
 				<Calendar
 					id="target_date"
 					name="target_date"
