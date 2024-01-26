@@ -18,7 +18,6 @@
 	let newDescription: string;
 
 	$: selectedGoal.set($goals?.find((g) => g.id === task.goal_id) ?? null);
-	$: console.log(task.target_date);
 
 	onMount(() => {
 		if (task.description) newDescription = task.description;
@@ -70,7 +69,12 @@
 					propLabel="name"
 					bind:selected={$selectedGoal}
 				/>
-				<Calendar id="target_date" name="target_date" bind:selectedDate={task.target_date} />
+				<Calendar
+					id="target_date"
+					name="target_date"
+					bind:selectedDate={task.target_date}
+					targetDate={task.target_date}
+				/>
 			</div>
 			<div class="group">
 				<Button size="small" variant="secondary" label="Cancel" on:click={handleBtn} />

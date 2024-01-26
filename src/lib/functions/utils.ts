@@ -67,9 +67,6 @@ export const getDayOfWeek = (dateStr: string) => {
 export const isTodayOrTomorrow = (dateStr: string): string | undefined => {
 	const date = new Date(dateStr);
 	const now = new Date();
-	console.log(date.getUTCDate());
-	console.log(now);
-	console.log('');
 
 	if (isSameDay(date, now)) {
 		return 'Today';
@@ -133,7 +130,6 @@ export const getNextDay = (date: Date) => {
  */
 export function formatDate(defaultDate: Date) {
 	defaultDate = new Date(defaultDate.toUTCString());
-	console.log(defaultDate, defaultDate.toLocaleString(), defaultDate.toISOString());
 	return `${defaultDate.toLocaleString('en-us', {
 		year: 'numeric'
 	})}-${defaultDate.toLocaleString('en-us', { month: '2-digit' })}-${defaultDate.toLocaleString(

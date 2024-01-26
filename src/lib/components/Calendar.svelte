@@ -2,10 +2,12 @@
 	import { formatDate } from '$lib/functions/utils';
 	import { onMount } from 'svelte';
 
-	let defaultDate = new Date();
 	export let selectedDate: string | null;
-	// $: if (selectedDate) selectedDate = formatDate(new Date(selectedDate!));
-	let minDate = formatDate(defaultDate);
+	export let targetDate: string | null = null;
+
+	const defaultDate = new Date();
+
+	$: minDate = targetDate ? formatDate(new Date(targetDate)) : formatDate(defaultDate);
 	onMount(() => {
 		if (selectedDate) {
 			selectedDate = formatDate(new Date(selectedDate));
