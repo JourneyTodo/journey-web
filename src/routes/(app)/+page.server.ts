@@ -10,7 +10,8 @@ import {
 	taskDeleted,
 	taskPostponed,
 	taskRescheduled,
-	taskRestored
+	taskRestored,
+	taskUpdated
 } from '$lib/constants/messages';
 import { redirect, type Actions } from '@sveltejs/kit';
 import { baseRoutes } from '$lib/constants/routes';
@@ -102,9 +103,29 @@ export const actions: Actions = {
 		return { success: true };
 	},
 
-	// TODO
-	updateTask: async () => {
-		return;
+	updateTask: async (event) => {
+		const {
+			request,
+			locals: { updateTask }
+		} = event;
+		const formData = await request.formData();
+		const id = formData.get('id') as string;
+		const name = formData.get('name') as string;
+		const description = formData.get('description') as string;
+		const user_id = formData.get('user_id') as string;
+		const target_date = formData.get('target_date') as string;
+		const goal_id =
+			(formData.get('goal_id') as string) !== '' ? (formData.get('goal_id') as string) : null;
+
+		const msg = taskUpdated;
+		const { error } = await updateTask(user_id, id, goal_id, name, description, target_date);
+		if (error) {
+			setFlash(msg.error, event);
+			return { success: false };
+		}
+		setFlash(msg.success, event);
+
+		return { success: true };
 	},
 
 	// postpone task till tomorrow

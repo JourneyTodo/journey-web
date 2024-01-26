@@ -2,20 +2,31 @@
 	import { onMount } from 'svelte';
 
 	export let placeholder: string = 'Description';
-	export let content: string;
+	export let content: string | null | undefined = undefined;
 	export let header: boolean = false;
 	export let focus: boolean = false; // enable autofocus
 	export let required: boolean = false;
 
 	let ref: HTMLDivElement;
-	let isEmpty = !content;
 
 	$: isEmpty = !content;
 
 	// if autofocus is on, focus element
 	onMount(() => {
-		if (focus) ref.focus();
+		if (focus) handleFocus();
 	});
+
+	// For some reason we have to do this to set focus to end of text
+	// https://blog.devgenius.io/how-to-set-the-cursor-position-on-contenteditable-div-with-javascript-1bfe86d5fae4
+	function handleFocus() {
+		const selection = window.getSelection();
+		const range = document.createRange();
+		selection?.removeAllRanges();
+		range.selectNodeContents(ref);
+		range.collapse(false);
+		selection?.addRange(range);
+		ref.focus();
+	}
 </script>
 
 <div class="container">
@@ -28,7 +39,7 @@
 		translate="no"
 		class="description"
 		tabindex="0"
-		requuired={required}
+		{required}
 		{...$$restProps}
 		bind:this={ref}
 		bind:textContent={content}

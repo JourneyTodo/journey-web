@@ -7,10 +7,12 @@
 	import { getDayAndMonth, isTodayOrTomorrow, isOverdue } from '$lib/functions/utils';
 	import Button from '../Button.svelte';
 	import { enhance } from '$app/forms';
+	import EditTask from './EditTask.svelte';
 
 	export let task: Task;
 	let showMenu = false;
 	let menuActive = false;
+	export let isEdit = false;
 	let formId = `restore-${task.id}`;
 
 	$: ({ name, description, completed, target_date, is_archived } = task);
@@ -42,37 +44,41 @@
 	on:focus={handleMouseOver}
 	on:blur={handleMouseOut}
 >
-	{#if !is_archived && completed !== null}
-		<CompleteBox bind:task />
-	{/if}
-	<div class="text-container">
-		<span class="name">{name}</span>
-		{#if description}
-			<p class="description">{description}</p>
-		{/if}
-		{#if target_date}
-			<p class="description target-date" class:overdue={!completed && overdue && !is_archived}>
-				{isTodayOrTomorrow(target_date) ?? getDayAndMonth(target_date)}
-			</p>
-		{/if}
-	</div>
-	{#if !is_archived}
-		<div class="menu" class:showMenu>
-			<TaskMenu bind:menuActive bind:task />
-		</div>
+	{#if isEdit}
+		<EditTask bind:task bind:isEdit />
 	{:else}
-		<form
-			id={formId}
-			action="/?/restoreTask"
-			class="btn-wrapper"
-			class:showMenu
-			method="POST"
-			use:enhance
-		>
-			<input type="hidden" name="id" value={task.id} />
-			<input type="hidden" name="user_id" value={task.user_id} />
-			<Button type="submit" variant="secondary" size="small" label="Restore task" />
-		</form>
+		{#if !is_archived && completed !== null}
+			<CompleteBox bind:task />
+		{/if}
+		<div class="text-container">
+			<span class="name">{name}</span>
+			{#if description}
+				<p class="description">{description}</p>
+			{/if}
+			{#if target_date}
+				<p class="description target-date" class:overdue={!completed && overdue && !is_archived}>
+					{isTodayOrTomorrow(target_date) ?? getDayAndMonth(target_date)}
+				</p>
+			{/if}
+		</div>
+		{#if !is_archived}
+			<div class="menu" class:showMenu>
+				<TaskMenu bind:menuActive bind:task bind:isEdit />
+			</div>
+		{:else}
+			<form
+				id={formId}
+				action="/?/restoreTask"
+				class="btn-wrapper"
+				class:showMenu
+				method="POST"
+				use:enhance
+			>
+				<input type="hidden" name="id" value={task.id} />
+				<input type="hidden" name="user_id" value={task.user_id} />
+				<Button type="submit" variant="secondary" size="small" label="Restore task" />
+			</form>
+		{/if}
 	{/if}
 </div>
 

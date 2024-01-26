@@ -79,7 +79,8 @@
 	.side-nav {
 		box-sizing: border-box;
 		height: 100vh;
-		bottom: 0;
+		position: sticky;
+		top: 0;
 		width: 270px;
 		overflow-x: hidden;
 		padding: var(--spacing-xxl) var(--spacing-lg);

@@ -15,11 +15,13 @@
 	import { messageHandler as mh } from '$lib/MessageHandler';
 	import type { Message } from '$lib/MessageHandler';
 	import DeleteModal from './components/DeleteModal.svelte';
+	import { editingTask, goals as gStore } from '$lib/stores/globals.store';
 
 	export let data;
 
 	let { user, goals, supabase } = data;
 	$: ({ user, goals, supabase } = data);
+	$: $gStore = goals;
 
 	const flash = getFlash(page);
 
@@ -33,7 +35,7 @@
 
 	// Hotkeys to open modals
 	function handleKeydown(event: KeyboardEvent) {
-		if ($goalModalIsOpen || $taskModalIsOpen) {
+		if ($goalModalIsOpen || $taskModalIsOpen || $editingTask) {
 			return;
 		}
 		if (event.key === 'g') {

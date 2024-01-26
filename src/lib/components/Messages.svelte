@@ -28,6 +28,7 @@
 
 <style lang="scss">
 	.container {
+		z-index: 10;
 		position: absolute;
 		left: var(--spacing-xl);
 		bottom: var(--spacing-xl);

@@ -87,8 +87,8 @@ export const isTodayOrTomorrow = (dateStr: string): string | undefined => {
 export const isSameDay = (date1: Date, date2: Date): boolean => {
 	return (
 		date1.getUTCDate() === date2.getDate() &&
-		date1.getMonth() === date2.getMonth() &&
-		date1.getFullYear() === date2.getFullYear()
+		date1.getUTCMonth() === date2.getMonth() &&
+		date1.getUTCFullYear() === date2.getFullYear()
 	);
 };
 
@@ -129,6 +129,7 @@ export const getNextDay = (date: Date) => {
  * Formats date to yyyy-mm-dd format
  */
 export function formatDate(defaultDate: Date) {
+	defaultDate = new Date(defaultDate.toUTCString());
 	return `${defaultDate.toLocaleString('en-us', {
 		year: 'numeric'
 	})}-${defaultDate.toLocaleString('en-us', { month: '2-digit' })}-${defaultDate.toLocaleString(

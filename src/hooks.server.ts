@@ -256,6 +256,45 @@ export const handle: Handle = async ({ event, resolve }) => {
 		return { data, error };
 	};
 
+	event.locals.updateTask = async (
+		user_id: string,
+		task_id: string,
+		goal_id: string | null,
+		name: string,
+		description: string,
+		target_date: string
+	): Promise<Result<Task>> => {
+		if (goal_id !== null) {
+			const { data, error } = await event.locals.supabase
+				.from('tasks')
+				.update({
+					name: name,
+					description: description,
+					goal_id: goal_id,
+					target_date: new Date(target_date).toISOString(),
+					updated_at: new Date().toISOString()
+				})
+				.eq('id', task_id)
+				.eq('user_id', user_id)
+				.select()
+				.single();
+			return { data, error };
+		}
+		const { data, error } = await event.locals.supabase
+			.from('tasks')
+			.update({
+				name: name,
+				description: description,
+				target_date: new Date(target_date).toISOString(),
+				updated_at: new Date().toISOString()
+			})
+			.eq('id', task_id)
+			.eq('user_id', user_id)
+			.select()
+			.single();
+		return { data, error };
+	};
+
 	event.locals.deleteGoal = async (id: string, user_id: string): Promise<Result<Goal[]>> => {
 		const { data, error } = await event.locals.supabase
 			.from('goals')
