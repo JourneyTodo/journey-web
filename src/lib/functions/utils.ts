@@ -129,7 +129,6 @@ export const getNextDay = (date: Date) => {
  * Formats date to yyyy-mm-dd format
  */
 export function formatDate(defaultDate: Date) {
-	defaultDate = new Date(defaultDate.toUTCString());
 	return `${defaultDate.toLocaleString('en-us', {
 		year: 'numeric'
 	})}-${defaultDate.toLocaleString('en-us', { month: '2-digit' })}-${defaultDate.toLocaleString(

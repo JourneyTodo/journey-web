@@ -31,23 +31,10 @@ export const actions: Actions = {
 		const user_id = formData.get('user_id') as string;
 		const goal_id =
 			(formData.get('goal_id') as string) !== '' ? (formData.get('goal_id') as string) : null;
-		const target_date = Date.parse(formData.get('target_date') as string);
+		const target_date = formData.get('target_date') as string;
 		const msg = goalAdded(name);
 
-		if (isNaN(target_date)) {
-			setFlash(msg.error, event);
-			console.error('Form sent incorrect date format.');
-			return { success: false };
-		}
-
-		const { error } = await addGoal(
-			user_id,
-			goal_id,
-			name,
-			description,
-			idx,
-			new Date(target_date).toISOString()
-		);
+		const { error } = await addGoal(user_id, goal_id, name, description, idx, target_date);
 		if (error) {
 			console.error(error);
 			setFlash(msg.error, event);
@@ -72,25 +59,12 @@ export const actions: Actions = {
 		const goal_name = formData.get('goal_name') as string;
 		const goal_id = formData.get('goal_id') as string;
 		const user_goal_id = formData.get('user_goal_id') as string;
-		const target_date = Date.parse(formData.get('target_date') as string);
+		const target_date = formData.get('target_date') as string;
 		const msg = user_goal_id
 			? taskAdded(`/goals/${user_goal_id}`, goal_name)
 			: taskAdded('/inbox', goal_name);
 
-		if (isNaN(target_date)) {
-			setFlash(msg.error, event);
-			console.error('Form sent incorrect date format.');
-			return { success: false };
-		}
-
-		const { error } = await addTask(
-			user_id,
-			goal_id,
-			name,
-			description,
-			idx,
-			new Date(target_date).toISOString()
-		);
+		const { error } = await addTask(user_id, goal_id, name, description, idx, target_date);
 
 		if (error) {
 			console.error(error);
