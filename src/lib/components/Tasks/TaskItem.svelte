@@ -16,16 +16,19 @@
 	let formId = `restore-${task.id}`;
 
 	$: ({ name, description, completed, target_date, is_archived } = task);
-	$: overdue = isOverdueHandler();
+	$: overdue = is_archived ?? isOverdueHandler(!!completed);
+	// $: console.log(name, target_date, completed, overdue)
 
 	function handleMouseOver() {
 		showMenu = true;
 	}
+
 	function handleMouseOut() {
 		if (!menuActive) {
 			showMenu = false;
 		}
 	}
+
 	function isOverdueHandler() {
 		if (task.completed) {
 			return false;

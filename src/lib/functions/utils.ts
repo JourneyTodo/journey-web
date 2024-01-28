@@ -151,19 +151,19 @@ export const isValidDate = (date: string): boolean => {
 	return !isNaN(inputDate.getTime()) && inputDate.getFullYear() > 2022;
 };
 
-export function isOverdue(targetDate: string) {
-	const d = new Date(targetDate);
-	const today = new Date();
-	// TODO: update this to support time comparisons later on
-	// I think today should NOT be UTC since it's a new Date()
-	if (
-		d.getUTCDate() === today.getDate() &&
-		d.getUTCFullYear() === today.getFullYear() &&
-		d.getUTCMonth() === today.getMonth()
-	) {
-		return false;
+export function isOverdue(targetDate: string, targetTime?: string) {
+	// date + potential time in ms
+	let target: number;
+	let today: number;
+	if (targetTime) {
+		target = Date.parse(`${targetDate} ${targetTime}`);
+		today = new Date().getTime();
+	} else {
+		target = Date.parse(targetDate);
+		today = Date.parse(formatDate(new Date()));
+		console.log(target, today);
 	}
-	return d < today;
+	return target < today;
 }
 
 export const getDayToNumber = (day: dayOfWeek) => {
