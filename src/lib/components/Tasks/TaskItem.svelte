@@ -10,14 +10,15 @@
 	import EditTask from './EditTask.svelte';
 
 	export let task: Task;
+	export let isEdit = false;
+
 	let showMenu = false;
 	let menuActive = false;
-	export let isEdit = false;
-	let formId = `restore-${task.id}`;
+
+	const formId = `restore-${task.id}`;
 
 	$: ({ name, description, completed, target_date, is_archived } = task);
-	$: overdue = is_archived ?? isOverdueHandler(!!completed);
-	// $: console.log(name, target_date, completed, overdue)
+	$: overdue = !completed && !is_archived && isOverdue(target_date!);
 
 	function handleMouseOver() {
 		showMenu = true;
@@ -27,13 +28,6 @@
 		if (!menuActive) {
 			showMenu = false;
 		}
-	}
-
-	function isOverdueHandler() {
-		if (task.completed) {
-			return false;
-		}
-		return isOverdue(task.target_date!);
 	}
 </script>
 
@@ -59,7 +53,7 @@
 				<p class="description">{description}</p>
 			{/if}
 			{#if target_date}
-				<p class="description target-date" class:overdue={!completed && overdue && !is_archived}>
+				<p class="description target-date" class:overdue>
 					{isTodayOrTomorrow(target_date) ?? getDayAndMonth(target_date)}
 				</p>
 			{/if}

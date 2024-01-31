@@ -111,9 +111,7 @@ export const actions: Actions = {
 		const formData = await request.formData();
 		const id = formData.get('id') as string;
 		const user_id = formData.get('user_id') as string;
-		// new day
-		const tomorrow = formatDate(getNextDay(new Date()));
-		console.log(tomorrow);
+		const tomorrow = formatDate(getNextDay(new Date())); // new day
 
 		const { error } = await supabase
 			.from('tasks')

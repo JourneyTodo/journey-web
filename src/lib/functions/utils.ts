@@ -161,7 +161,6 @@ export function isOverdue(targetDate: string, targetTime?: string) {
 	} else {
 		target = Date.parse(targetDate);
 		today = Date.parse(formatDate(new Date()));
-		console.log(target, today);
 	}
 	return target < today;
 }
