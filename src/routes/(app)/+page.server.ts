@@ -15,7 +15,7 @@ import {
 } from '$lib/constants/messages';
 import { redirect, type Actions } from '@sveltejs/kit';
 import { baseRoutes } from '$lib/constants/routes';
-import { getDayToNumber, getNextDay } from '$lib/functions/utils';
+import { getDayToNumber, getNextDay, formatDate } from '$lib/functions/utils';
 import type { dayOfWeek } from '$lib/constants/DaysOfWeek.enum';
 
 export const actions: Actions = {
@@ -112,12 +112,13 @@ export const actions: Actions = {
 		const id = formData.get('id') as string;
 		const user_id = formData.get('user_id') as string;
 		// new day
-		const tomorrow = getNextDay(new Date());
+		const tomorrow = formatDate(getNextDay(new Date()));
+		console.log(tomorrow);
 
 		const { error } = await supabase
 			.from('tasks')
 			.update({
-				target_date: new Date(tomorrow).toISOString(),
+				target_date: tomorrow,
 				updated_at: new Date().toISOString()
 			})
 			.eq('id', id)
