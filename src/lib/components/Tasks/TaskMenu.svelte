@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import { isOverdue } from '$lib/functions/utils';
+	import { formatDate, isOverdue } from '$lib/functions/utils';
 	import { currentTask, deleteModalIsOpen } from '$lib/stores/modals.store';
 	import type { Task } from '$lib/types/sb';
 	import Button from '../Button.svelte';
@@ -11,7 +11,8 @@
 	export let menuActive = false;
 	export let isEdit = false;
 
-	let postponeForm = `postpone-task-${task.id}`;
+	const rescheduleForm = `reschedule-task-${task.id}`;
+	const postponeForm = `postpone-task-${task.id}`;
 
 	function handleDelete(): void {
 		deleteModalIsOpen.set(true);
@@ -34,7 +35,7 @@
 		{#if !task.completed}
 			{#if task.target_date && isOverdue(task.target_date)}
 				<form
-					id={postponeForm}
+					id={rescheduleForm}
 					class="checkbox-container"
 					action="/?/rescheduleTask"
 					method="POST"
@@ -43,7 +44,7 @@
 					<label hidden for="completed">Completed</label>
 					<input type="hidden" name="id" value={task.id} />
 					<input type="hidden" name="user_id" value={task.user_id} />
-					<input type="hidden" name="target_date" value={new Date().toISOString()} />
+					<input type="hidden" name="target_date" value={formatDate(new Date())} />
 					<Button
 						size="small"
 						variant="ghost"

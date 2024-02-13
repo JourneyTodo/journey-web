@@ -15,7 +15,7 @@ import {
 } from '$lib/constants/messages';
 import { redirect, type Actions } from '@sveltejs/kit';
 import { baseRoutes } from '$lib/constants/routes';
-import { getDayToNumber, getNextDay } from '$lib/functions/utils';
+import { getDayToNumber, getNextDay, formatDate } from '$lib/functions/utils';
 import type { dayOfWeek } from '$lib/constants/DaysOfWeek.enum';
 
 export const actions: Actions = {
@@ -31,23 +31,10 @@ export const actions: Actions = {
 		const user_id = formData.get('user_id') as string;
 		const goal_id =
 			(formData.get('goal_id') as string) !== '' ? (formData.get('goal_id') as string) : null;
-		const target_date = Date.parse(formData.get('target_date') as string);
+		const target_date = formData.get('target_date') as string;
 		const msg = goalAdded(name);
 
-		if (isNaN(target_date)) {
-			setFlash(msg.error, event);
-			console.error('Form sent incorrect date format.');
-			return { success: false };
-		}
-
-		const { error } = await addGoal(
-			user_id,
-			goal_id,
-			name,
-			description,
-			idx,
-			new Date(target_date).toISOString()
-		);
+		const { error } = await addGoal(user_id, goal_id, name, description, idx, target_date);
 		if (error) {
 			console.error(error);
 			setFlash(msg.error, event);
@@ -72,25 +59,12 @@ export const actions: Actions = {
 		const goal_name = formData.get('goal_name') as string;
 		const goal_id = formData.get('goal_id') as string;
 		const user_goal_id = formData.get('user_goal_id') as string;
-		const target_date = Date.parse(formData.get('target_date') as string);
+		const target_date = formData.get('target_date') as string;
 		const msg = user_goal_id
 			? taskAdded(`/goals/${user_goal_id}`, goal_name)
 			: taskAdded('/inbox', goal_name);
 
-		if (isNaN(target_date)) {
-			setFlash(msg.error, event);
-			console.error('Form sent incorrect date format.');
-			return { success: false };
-		}
-
-		const { error } = await addTask(
-			user_id,
-			goal_id,
-			name,
-			description,
-			idx,
-			new Date(target_date).toISOString()
-		);
+		const { error } = await addTask(user_id, goal_id, name, description, idx, target_date);
 
 		if (error) {
 			console.error(error);
@@ -137,13 +111,12 @@ export const actions: Actions = {
 		const formData = await request.formData();
 		const id = formData.get('id') as string;
 		const user_id = formData.get('user_id') as string;
-		// new day
-		const tomorrow = getNextDay(new Date());
+		const tomorrow = formatDate(getNextDay(new Date())); // new day
 
 		const { error } = await supabase
 			.from('tasks')
 			.update({
-				target_date: new Date(tomorrow).toISOString(),
+				target_date: tomorrow,
 				updated_at: new Date().toISOString()
 			})
 			.eq('id', id)

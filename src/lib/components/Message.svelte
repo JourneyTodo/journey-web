@@ -29,6 +29,7 @@
 	function pauseTimer() {
 		timer.pause();
 	}
+
 	function resumeTimer() {
 		timer.resume();
 	}
@@ -100,8 +101,8 @@
 	}
 	.toast {
 		border-radius: var(--br-md);
-		background: white;
-		box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.06), 0px 0px 4px 0px rgba(0, 0, 0, 0.04);
+		background: #fff;
+		box-shadow: 0px 2px 3.5px 0px rgba(69, 42, 197, 0.1), 0px 0px 2px 0px rgba(69, 42, 197, 0.16);
 	}
 
 	.value {

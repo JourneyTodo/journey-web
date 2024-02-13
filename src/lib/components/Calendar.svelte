@@ -7,11 +7,10 @@
 
 	const defaultDate = new Date();
 
-	$: minDate = targetDate ? formatDate(new Date(targetDate)) : formatDate(defaultDate);
+	$: minDate = targetDate ?? formatDate(defaultDate);
+
 	onMount(() => {
-		if (selectedDate) {
-			selectedDate = formatDate(new Date(selectedDate));
-		} else {
+		if (!selectedDate) {
 			selectedDate = formatDate(new Date(defaultDate));
 		}
 	});
