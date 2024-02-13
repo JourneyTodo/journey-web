@@ -99,7 +99,7 @@ This sort of works, but we'll lose valuable path information if we just use an i
 
 Bam! Now we're preserving all the id's information, and the `path` column can be used to properly arrange the parent/child relationships.
 
-Now, what if we want to also sort by an arbitrary, user-based index? For example, a user may create a brand new goal and have the desire to display it at the top of their sidenav. How can we sort by both the hierarchical path and this arbitrary index? Well, we can change our `path` values to contain both the index _and_ the id! Check this out:
+Now, what if we want to also sort by an arbitrary, user-based index? For example, a user may create a brand new goal and have the desire to display it at the top of their sidenav. How can we sort by both the hierarchical path and this arbitrary index? Let's look at another example:
 
 (make sure you read the definition of the `index` column above)
 | Name | Id | Index | Parent Id | Path |
@@ -109,7 +109,7 @@ Now, what if we want to also sort by an arbitrary, user-based index? For example
 | `C` |`2`| `0` | 0 | `0010` |
 | `D` | `3` | `0` | NULL | `11` |
 
-In this example, `D` is first, followed by `A`. `B` and `C` are children of `A`, and their order is `C` then `B`. So the expected hierarchy is as follows:
+Based off the indices in this example, `D` should be first, followed by `A`. `B` and `C` are children of `A`, and their order is `C` then `B`. So the expected hierarchy is as follows:
 
 ```txt
 - D
@@ -127,7 +127,7 @@ Unfortunately, if we were to sort by the `paths` columns, while the hierarchy wo
 - D
 ```
 
-But fret not! We can fix this by _combining_ the `index` and `id` together when forming our path. We'll stick to our 2 bit binary to represent our integers for now:
+But fret not! We can fix this by _combining_ the `index` and `id` together when forming our path. We'll stick to our 2-bit binary to represent our integers for now:
 | Name | Id | Index | Parent Id | Path |
 | ---- | -- | ----- | --------- | ---- |
 | `A` |`0`| `1` | `NULL` | `0100` |
@@ -135,6 +135,6 @@ But fret not! We can fix this by _combining_ the `index` and `id` together when 
 | `C` |`2`| `0` | `0` | `01000010` |
 | `D` | `3` | `0` | `NULL` | `0011` |
 
-Note that the index comes _before_ the id. This is necessary to properly sort. Now we have binary values that represent both our index and our ids!
+Note index always comes _before_ id. This is because we want first want to sort by this arbitrary index, then use the ids to preserve our parent/child relationships. Now we have binary values that represent both our index and our ids!
 
-In Journey's database, we use 32 bits (4 bytes) to represent the integers in our paths for effectively 2^32 or 4,294,967,296 unique ids. Since we store 2 integers for each goal, that means each level in a path takes up 64 bits. On top of that, the `paths` column is set to cap out at 128,000 bits, which means a maximum hierarchy depth of 2,000 is allowed. This should be more than enough space!!!
+In Journey's database, we use 32 bits (4 bytes) to represent the integers in our paths for effectively 2^32 or 4,294,967,296 unique ids. Since we store 2 integers for each goal, that means each level in a path takes up 64 bits. On top of that, the `paths` column is set to cap out at 128,000 bits. This means a maximum hierarchy depth of 2,000 is supported; this should be more than enough space.
